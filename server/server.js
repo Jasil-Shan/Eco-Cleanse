@@ -21,5 +21,5 @@ app.use('/admin',adminRouter)
 app.use('/',userRouter)
 
 app.listen(5000,()=>{
-    console.log("server listening on port http://localhost:5000")
+    console.log("server listening on port http://localhost:3000")
 })
