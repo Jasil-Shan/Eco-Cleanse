@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import WorkerLoginPage from "../pages/Worker/WorkerLoginPage";
 
 
 
@@ -7,7 +8,7 @@ import { Route, Routes } from "react-router-dom";
 function WorkerRouter(){
     return(
         <Routes>
-            <Route path="login" element={<DriverLoginPage/>}/>
+            <Route path="login" element={<WorkerLoginPage/>}/>
 
         </Routes>
     )

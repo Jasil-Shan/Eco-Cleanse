@@ -4,6 +4,7 @@ import AdminLoginPage from './pages/Admin/AdminLoginPage'
 import AdminRouter from './routes/adminRouter'
 import UserRouter from './routes/userRouter'
 import DriverRouter from './routes/driverRouter'
+import WorkerRouter from './routes/WorkerRouter'
 
 function App() {
 
@@ -18,6 +19,9 @@ function App() {
 
 
       <Route path="/driver/*" element={<DriverRouter />}/>
+
+      <Route path="/worker/*" element={<WorkerRouter />}/>
+
 
     </Routes>
   </BrowserRouter>
