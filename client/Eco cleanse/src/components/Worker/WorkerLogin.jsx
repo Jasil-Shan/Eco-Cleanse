@@ -1,4 +1,4 @@
-import truck from './assets/truck.jpg'
+import work from './assets/work.jpg'
 
 
 const WorkerLogin = () => {
@@ -28,7 +28,7 @@ const WorkerLogin = () => {
                    </div>
 
                 <div className="w-1/2 md:block hidden">
-                    <img className=' rounded-2xl' src={truck} alt="" />
+                    <img className=' rounded-2xl' src={work} alt="" />
                 </div>
             </div>
         </section>
