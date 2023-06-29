@@ -58,7 +58,7 @@ const UserLogin = () => {
 
                     <div className='mt-3 text-xs flex justify-between items-center'>
                         <p>Not a member yet !?</p>
-                        <button className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</button>
+                        <a href='/signup' className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</a>
                     </div>
 
                 </div>
