@@ -76,4 +76,4 @@ const UserSignup = () => {
     )
 }
 
-export default UserLogin
+export default UserSignup
