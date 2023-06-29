@@ -1,12 +1,13 @@
+import WorkerLogin from "../../components/Worker/WorkerLogin"
 
 
 
 const WorkerLoginPage = () => {
 
     return(
-        <DriverLogin/>
+        <WorkerLogin/>
     )
 
 }
 
-export default WorkerLoginPagek
+export default WorkerLoginPage
