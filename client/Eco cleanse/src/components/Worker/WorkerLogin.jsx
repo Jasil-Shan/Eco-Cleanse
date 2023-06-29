@@ -1,7 +1,7 @@
 import truck from './assets/truck.jpg'
 
 
-const DriverLogin = () => {
+const WorkerLogin = () => {
 
     return (
 
@@ -35,4 +35,4 @@ const DriverLogin = () => {
     )
 }
 
-export default DriverLogin
+export default WorkerLogin

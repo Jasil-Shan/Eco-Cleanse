@@ -17,8 +17,8 @@ function App() {
       <Route path='/*' element={<UserRouter/>}/>
 
 
-      <Route path='/driver/*' element={<DriverRouter/>}/>
-      
+      <Route path="/driver/*" element={<DriverRouter />}/>
+
     </Routes>
   </BrowserRouter>
   )
