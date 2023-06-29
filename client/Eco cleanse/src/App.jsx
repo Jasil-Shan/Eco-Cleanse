@@ -1,10 +1,16 @@
 import { useState } from 'react'
-import AdminLogin from './components/Admin/AdminLogin'
+import {BrowserRouter,Route,Routes} from 'react-router-dom'
+import AdminLoginPage from './pages/Admin/AdminLoginPage'
 
 function App() {
 
   return (
-    <BrowserRouter/>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/admin/login" element={<AdminLoginPage />}>
+      </Route>
+    </Routes>
+  </BrowserRouter>
   )
 }
 
