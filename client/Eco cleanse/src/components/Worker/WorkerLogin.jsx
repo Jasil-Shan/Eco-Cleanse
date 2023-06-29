@@ -9,8 +9,8 @@ const WorkerLogin = () => {
             <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
 
                 <div className="md:w-1/2 px-16">
-                    <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
-                    <p className='text-sm mt-4 text-[#002D74]'>Welcome Back Rider!</p>
+                    <h2 className='font-bold text-4xl text-[#002D74]'>Login</h2>
+                    <p className='text-sm mt-4 text-[#002D74]'>Welcome Back Collector!</p>
 
                     <form action="" className='flex flex-col gap-6'>
                         <input className='p-2 mt-8 rounded-xl border' type="email" name="email" placeholder='Email' id="" />
