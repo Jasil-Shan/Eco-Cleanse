@@ -1,4 +1,4 @@
-import earth from './assets/earth.jpg'
+import iland from './assets/iland.jpg'
 
 
 const UserSignup = () => {
@@ -6,17 +6,17 @@ const UserSignup = () => {
     return (
 
         <section className="bg-gray-50 min-h-screen flex items-center justify-center">
-            <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+            <div className="bg-gray-100 my-3 flex rounded-2xl shadow-lg max-w-6xl p-5 items-center">
 
                 <div className="md:w-1/2 px-16">
-                    <h2 className='font-bold text-3xl text-[#002D74]'>Signup</h2>
-                    <p className='text-sm mt-4 text-[#002D74]'>Lets Start!</p>
+                    <h2 className='font-bold text-3xl text-[#002D74]'>Register Here..</h2>
+                    <p className='text-sm mt-4 text-[#002D74]'>Lets Start Your Journey!</p>
 
                     <form action="" className='flex flex-col gap-4'>
-                        <input  className='p-2 mt-8 rounded-xl border' type="text" name='name' placeholder='Full Name' />
-                        <input className='p-2 mt-8 rounded-xl border' type="email" name="email" placeholder='Email' id="" />
-                        <input className='p-2 mt-8 rounded-xl border' type="number" name="mobile" placeholder='Mobile Number' id="" />
-                        <textarea className='p-2 mt-8 rounded-xl border' name="address" id="" cols="30" rows="10"></textarea>
+                        <input className='p-2 mt-8 rounded-xl border' type="text" name='name' placeholder='Full Name' />
+                        <input className='p-2 rounded-xl border' type="email" name="email" placeholder='Email' id="" />
+                        <input className='p-2 rounded-xl border' type="number" name="mobile" placeholder='Mobile Number' id="" />
+                        <textarea className='p-2 rounded-xl border' placeholder='Address' name="address" id="" cols="30" rows="5"></textarea>
                         <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button">Share my location</button>
 
                         <div className="relative">
@@ -68,8 +68,8 @@ const UserSignup = () => {
 
                 </div>
 
-                <div className="w-1/2 md:block hidden">
-                    <img className=' rounded-2xl' src={earth} alt="" />
+                <div className="w-1/2 h-fit md:block hidden">
+                    <img className=' rounded-2xl' src={iland} alt="" />
                 </div>
             </div>
         </section>
