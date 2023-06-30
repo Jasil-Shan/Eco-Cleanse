@@ -1,7 +1,61 @@
 import iland from './assets/iland.jpg'
-
+import * as Yup from 'yup' ;
+import { Formik , useFormik } from "formik";
+import axios from 'axios'
 
 const UserSignup = () => {
+
+    const [errorMessage, setErrorMessage] = useState(false)
+
+
+    const validate  = Yup.object({
+        firstName: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .required('First Name Required'),
+        email : Yup.string()
+        .email('invalid email address')
+        .required('Email is required'),
+        password : Yup.string()
+        .min(6 , 'password must be at least 6 charecters')
+        .required("Password is required"),
+        confirmpassword : Yup.string()
+        .oneOf([Yup.ref('password') , null] , 'Passwords must match')
+        .required('Confirm Password is Required')
+      });
+
+      const formik = useFormik({
+        initialValues : {
+          firstName: '',
+          email:'',
+          password: '',
+          confirmpassword:''
+        },
+    
+        validationSchema: validate ,
+    
+        onSubmit: async (values) => {
+          console.log("onsubmit"); 
+          try { 
+            const { data } =  await axios.post('/user/verify',{email})
+         
+            if(data.status) {
+              navigate("/verifyMail")
+            }else {
+              setloading(false)
+          
+              setErrorMessage(data.message) ;
+            }
+    
+          } catch (error) {
+            toast.error(error.message , {
+              position: "top-center" ,
+    
+            })
+          }
+        }
+      })
+
+      
 
     return (
 
@@ -29,7 +83,7 @@ const UserSignup = () => {
                             </svg>
                         </div>
                         <input className='p-2  rounded-xl border w-full' type="password" name='cpassword' placeholder='Confirm Password' />
-                        <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="button">Login</button>
+                        <button onClick={() => formik.handleSubmit()} className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="button">Sign Up</button>
                     </form>
                     <div className='mt-10 grid-cols-3 items-center text-gray-500'>
                         <hr className=' text-gray-500' />

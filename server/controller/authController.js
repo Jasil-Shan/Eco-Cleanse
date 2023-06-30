@@ -23,6 +23,7 @@ export async function generateOTP(req, res) {
                 .then((response) => {
                     res.json({ status: true, message: "Email sent successfully" })
                     userDetails = req.body
+                    console.log(userDetails);
                 })
                 .catch((response) => {
                     res.json({ status: false, message: "OTP not send" });
@@ -35,7 +36,6 @@ export async function generateOTP(req, res) {
     }
 
 
-
-
-
 }
+
+

@@ -3,6 +3,8 @@ import dbConnect from './config/config.js'
 import path from 'path'
 import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
+import authRouter from './routes/authRouter.js'
+
 import 'dotenv/config'
 
 
@@ -20,7 +22,7 @@ app.use(express.static(path.resolve()+"/public"))
 
 app.use('/admin',adminRouter)
 app.use('/',userRouter)
-
+app.use('/user',authRouter)
 app.listen(5000,()=>{
     console.log("server listening on port http://localhost:3000")
 })
