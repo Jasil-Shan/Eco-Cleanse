@@ -3,6 +3,7 @@ import dbConnect from './config/config.js'
 import path from 'path'
 import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
+import 'dotenv/config'
 
 
 
