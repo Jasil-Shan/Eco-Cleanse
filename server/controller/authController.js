@@ -35,7 +35,7 @@ export async function generateOTP(req, res) {
     } catch (error) {
 
         console.log(error);
-    } 
+    }
 }
 
 
@@ -43,10 +43,10 @@ export async function signUp(req, res) {
     try {
         let verified = verifyOtp(req.body.otp)
         console.log(verified);
-        console.log(req.body.otp,'otpppp');
+        console.log(req.body.otp, 'otpppp');
         if (verified) {
             console.log(userDetails);
-            const { name, email, mobile, address, password,locations } = userDetails
+            const { name, email, mobile, address, password, locations } = userDetails
 
             let hashedPassword = bcrypt.hashSync(password, salt)
 
@@ -54,9 +54,9 @@ export async function signUp(req, res) {
                 name,
                 email,
                 mobile,
-                address, 
+                address,
                 password: hashedPassword,
-                location:locations,
+                location: locations,
             });
             res.status(201)
                 .json({ status: true, message: "Otp verified successfully" });
@@ -70,4 +70,38 @@ export async function signUp(req, res) {
     }
 }
 
+
+export async function login(res, req) {
+    try {
+        const { email, password } = req.body
+        const user = UserModel.find({ email })
+        console.log(user);
+        if (!user) {
+            res.json({ error: true, message: 'User not registered' })
+        }
+        const userValid = bcrypt.compareSync(password, user.password);
+
+        if (!userValid) {
+            return res.json({ err: true, message: "wrong Password" })
+        } else {
+
+            const token = jwt.sign(
+                {
+                    id: user._id
+                },
+                process.env.JWT_SECRET_KEY
+            )
+
+            return res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
+                sameSite: "none",
+            }).json({ err: false, user: user._id, token })
+        }
+
+    } catch (error) {
+
+    }
+}
 

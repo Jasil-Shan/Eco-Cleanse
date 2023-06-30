@@ -2,7 +2,8 @@ import earth from './assets/earth.jpg'
 
 
 const UserLogin = () => {
-
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     return (
 
         <section className="bg-gray-50 min-h-screen flex items-center justify-center">
