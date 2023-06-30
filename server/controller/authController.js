@@ -1,7 +1,7 @@
 import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
-
+import jwt from 'jsonwebtoken'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
@@ -101,7 +101,7 @@ export async function login(res, req) {
         }
 
     } catch (error) {
-
+        console.log(error);
     }
 }
 

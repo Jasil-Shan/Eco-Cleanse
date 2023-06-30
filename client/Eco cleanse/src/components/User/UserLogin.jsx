@@ -1,9 +1,28 @@
 import earth from './assets/earth.jpg'
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from "react-router-dom";
 
 
 const UserLogin = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading({ ...loading, submit: true })
+        const { data } = await axios.post("/user/login", { email, password });
+        console.log(data);
+        if (data.err) {
+            setErrMessage(data.message)
+        } else {
+            dispatch({ type: "refresh" })
+            navigate("/home")
+        }
+    }
+
     return (
 
         <section className="bg-gray-50 min-h-screen flex items-center justify-center">
@@ -13,10 +32,10 @@ const UserLogin = () => {
                     <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
-                    <form action="" className='flex flex-col gap-4'>
-                        <input className='p-2 mt-8 rounded-xl border' type="email" name="email" placeholder='Email' id="" />
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                        <input className='p-2 mt-8 rounded-xl border' onChange={(e) => setEmail(e.target.value)}  type="email" name="email" placeholder='Email' id="" />
                         <div className="relative">
-                            <input className='p-2  rounded-xl border w-full' type="password" name='password' placeholder='Password' />
+                            <input className='p-2  rounded-xl border w-full' onChange={(e) => setPassword(e.target.value)}  type="password" name='password' placeholder='Password' />
                             <svg className="w-5 absolute top-1 right-3 translate-y-1/2 h-4 text-gray-500" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                 <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                     <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -24,7 +43,7 @@ const UserLogin = () => {
                                 </g>
                             </svg>
                         </div>
-                        <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="button">Login</button>
+                        <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
                     </form>
                     <div className='mt-10 grid-cols-3 items-center text-gray-500'>
                         <hr className=' text-gray-500' />

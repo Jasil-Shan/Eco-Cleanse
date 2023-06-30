@@ -5,8 +5,8 @@ import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
 import authRouter from './routes/authRouter.js'
 import cors from 'cors'
-import cookie from 'cookie-parser'
 import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 
 
 
