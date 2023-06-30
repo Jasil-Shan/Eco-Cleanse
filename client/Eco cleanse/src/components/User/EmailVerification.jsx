@@ -1,7 +1,7 @@
 import { Formik, useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useEffect } from 'react';
-
+import axios from "axios";
 
 
 
@@ -9,75 +9,71 @@ import React, { useEffect } from 'react';
 
 const EmailVerification = () => {
 
-  useEffect(() => {
-    function OTPInput() {
-      const inputs = document.querySelectorAll('#otp > *[id]');
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('keydown', function (event) {
-          if (event.key === 'Backspace') {
-            inputs[i].value = '';
-            if (i !== 0) inputs[i - 1].focus();
-          } else {
-            if (i === inputs.length - 1 && inputs[i].value !== '') {
-              return true;
-            } else if (event.keyCode > 47 && event.keyCode < 58) {
-              inputs[i].value = event.key;
-              if (i !== inputs.length - 1) inputs[i + 1].focus();
-              event.preventDefault();
-            } else if (event.keyCode > 64 && event.keyCode < 91) {
-              inputs[i].value = String.fromCharCode(event.keyCode);
-              if (i !== inputs.length - 1) inputs[i + 1].focus();
-              event.preventDefault();
-            }
-          }
-        });
-      }
-    }
+  const navigate = useNavigate()
 
-    OTPInput();
-  }, []);
+  // useEffect(() => {
+  //   function OTPInput() {
+  //     const inputs = document.querySelectorAll('#otp > *[id]');
+  //     for (let i = 0; i < inputs.length; i++) {
+  //       inputs[i].addEventListener('keydown', function (event) {
+  //         if (event.key === 'Backspace') {
+  //           inputs[i].value = '';
+  //           if (i !== 0) inputs[i - 1].focus();
+  //         } else {
+  //           if (i === inputs.length - 1 && inputs[i].value !== '') {
+  //             return true;
+  //           } else if (event.keyCode > 47 && event.keyCode < 58) {
+  //             inputs[i].value = event.key;
+  //             if (i !== inputs.length - 1) inputs[i + 1].focus();
+  //             event.preventDefault();
+  //           } else if (event.keyCode > 64 && event.keyCode < 91) {
+  //             inputs[i].value = String.fromCharCode(event.keyCode);
+  //             if (i !== inputs.length - 1) inputs[i + 1].focus();
+  //             event.preventDefault();
+  //           }
+  //         }
+  //       });
+  //     }
+  //   }
+
+  //   OTPInput();
+  // }, []);
 
   const formik = useFormik({
     initialValues: {
-        first: '',
-        second: '',
-        third: '',
-        fourth: '',
+      otp: ''
     },
 
-    validationSchema:validate,
+    // validationSchema:validate,
 
     onSubmit: async (values) => {
-        console.log("onsubmit");
-        try {
-            console.log(values);
-            const { data } = await axios.post('/user/verify', {...values })
-            console.log(data);
-            if (data.status) {
-                navigate("/verifyMail")
-            } else {
-
-                setErrorMessage(data.message);
-            }
-
-        } catch (error) {
-            // toast.error(error.message, {
-            //     position: "top-center",
-
-            // })
-            console.log(error);
+      console.log("onsubmit");
+      try {
+        console.log(values, 'nsdksdk');
+        const { data } = await axios.post('/user/signup', { ...values })
+        console.log(data);
+        if (data.status) {
+          navigate("/login")
+        } else {
+          setErrorMessage(data.message);
         }
-    }
-})
 
-const handleChange = (event) => {
-    formik.setValues((prev) => {
-        const formFields = { ...prev };
-        //   console.log(formFields[event.target.name] , " name =>" , event.target.name);
-        formFields[event.target.name] = event.target.value;
-        return formFields
-    })
-}
+      } catch (error) {
+        // toast.error(error.message, {
+        //     position: "top-center",
+
+        // })
+        console.log(error);
+      }
+    }
+  })
+
+  const handleChange = (event) => {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+
+    formik.setFieldValue(fieldName, fieldValue);
+  };
   return (
     <div className="h-screen bg-blue-500 py-20 px-3">
       <div className="container mx-auto">
@@ -90,20 +86,20 @@ const handleChange = (event) => {
                 {/* <span className="font-bold">+91 ******876</span> */}
               </div>
               <form onSubmit={formik.handleSubmit}>
-              <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
-                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="first" id="first" maxLength="1" onChange={(e) => { handleChange(e) }}/>
-                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="second"  id="second" maxLength="1" onChange={(e) => { handleChange(e) }} />
-                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="third"  id="third" maxLength="1" onChange={(e) => { handleChange(e) }} />
-                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="fourth"  id="fourth" maxLength="1" onChange={(e) => { handleChange(e) }}/>
+                <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
+                  <input className="m-2 border text-center form-control " type="text" name="otp" id="first" onChange={handleChange} />
+                  {/* <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="second" maxLength="1" onChange={handleChange} />
+                  <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="third" maxLength="1" onChange={handleChange} />
+                  <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="fourth" maxLength="1" onChange={handleChange} /> */}
 
-              </div>
+                </div>
 
-              <div className="flex justify-center text-center mt-5">
-                <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
-                  <button className="font-bold">Submit OTP</button>
-                  <i className="bx bx-caret-right ml-1"></i>
-                </a>
-              </div>
+                <div className="flex justify-center text-center mt-5">
+                  <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
+                    <button type="submit" className="font-bold">Submit OTP</button>
+                    <i className="bx bx-caret-right ml-1"></i>
+                  </a>
+                </div>
               </form>
             </div>
           </div>

@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 
 
 let userDetails
+let salt = bcrypt.genSaltSync(10);
 
 export async function generateOTP(req, res) {
     try {
@@ -34,15 +35,18 @@ export async function generateOTP(req, res) {
     } catch (error) {
 
         console.log(error);
-    }
+    } 
 }
 
 
 export async function signUp(req, res) {
     try {
         let verified = verifyOtp(req.body.otp)
+        console.log(verified);
+        console.log(req.body.otp,'otpppp');
         if (verified) {
-            const { name, email, mobile, address, password } = userDetails
+            console.log(userDetails);
+            const { name, email, mobile, address, password,locations } = userDetails
 
             let hashedPassword = bcrypt.hashSync(password, salt)
 
@@ -50,17 +54,17 @@ export async function signUp(req, res) {
                 name,
                 email,
                 mobile,
-                address,
+                address, 
                 password: hashedPassword,
+                location:locations,
             });
-            es
-        .status(201)
-        .json({ status: true, message: "Otp verified successfully" });
-    } else {
-      res.json({ status: false, message: "Otp does not match " });
-    }
+            res.status(201)
+                .json({ status: true, message: "Otp verified successfully" });
+        } else {
+            res.json({ status: false, message: "Otp does not match " });
+        }
     } catch (error) {
-        
+
         console.log(error);
 
     }

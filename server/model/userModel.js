@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phone: {
+    mobile: {
         type: String,
         required: true
     },
@@ -22,8 +22,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
     },
     location: {
-        type: String,
-        required: true
+        type: Object,
     },
 })
 

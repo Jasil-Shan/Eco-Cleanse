@@ -5,12 +5,13 @@ import { Formik, useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import iland from './assets/iland.jpg'
 
-
+let locations = {}
 
 const UserSignup = () => {
-
     const [errorMessage, setErrorMessage] = useState(false)
     const navigate = useNavigate()
+    const [location, setLocation] = useState({ latitude: null, longitude: null });
+
 
 
     const validate = Yup.object({
@@ -38,13 +39,13 @@ const UserSignup = () => {
             confirmpassword: ''
         },
 
-        validationSchema:validate,
+        validationSchema: validate,
 
         onSubmit: async (values) => {
             console.log("onsubmit");
             try {
                 console.log(values);
-                const { data } = await axios.post('/user/verify', {...values })
+                const { data } = await axios.post('/user/verify', { ...values, locations })
                 console.log(data);
                 if (data.status) {
                     navigate("/verifyMail")
@@ -54,10 +55,10 @@ const UserSignup = () => {
                 }
 
             } catch (error) {
-                // toast.error(error.message, {
-                //     position: "top-center",
+                toast.error(error.message, {
+                    position: "top-center",
 
-                // })
+                })
                 console.log(error);
             }
         }
@@ -66,12 +67,32 @@ const UserSignup = () => {
     const handleChange = (event) => {
         formik.setValues((prev) => {
             const formFields = { ...prev };
-            //   console.log(formFields[event.target.name] , " name =>" , event.target.name);
             formFields[event.target.name] = event.target.value;
             return formFields
         })
     }
 
+    const handleClick = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    // Do something with the latitude and longitude values
+                    setLocation({ latitude, longitude });
+                    locations = {latitude, longitude}
+                    console.log(locations);
+
+                },
+                (error) => {
+                    console.log('Error:', error);
+                    // Handle any errors that occur while getting the location
+                }
+            );
+        } else {
+            console.log('Geolocation is not supported by this browser.');
+            // Handle the case where geolocation is not supported
+        }
+    };
 
 
     return (
@@ -97,7 +118,18 @@ const UserSignup = () => {
                             ) : null}
                             <input className='p-2 rounded-xl border' type="number" name="mobile" placeholder='Mobile Number' id="mobile" onChange={(e) => { handleChange(e) }} />
                             <textarea className='p-2 rounded-xl border' placeholder='Address' name="address" id="address" cols="30" rows="5" onChange={(e) => { handleChange(e) }}></textarea>
-                            <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button">Share my location</button>
+                            <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button>
+                            {/* <input
+                                className="p-2 rounded-xl border"
+                                type="text"
+                                name="location"
+                                id="location"
+                                placeholder="Location"
+                                value={`${location.latitude || ''}, ${location.longitude || ''}`}
+                                onBlur={(e) => {
+                                    handleChange(e);
+                                }}
+                            /> */}
 
                             <div className="relative">
                                 <input className='p-2  rounded-xl border w-full' type="password" name='password' id='password' placeholder='Password' onChange={(e) => { handleChange(e) }} />
