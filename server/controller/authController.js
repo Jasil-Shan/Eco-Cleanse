@@ -71,10 +71,10 @@ export async function signUp(req, res) {
 }
 
 
-export async function login(res, req) {
+export async function login(req, res) {
     try {
         const { email, password } = req.body
-        const user = UserModel.find({ email })
+        const user = await UserModel.findOne({ email })
         console.log(user);
         if (!user) {
             res.json({ error: true, message: 'User not registered' })
@@ -89,7 +89,7 @@ export async function login(res, req) {
                 {
                     id: user._id
                 },
-                process.env.JWT_SECRET_KEY
+                'myjwtkey'
             )
 
             return res.cookie("token", token, {

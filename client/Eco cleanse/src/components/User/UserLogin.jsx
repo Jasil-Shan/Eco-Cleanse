@@ -1,24 +1,25 @@
+import { useState } from 'react';
 import earth from './assets/earth.jpg'
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from "react-router-dom";
+import axios from 'axios';
 
 
 const UserLogin = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const dispatch = useDispatch()
+    const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading({ ...loading, submit: true })
-        const { data } = await axios.post("/user/login", { email, password });
+        console.log(email);
+        const { data } = await axios.post("/user/login",{ email, password })
         console.log(data);
         if (data.err) {
             setErrMessage(data.message)
         } else {
-            dispatch({ type: "refresh" })
             navigate("/home")
         }
     }
@@ -33,9 +34,9 @@ const UserLogin = () => {
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
                     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                        <input className='p-2 mt-8 rounded-xl border' onChange={(e) => setEmail(e.target.value)}  type="email" name="email" placeholder='Email' id="" />
+                        <input className='p-2 mt-8 rounded-xl border' onChange={(e) => setEmail(e.target.value)}  type="email" name="email" placeholder='Email' id="" required/>
                         <div className="relative">
-                            <input className='p-2  rounded-xl border w-full' onChange={(e) => setPassword(e.target.value)}  type="password" name='password' placeholder='Password' />
+                            <input className='p-2  rounded-xl border w-full' onChange={(e) => setPassword(e.target.value)}  type="password" name='password' placeholder='Password' required/>
                             <svg className="w-5 absolute top-1 right-3 translate-y-1/2 h-4 text-gray-500" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                 <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                     <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -74,7 +75,7 @@ const UserLogin = () => {
                             d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                         ></path>
                     </svg>Login with Google</button>
-                    <p className='mt-5 text-xs border-b py-4'>Forget your password</p>
+                    {/* <p className='mt-5 text-xs border-b py-4'>Forget your password</p> */}
 
                     <div className='mt-3 text-xs flex justify-between items-center'>
                         <p>Not a member yet !?</p>
