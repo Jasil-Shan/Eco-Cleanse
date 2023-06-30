@@ -5,9 +5,11 @@ import AdminRouter from './routes/adminRouter'
 import UserRouter from './routes/userRouter'
 import DriverRouter from './routes/driverRouter'
 import WorkerRouter from './routes/WorkerRouter'
+import axios from 'axios'
 
 function App() {
-
+  axios.defaults.baseURL ="http://localhost:3000" ;
+  axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>
     <Routes>

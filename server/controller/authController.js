@@ -1,13 +1,14 @@
-import { sendVerificationCode } from "../helper/sendOtp"
-import UserModel from "../model/userModel"
+import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js"
+import UserModel from "../model/userModel.js"
+import bcrypt from 'bcrypt'
 
 
-
-
+let userDetails
 
 export async function generateOTP(req, res) {
     try {
 
+        console.log(req.body, 'body');
         const { email } = req.body
 
         const user = await UserModel.findOne({ email })
@@ -34,8 +35,35 @@ export async function generateOTP(req, res) {
 
         console.log(error);
     }
+}
 
 
+export async function signUp(req, res) {
+    try {
+        let verified = verifyOtp(req.body.otp)
+        if (verified) {
+            const { name, email, mobile, address, password } = userDetails
+
+            let hashedPassword = bcrypt.hashSync(password, salt)
+
+            const user = await UserModel.create({
+                name,
+                email,
+                mobile,
+                address,
+                password: hashedPassword,
+            });
+            es
+        .status(201)
+        .json({ status: true, message: "Otp verified successfully" });
+    } else {
+      res.json({ status: false, message: "Otp does not match " });
+    }
+    } catch (error) {
+        
+        console.log(error);
+
+    }
 }
 
 

@@ -4,7 +4,7 @@ import path from 'path'
 import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
 import authRouter from './routes/authRouter.js'
-
+import cors from 'cors'
 import 'dotenv/config'
 
 
@@ -13,9 +13,18 @@ import 'dotenv/config'
 
 const app = express()
 
+app.use(
+    cors({
+      origin: [
+        "http://localhost:5000",
+      ],
+      credentials: true,
+    })
+  );
+
 dbConnect()
 
-app.use(express.json) 
+app.use(express.json()) 
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.resolve()+"/public"))
 
@@ -23,6 +32,7 @@ app.use(express.static(path.resolve()+"/public"))
 app.use('/admin',adminRouter)
 app.use('/',userRouter)
 app.use('/user',authRouter)
-app.listen(5000,()=>{
+
+app.listen(3000,()=>{
     console.log("server listening on port http://localhost:3000")
 })

@@ -1,4 +1,4 @@
-import adminModel from "../model/adminModel"
+import adminModel from "../model/adminModel.js"
 
 
 

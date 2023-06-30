@@ -1,5 +1,5 @@
 import express from 'express'
-import { generateOTP } from '../controller/authController'
+import { generateOTP } from '../controller/authController.js'
 
 
 
