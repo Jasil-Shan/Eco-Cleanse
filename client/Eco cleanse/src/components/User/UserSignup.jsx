@@ -3,6 +3,7 @@ import axios from 'axios'
 import * as Yup from 'yup';
 import { Formik, useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
+import { ToastContainer , toast } from "react-toastify";
 import iland from './assets/iland.jpg'
 
 let locations = {}
@@ -190,6 +191,7 @@ const UserSignup = () => {
                         <img className=' rounded-2xl' src={iland} alt="" />
                     </div>
                 </div>
+                <ToastContainer/>
             </section>
         </Formik>
     )

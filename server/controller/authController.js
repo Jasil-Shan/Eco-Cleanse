@@ -17,7 +17,7 @@ export async function generateOTP(req, res) {
         if (user) {
 
             return res.json({
-                err: true,
+                error: true,
                 message: " User already registered here"
             })
         } else {
