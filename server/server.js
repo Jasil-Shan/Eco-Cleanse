@@ -5,6 +5,7 @@ import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
 import authRouter from './routes/authRouter.js'
 import cors from 'cors'
+import cookie from 'cookie-parser'
 import 'dotenv/config'
 
 
@@ -24,7 +25,8 @@ app.use(
 
 dbConnect()
 
-app.use(express.json()) 
+app.use(express.json())
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.resolve()+"/public"))
 
