@@ -34,6 +34,7 @@ app.use(express.static(path.resolve()+"/public"))
 app.use('/admin',adminRouter)
 app.use('/',userRouter)
 app.use('/user',authRouter)
+app.use('/worker',)
 
 
 app.listen(3000,()=>{
