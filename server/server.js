@@ -35,6 +35,7 @@ app.use('/admin',adminRouter)
 app.use('/',userRouter)
 app.use('/user',authRouter)
 
+
 app.listen(3000,()=>{
     console.log("server listening on port http://localhost:3000")
 })

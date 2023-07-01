@@ -1,7 +1,25 @@
+import React from 'react'
 import truck from './assets/truck.jpg'
 
 
 const DriverLogin = () => {
+    // const [email, setEmail] = useState("")
+    // const [password, setPassword] = useState("")
+    // const [errMessage, setErrMessage] = useState("")
+    // const navigate = useNavigate()
+
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     console.log(email);
+    //     const { data } = await axios.post("/driver/login",{ email, password })
+    //     console.log(data);
+    //     if (data.err) {
+    //         setErrMessage(data.message)
+    //     } else {
+    //         navigate("/driver")
+    //     }
+    // }
 
     return (
 
