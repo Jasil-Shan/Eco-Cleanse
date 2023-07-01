@@ -6,17 +6,37 @@ import jwt from 'jsonwebtoken'
 
 let salt = bcrypt.genSaltSync(10);
 
-export async function getAdminLogin(req,res){
+export async function AdminLogin(req,res){
     try {
 
         const {name,email,password} = req.body
+        console.log(req.body);
         const admin = await adminModel.findOne({email})
-        if(!admin)
+        console.log(admin);
+        if(!admin){
+
            return res.json({error:true,message:"You have no Admin Access"})
-        
+
+        } else {
+
+            const token = jwt.sign(
+                {
+                    id: admin._id
+                },
+                'myjwtkey'
+            )
+
+            return res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
+                sameSite: "none",
+            }).json({ err: false, admin: admin._id, token })
+        }
            
     } catch (error) {
-        
+
+        console.log(error);
     }
 }
 

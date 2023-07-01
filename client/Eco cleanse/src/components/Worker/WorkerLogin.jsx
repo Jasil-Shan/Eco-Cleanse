@@ -1,26 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import work from './assets/work.jpg'
+import { useNavigate, Link } from "react-router-dom";
 
 
 const WorkerLogin = () => {
 
-    // const [email, setEmail] = useState("")
-    // const [password, setPassword] = useState("")
-    // const [errMessage, setErrMessage] = useState("")
-    // const navigate = useNavigate()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [errMessage, setErrMessage] = useState("")
+    const navigate = useNavigate()
 
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     console.log(email);
-    //     const { data } = await axios.post("/worker/login",{ email, password })
-    //     console.log(data);
-    //     if (data.err) {
-    //         setErrMessage(data.message)
-    //     } else {
-    //         navigate("/worker")
-    //     }
-    // }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(email);
+        const { data } = await axios.post("/worker/login",{ email, password })
+        console.log(data);
+        if (data.err) {
+            setErrMessage(data.message)
+        } else {
+            navigate("/worker")
+        }
+    }
     return (
 
         <section className="bg-black min-h-screen flex items-center justify-center">

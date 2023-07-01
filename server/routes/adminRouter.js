@@ -1,5 +1,5 @@
 import express from "express";
-import { getAdminLogin } from "../controller/adminController.js";
+import { AdminLogin } from "../controller/adminController.js";
 
 
 
@@ -7,7 +7,7 @@ import { getAdminLogin } from "../controller/adminController.js";
 const router = express.Router()
 
 
-router.get('/login',getAdminLogin)
+router.post('/login',AdminLogin)
 
 
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 import * as Yup from 'yup';
 import { Formik, useFormik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer , toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import iland from './assets/iland.jpg'
 
 let locations = {}
@@ -22,6 +22,12 @@ const UserSignup = () => {
         email: Yup.string()
             .email('invalid email address')
             .required('Email is required'),
+        mobile: Yup.string()
+            .max(10, 'Mobile number not valid')
+            .min(10, 'Mobile number not valid')
+            .required("Mobile is required"),
+        address: Yup.string()
+            .required("Address is required"),
         password: Yup.string()
             .min(6, 'password must be at least 6 charecters')
             .required("Password is required"),
@@ -80,7 +86,7 @@ const UserSignup = () => {
                     const { latitude, longitude } = position.coords;
                     // Do something with the latitude and longitude values
                     setLocation({ latitude, longitude });
-                    locations = {latitude, longitude}
+                    locations = { latitude, longitude }
                     console.log(locations);
 
                 },
@@ -118,7 +124,15 @@ const UserSignup = () => {
                                 <div className='text-red-500' >{formik.errors.email}</div>
                             ) : null}
                             <input className='p-2 rounded-xl border' type="number" name="mobile" placeholder='Mobile Number' id="mobile" onChange={(e) => { handleChange(e) }} />
+                            {
+                                formik.touched.mobile && formik.errors.mobile ? (
+                                    <div className="text-red-500"> {formik.errors.mobile} </div>
+                                ) : null}
                             <textarea className='p-2 rounded-xl border' placeholder='Address' name="address" id="address" cols="30" rows="5" onChange={(e) => { handleChange(e) }}></textarea>
+                            {
+                                formik.touched.address && formik.errors.address ? (
+                                    <div className="text-red-500"> {formik.errors.address} </div>
+                                ) : null}
                             <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button>
                             {/* <input
                                 className="p-2 rounded-xl border"
@@ -191,7 +205,7 @@ const UserSignup = () => {
                         <img className=' rounded-2xl' src={iland} alt="" />
                     </div>
                 </div>
-                <ToastContainer/>
+                <ToastContainer />
             </section>
         </Formik>
     )

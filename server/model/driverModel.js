@@ -19,6 +19,6 @@ const DriverSchema = new mongoose.Schema({
     }
 })
 
-const DriverModel = mongoose.model("Workers", DriverSchema)
+const DriverModel = mongoose.model("drivers", DriverSchema)
 
 export default DriverModel
