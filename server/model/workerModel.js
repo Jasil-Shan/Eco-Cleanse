@@ -19,6 +19,6 @@ const WorkerSchema = new mongoose.Schema({
     }
 })
 
-const WorkerModel = mongoose.model("Workers", WorkerSchema)
+const WorkerModel = mongoose.model("workers", WorkerSchema)
 
 export default WorkerModel

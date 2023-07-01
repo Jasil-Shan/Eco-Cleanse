@@ -4,6 +4,9 @@ import path from 'path'
 import adminRouter from './routes/adminRouter.js'
 import userRouter from './routes/userRouter.js'
 import authRouter from './routes/authRouter.js'
+import workerRouter from './routes/workerRouter.js'
+import driverRouter from './routes/driverRouter.js'
+
 import cors from 'cors'
 import 'dotenv/config'
 import cookieParser from 'cookie-parser'
@@ -34,7 +37,8 @@ app.use(express.static(path.resolve()+"/public"))
 app.use('/admin',adminRouter)
 app.use('/',userRouter)
 app.use('/user',authRouter)
-app.use('/worker',)
+app.use('/worker',workerRouter)
+app.use('/driver',driverRouter)
 
 
 app.listen(3000,()=>{

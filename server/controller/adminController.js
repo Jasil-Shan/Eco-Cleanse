@@ -1,6 +1,7 @@
 import adminModel from "../model/adminModel.js"
 import WorkerModel from "../model/workerModel.js";
-
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 
 let salt = bcrypt.genSaltSync(10);

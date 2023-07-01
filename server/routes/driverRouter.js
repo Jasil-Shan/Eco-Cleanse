@@ -1,5 +1,5 @@
 import express from "express";
-import { workerLogin } from "../controller/workerController.js";
+import { driverLogin } from "../controller/driverController.js";
 
 
 
@@ -7,7 +7,7 @@ import { workerLogin } from "../controller/workerController.js";
 const router = express.Router()
 
 
-router.get('/login',workerLogin)
+router.get('/login',driverLogin)
 
 
 
