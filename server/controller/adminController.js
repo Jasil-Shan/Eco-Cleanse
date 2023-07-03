@@ -14,7 +14,6 @@ export async function AdminLogin(req,res){
         const admin = await adminModel.findOne({email})
         console.log(admin);
         if(!admin){
-
            return res.json({error:true,message:"You have no Admin Access"})
 
         } else {

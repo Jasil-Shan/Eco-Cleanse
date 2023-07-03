@@ -8,7 +8,7 @@ let salt = bcrypt.genSaltSync(10);
 
 export async function generateOTP(req, res) {
     try {
-
+        
         console.log(req.body, 'body');
         const { email } = req.body
 
