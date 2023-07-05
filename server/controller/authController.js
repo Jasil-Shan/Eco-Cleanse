@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
-
+<img src="fksmfkmsf" alt="isfifjisfj" />
 export async function generateOTP(req, res) {
     try {
         
