@@ -11,6 +11,8 @@ const UserLogin = () => {
     const [password, setPassword] = useState("")
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
+    const dispatch = useDispatch() ;
+
 
 const generateError = (err) => {
         toast.error(err, {
@@ -25,7 +27,22 @@ const generateError = (err) => {
 
         if (data.err  || data.error) {
             generateError(data.message)
-        } else {
+        }
+        if(data.login) {
+
+            localStorage.setItem('JwtToken' , data.token);
+            
+            dispatch(
+              setUserDetails({
+                name: data.user.firstname,
+                id: data.user._id ,
+                email: data.user.email,
+                image : data.user.picture,
+                token : data.token
+                
+              })
+            );
+
             navigate("/home")
         }
     }
