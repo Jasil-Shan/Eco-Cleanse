@@ -3,6 +3,7 @@ import earth from './assets/earth.jpg'
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 const UserLogin = () => {
@@ -11,14 +12,19 @@ const UserLogin = () => {
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
 
+const generateError = (err) => {
+        toast.error(err, {
+          position: "top-center",
+        })
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(email);
         const { data } = await axios.post("/user/login",{ email, password })
-        console.log(data);
-        if (data.err) {
-            setErrMessage(data.message)
+
+        if (data.err  || data.error) {
+            generateError(data.message)
         } else {
             navigate("/home")
         }
