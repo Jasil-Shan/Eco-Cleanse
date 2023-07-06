@@ -26,8 +26,8 @@ const generateError = (err) => {
         },
         onSubmit:async (values) => {
             try {
-                console.log(email);
-                const {data} = await userLogin(...values)
+                console.log(values);
+                const {data} = await userLogin(values)
                 console.log(data);
                 if (data.err  || data.error) {
                     generateError(data.message)
@@ -94,7 +94,7 @@ const generateError = (err) => {
                     <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
-                    <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                    <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
                         <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange}  type="email" name="email" placeholder='Email' id="" required/>
                         <div className="relative">
                             <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange}  type="password" name='password' placeholder='Password' required/>

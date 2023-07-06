@@ -6,11 +6,11 @@ import jwt from 'jsonwebtoken'
 let userDetails
 let salt = bcrypt.genSaltSync(10);
 // const secret_key = process.env.JWT_SECRET_KEY;
- const key = process.env.h
+ const key = process.env.H
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
     console.log("drfdg" ,key);
-    return jwt.sign({ id }, key, { expiresIn: maxAge });
+    return jwt.sign({ id }, "mysecretKey", { expiresIn: maxAge });
   };
 
 
