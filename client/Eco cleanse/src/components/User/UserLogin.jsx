@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import earth from './assets/earth.jpg'
-import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from "react-router-dom";
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { userLogin } from '../../services/userApi';
 
 
 const UserLogin = () => {
@@ -11,7 +10,6 @@ const UserLogin = () => {
     const [password, setPassword] = useState("")
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
-    const dispatch = useDispatch() ;
 
 
 const generateError = (err) => {
@@ -23,7 +21,8 @@ const generateError = (err) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(email);
-        const { data } = await axios.post("/user/login",{ email, password })
+        // const { data } = await axios.post("/user/login",{ email, password })
+        const {data} = await userLogin(email,password)
 
         if (data.err  || data.error) {
             generateError(data.message)
@@ -32,16 +31,16 @@ const generateError = (err) => {
 
             localStorage.setItem('JwtToken' , data.token);
             
-            dispatch(
-              setUserDetails({
-                name: data.user.firstname,
-                id: data.user._id ,
-                email: data.user.email,
-                image : data.user.picture,
-                token : data.token
+            // dispatch(
+            //   setUserDetails({
+            //     name: data.user.firstname,
+            //     id: data.user._id,
+            //     email: data.user.email, 
+            //     image : data.user.picture,
+            //     token : data.token
                 
-              })
-            );
+            //   })
+            // );
 
             navigate("/home")
         }

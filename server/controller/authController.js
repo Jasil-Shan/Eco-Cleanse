@@ -5,10 +5,12 @@ import jwt from 'jsonwebtoken'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
-const secret_key = process.env.JWT_SECRET_KEY;
+// const secret_key = process.env.JWT_SECRET_KEY;
+ const key = process.env.JWT_SECRET_KEY
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, secret_key, { expiresIn: maxAge });
+    console.log("drfdg" ,key);
+    return jwt.sign({ id }, key, { expiresIn: maxAge });
   };
 
 
@@ -79,6 +81,7 @@ export async function signUp(req, res) {
 
 export async function login(req, res) {
     try {
+        console.log("grtlogin");
         const { email, password } = req.body
         const user = await UserModel.findOne({ email })
         console.log(user);
