@@ -3,6 +3,7 @@ import earth from './assets/earth.jpg'
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { userLogin } from '../../services/userApi';
+import { useFormik } from 'formik';
 
 
 const UserLogin = () => {
@@ -18,33 +19,71 @@ const generateError = (err) => {
         })
       };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(email);
-        // const { data } = await axios.post("/user/login",{ email, password })
-        const {data} = await userLogin(email,password)
+      const formik = useFormik({
+        initialValues: {
+          email: '',
+          password: '',
+        },
+        onSubmit:async (values) => {
+            try {
+                console.log(email);
+                const {data} = await userLogin(...values)
+                console.log(data);
+                if (data.err  || data.error) {
+                    generateError(data.message)
+                }
+                if(data.login) {
+        
+                    localStorage.setItem('JwtToken' , data.token);
+                    
+                    // dispatch(
+                    //   setUserDetails({
+                    //     name: data.user.firstname,
+                    //     id: data.user._id,
+                    //     email: data.user.email, 
+                    //     image : data.user.picture,
+                    //     token : data.token
+                        
+                    //   })
+                    // );
+        
+                    navigate("/home")
+                }
+            } catch (error) {
 
-        if (data.err  || data.error) {
-            generateError(data.message)
-        }
-        if(data.login) {
+                console.log(error);
+            }
+        
+        },
+      });
 
-            localStorage.setItem('JwtToken' , data.token);
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     console.log(email);
+    //     // const { data } = await axios.post("/user/login",{ email, password })
+    //     const {data} = await userLogin(email,password)
+
+    //     if (data.err  || data.error) {
+    //         generateError(data.message)
+    //     }
+    //     if(data.login) {
+
+    //         localStorage.setItem('JwtToken' , data.token);
             
-            // dispatch(
-            //   setUserDetails({
-            //     name: data.user.firstname,
-            //     id: data.user._id,
-            //     email: data.user.email, 
-            //     image : data.user.picture,
-            //     token : data.token
+    //         // dispatch(
+    //         //   setUserDetails({
+    //         //     name: data.user.firstname,
+    //         //     id: data.user._id,
+    //         //     email: data.user.email, 
+    //         //     image : data.user.picture,
+    //         //     token : data.token
                 
-            //   })
-            // );
+    //         //   })
+    //         // );
 
-            navigate("/home")
-        }
-    }
+    //         navigate("/home")
+    //     }
+    // }
 
     return (
 
@@ -56,9 +95,9 @@ const generateError = (err) => {
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
                     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                        <input className='p-2 mt-8 rounded-xl border' onChange={(e) => setEmail(e.target.value)}  type="email" name="email" placeholder='Email' id="" required/>
+                        <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange}  type="email" name="email" placeholder='Email' id="" required/>
                         <div className="relative">
-                            <input className='p-2  rounded-xl border w-full' onChange={(e) => setPassword(e.target.value)}  type="password" name='password' placeholder='Password' required/>
+                            <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange}  type="password" name='password' placeholder='Password' required/>
                             <svg className="w-5 absolute top-1 right-3 translate-y-1/2 h-4 text-gray-500" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                 <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                     <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />

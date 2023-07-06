@@ -6,8 +6,6 @@ import { useFormik } from "formik";
 
 
 const AdminLogin = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
 
@@ -36,24 +34,7 @@ const AdminLogin = () => {
         
         },
       });
-    // const handleSubmit = async (e) => {
-    //     try {
-    //         e.preventDefault();
-    //         console.log(email);
-    //         const { data } = await axios.post("/admin/login", { email, password })
-    //         console.log(data);
-    //         if (data.error) {
-    //             toast.error(data.message, {
-    //                 position: "top-center",
-    
-    //             })
-    //         } else {
-    //             navigate("/home")
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     }
+   
     return (
             <>
 
