@@ -7,35 +7,36 @@ import { useFormik } from 'formik';
 
 
 const UserLogin = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false);
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
 
-
-const generateError = (err) => {
+    const generateError = (err) => {
         toast.error(err, {
-          position: "top-center",
+            position: "top-center",
         })
-      };
+    };
 
-      const formik = useFormik({
+    const formik = useFormik({
         initialValues: {
-          email: '',
-          password: '',
+            email: '',
+            password: '',
         },
-        onSubmit:async (values) => {
+        onSubmit: async (values) => {
             try {
                 console.log(values);
-                const {data} = await userLogin(values)
+                const { data } = await userLogin(values)
                 console.log(data);
-                if (data.err  || data.error) {
+                if (data.err || data.error) {
                     generateError(data.message)
                 }
-                if(data.login) {
-        
-                    localStorage.setItem('JwtToken' , data.token);
-                    
+                if (data.login) {
+
+                    localStorage.setItem('JwtToken', data.token);
+
                     // dispatch(
                     //   setUserDetails({
                     //     name: data.user.firstname,
@@ -43,19 +44,19 @@ const generateError = (err) => {
                     //     email: data.user.email, 
                     //     image : data.user.picture,
                     //     token : data.token
-                        
+
                     //   })
                     // );
-        
+
                     navigate("/home")
                 }
             } catch (error) {
 
                 console.log(error);
             }
-        
+
         },
-      });
+    });
 
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
@@ -69,7 +70,7 @@ const generateError = (err) => {
     //     if(data.login) {
 
     //         localStorage.setItem('JwtToken' , data.token);
-            
+
     //         // dispatch(
     //         //   setUserDetails({
     //         //     name: data.user.firstname,
@@ -77,7 +78,7 @@ const generateError = (err) => {
     //         //     email: data.user.email, 
     //         //     image : data.user.picture,
     //         //     token : data.token
-                
+
     //         //   })
     //         // );
 
@@ -95,15 +96,16 @@ const generateError = (err) => {
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
                     <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
-                        <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange}  type="email" name="email" placeholder='Email' id="" required/>
+                        <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
                         <div className="relative">
-                            <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange}  type="password" name='password' placeholder='Password' required/>
+                            <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
+                            <button onClick={handleTogglePassword}>
                             <svg className="w-5 absolute top-1 right-3 translate-y-1/2 h-4 text-gray-500" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                 <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
                                     <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                                     <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
                                 </g>
-                            </svg>
+                            </svg></button>
                         </div>
                         <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
                     </form>
