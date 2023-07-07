@@ -29,7 +29,7 @@ const AdminLogin = () => {
         
                     })
                 } else {
-                    navigate("/home")
+                    navigate("/admin/home")
                 }
             } catch (error) {
 
