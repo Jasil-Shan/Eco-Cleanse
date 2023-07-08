@@ -1,4 +1,7 @@
+import axios from "axios"
 import { useEffect, useState } from "react"
+import Sidebar from "../Sidebar/Sidebar"
+import Header from "../Header/Header"
 
 
 
@@ -22,6 +25,8 @@ const AdminWorkers = () =>{
 
     return(
         <section className="py-1 bg-blueGray-50">
+        <Sidebar/>
+        <Header/>
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                 <div className="rounded-t mb-0 px-4 py-3 border-0">

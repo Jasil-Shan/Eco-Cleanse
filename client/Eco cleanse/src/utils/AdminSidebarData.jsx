@@ -19,13 +19,13 @@ const adminSidebarData = [
     {
         title: 'Worker',
         links: [
-            { route: "/admin/worker" },
+            { route: "/admin/workers" },
         ]
     },
     {
         title: 'Driver',
         links: [
-            { route: "/admin/driver" },
+            { route: "/admin/drivers" },
         ]
     },
     {

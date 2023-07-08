@@ -1,5 +1,5 @@
 import express from "express";
-import { adminLogin, viewUsers } from "../controller/adminController.js";
+import { adminLogin, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
 
 
 
@@ -14,6 +14,8 @@ router.post('/login',adminLogin)
 
 //get requets
 router.get('/users',viewUsers)
+router.get('/workers',viewWorkers)
+router.get('/drivers',viewDrivers)
 
 
 
