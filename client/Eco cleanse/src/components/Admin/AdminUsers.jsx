@@ -11,14 +11,14 @@ const AdminUsers = () => {
             (
             async function () {
             const { data } = await axios.get('/admin/users')
-            if (success) {
+            if (data.success) {
                 setUsers(data.users)
             }
         }) ()
         } catch (error) {
             console.log(error);
         }
-    })
+    },[])
 
     return (
         <section className="py-1 bg-blueGray-50">
