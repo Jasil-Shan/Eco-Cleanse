@@ -42,5 +42,5 @@ app.use('/driver',driverRouter)
 
 
 app.listen(3000,()=>{
-    console.log("server listening on port http://localhost:3000",process.env.)
+    console.log("server listening on port http://localhost:3000")
 })
