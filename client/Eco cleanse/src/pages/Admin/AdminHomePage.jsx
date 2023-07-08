@@ -1,4 +1,4 @@
-import AdminHome from "../../components/Admin/AdminHome"
+import AdminDash from "../../components/Admin/AdminDash"
 
 
 
@@ -7,7 +7,7 @@ import AdminHome from "../../components/Admin/AdminHome"
 const AdminHomePage = () => {
 
     return(
-        <AdminHome/>
+        <AdminDash/>
     )
 
 }

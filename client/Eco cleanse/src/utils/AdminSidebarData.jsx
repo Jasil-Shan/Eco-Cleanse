@@ -2,31 +2,39 @@
 
 
 
-const adminLinks = [
+const adminSidebarData = [
     {
-      title : 'Home' ,
-      links : [
-        { subTitle : "Dashboard" , link : "/admin/dashboard" , icon : <BiHomeAlt size={22} />},
-      ]
+        title: 'Dashboard',
+        links: [
+            { link: "/admin/dashboard" },
+        ]
+    },
+
+    {
+        title: 'Users',
+        links: [
+            { route: "/admin/users" },
+        ]
     },
     {
-      title : 'Tutors',
-      links : [
-        {subTitle : "Add Tutor" , link : "/admin/add-tutor" , icon : <FaChalkboardTeacher size={22}/> },
-        {subTitle : "List Tutor" , link : "/admin/tutors" , icon : <HiOutlineClipboardList size={22}/> }
-      ]
+        title: 'Worker',
+        links: [
+            { route: "/admin/worker" },
+        ]
     },
     {
-      title : 'Course' ,
-      links : [
-        {subTitle : "Courses" , link : "/admin/course" , icon : <HiOutlineClipboardList size={22}/>}
-      ]
+        title: 'Driver',
+        links: [
+            { route: "/admin/driver" },
+        ]
     },
     {
-      title : 'User' ,
-      links : [
-        {subTitle : "Users" , link : "/admin/users" , icon : <HiOutlineClipboardList size={22}/>}
-      ]
+        title: 'Logout',
+        links: [
+            { route: "/admin/logout" },
+        ]
     },
-  
-  ]
+
+]
+
+export default adminSidebarData
