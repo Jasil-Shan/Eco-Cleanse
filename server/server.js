@@ -8,7 +8,7 @@ import workerRouter from './routes/workerRouter.js'
 import driverRouter from './routes/driverRouter.js'
 
 import cors from 'cors'
-import 'dotenv/config'
+import 'dotenv/config.js'
 import cookieParser from 'cookie-parser'
 
 

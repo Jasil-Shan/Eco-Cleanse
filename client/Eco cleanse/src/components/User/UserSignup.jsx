@@ -54,11 +54,17 @@ const UserSignup = () => {
                 console.log(values);
                 const { data } = await axios.post('/user/verify', { ...values, locations })
                 console.log(data);
+                
                 if (data.status) {
+                    toast.success(data.message, {
+                        position: "top-center"
+                    })
                     navigate("/verifyMail")
-                } else {
 
-                    setErrorMessage(data.message);
+                } else {
+                    toast.error(data.message, {
+                        position: "top-center"
+                    })
                 }
 
             } catch (error) {
@@ -110,6 +116,7 @@ const UserSignup = () => {
                     <div className="md:w-1/2 px-16">
                         <h2 className='font-bold text-3xl text-[#002D74]'>Register Here..</h2>
                         <p className='text-sm mt-4 text-[#002D74]'>Lets Start Your Journey!</p>
+                        {errorMessage ? <div className="text-red-500 pb-6 text-center ">{errorMessage}</div> : ""}
 
                         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
                             <input className='p-2 mt-8 rounded-xl border' type="text" name='name' placeholder='Full Name' id='name' onChange={(e) => { handleChange(e) }}
@@ -134,17 +141,7 @@ const UserSignup = () => {
                                     <div className="text-red-500"> {formik.errors.address} </div>
                                 ) : null}
                             <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button>
-                            {/* <input
-                                className="p-2 rounded-xl border"
-                                type="text"
-                                name="location"
-                                id="location"
-                                placeholder="Location"
-                                value={`${location.latitude || ''}, ${location.longitude || ''}`}
-                                onBlur={(e) => {
-                                    handleChange(e);
-                                }}
-                            /> */}
+
 
                             <div className="relative">
                                 <input className='p-2  rounded-xl border w-full' type="password" name='password' id='password' placeholder='Password' onChange={(e) => { handleChange(e) }} />

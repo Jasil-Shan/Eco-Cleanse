@@ -1,13 +1,19 @@
 import express from "express";
-import { AdminLogin } from "../controller/adminController.js";
+import { adminLogin, viewUsers } from "../controller/adminController.js";
 
 
 
 
 const router = express.Router()
 
+//post requests
+router.post('/login',adminLogin)
 
-router.post('/login',AdminLogin)
+
+
+
+//get requets
+router.get('/users',viewUsers)
 
 
 

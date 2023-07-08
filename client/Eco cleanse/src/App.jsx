@@ -6,6 +6,8 @@ import UserRouter from './routes/userRouter'
 import DriverRouter from './routes/driverRouter'
 import WorkerRouter from './routes/WorkerRouter'
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer} from 'react-toastify';
 
 function App() {
   axios.defaults.baseURL ="http://localhost:3000" ;
@@ -27,6 +29,7 @@ function App() {
 
 
     </Routes>
+    <ToastContainer/>
   </BrowserRouter>
   )
 }

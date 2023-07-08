@@ -5,13 +5,21 @@ import jwt from 'jsonwebtoken'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
+// const secret_key = process.env.JWT_SECRET_KEY;
+ const key = process.env.H
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    console.log("drfdg" ,key);
+    return jwt.sign({ id }, "mysecretKey", { expiresIn: maxAge });
+  };
+
+
 
 export async function generateOTP(req, res) {
     try {
         
         console.log(req.body, 'body');
         const { email } = req.body
-
         const user = await UserModel.findOne({ email })
 
         if (user) {
@@ -73,6 +81,7 @@ export async function signUp(req, res) {
 
 export async function login(req, res) {
     try {
+        console.log("grtlogin");
         const { email, password } = req.body
         const user = await UserModel.findOne({ email })
         console.log(user);
@@ -85,19 +94,14 @@ export async function login(req, res) {
             return res.json({ err: true, message: "wrong Password" })
         } else {
 
-            const token = jwt.sign(
-                {
-                    id: user._id
-                },
-                'myjwtkey'
-            )
-
-            return res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-                sameSite: "none",
-            }).json({ err: false, user: user._id, token })
+            const token = createToken(user._id);
+            // return res.cookie("token", token, {
+            //     httpOnly: true,
+            //     secure: true,
+            //     maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
+            //     sameSite: "none",
+            // ).json({ err: false, user: user._id, token })
+            res.status(200).json({ user, token, login: true });
         }
 
     } catch (error) {

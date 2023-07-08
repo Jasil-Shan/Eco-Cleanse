@@ -23,11 +23,11 @@ const DriverLogin = () => {
 
     return (
 
-        <section className="bg-black min-h-screen flex items-center justify-center">
+         <section className="bg-black min-h-screen flex items-center justify-center">
             <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
 
                 <div className="md:w-1/2 px-16">
-                    <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
+          <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back Rider!</p>
 
                     <form action="" className='flex flex-col gap-6'>
@@ -48,7 +48,7 @@ const DriverLogin = () => {
                 <div className="w-1/2 md:block hidden">
                     <img className=' rounded-2xl' src={truck} alt="" />
                 </div>
-            </div>
+      </div>
         </section>
     )
 }

@@ -1,4 +1,6 @@
 import adminModel from "../model/adminModel.js"
+import DriverModel from "../model/driverModel.js";
+import UserModel from "../model/userModel.js";
 import WorkerModel from "../model/workerModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -6,7 +8,7 @@ import jwt from 'jsonwebtoken'
 
 let salt = bcrypt.genSaltSync(10);
 
-export async function AdminLogin(req,res){
+export async function adminLogin(req,res){
     try {
 
         const {name,email,password} = req.body
@@ -39,6 +41,35 @@ export async function AdminLogin(req,res){
     }
 }
 
+export async function viewUsers(req,res){
+    try {
+        const users = await UserModel.find({})
+        console.log(users);
+        res.json({success:true , users})
+    } catch (error) {
+        res.json({ message: "something went wrong", error: true });
+    }
+}
+
+export async function viewWorkers(req,res){
+    try {
+        const workers = await WorkerModel.find({})
+        console.log(workers);
+        res.json({status:true , workers})
+    } catch (error) {
+        res.json({ message: "something went wrong", error: true });
+    }
+}
+
+export async function viewDrivers(req,res){
+    try {
+        const drivers = await DriverModel.find({})
+        console.log(workers);
+        res.json({status:true , drivers})
+    } catch (error) {
+        res.json({ message: "something went wrong", error: true });
+    }
+}
 
 export async function addWorker(req,res){
     try {
