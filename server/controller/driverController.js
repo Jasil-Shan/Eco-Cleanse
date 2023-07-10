@@ -11,27 +11,29 @@ export async function driverLogin(req, res) {
         const {email,password} = req.body
 
         const driver = await DriverModel.findOne({email})
-        if(driver)
-           res.json({ error: true, message: 'User not registered' })
+        if(!driver)
+           return res.json({ error: true, message: 'User not registered' })
+
+           if(driver.blocked) {
+            return res.json({ blocked : true , message :"Sorry You are banned"})
+          }
            const driverValid = bcrypt.compareSync(password, driver.password);
 
            if (!driverValid) {
                return res.json({ err: true, message: "wrong Password" })
            } else {
-   
                const token = jwt.sign(
                    {
                        id: driver._id
                    },
                    'myjwtkey'
                )
-   
                return res.cookie("token", token, {
                    httpOnly: true,
                    secure: true,
                    maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
                    sameSite: "none",
-               }).json({ err: false, driver: driver._id, token })
+               }).json({ error: false, driver: driver._id, token })
            }
     } catch (error) {
         console.log(error);
