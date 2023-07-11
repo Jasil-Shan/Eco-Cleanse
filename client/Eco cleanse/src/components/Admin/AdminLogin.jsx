@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
+import { adminLogin } from "../../services/adminApi";
 
 
 const AdminLogin = () => {
@@ -21,7 +22,7 @@ const AdminLogin = () => {
         onSubmit:async (values) => {
             try {
                 console.log(email);
-                const { data } = await axios.post("/admin/login", { ...values })
+                const { data } = await adminLogin(values)
                 console.log(data);
                 if (data.error) {
                     toast.error(data.message, {
