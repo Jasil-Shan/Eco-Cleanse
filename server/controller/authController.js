@@ -88,6 +88,9 @@ export async function login(req, res) {
         if (!user) {
             res.json({ error: true, message: 'User not registered' })
         }
+        if(user.blocked) {
+            return res.json({ login : false , message :"Sorry You are banned"})
+          }
         const userValid = bcrypt.compareSync(password, user.password);
 
         if (!userValid) {
