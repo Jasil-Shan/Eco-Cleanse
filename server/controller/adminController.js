@@ -53,7 +53,7 @@ export async function viewUsers(req, res) {
 }
 
 export async function block(req, res) {
-    try {
+     try {
         if(req.body.role == 'user'){
             await UserModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: true },
