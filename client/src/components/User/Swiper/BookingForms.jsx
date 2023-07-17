@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -12,13 +12,14 @@ import './swiper.css';
 import { EffectCards } from 'swiper/modules';
 
 export default function BookingForms() {
+    const swiper = useSwiper();
   return (
     <>
       <Swiper
         effect={'cards'}
         grabCursor={true}
         modules={[EffectCards]}
-        className=".swiper"
+        className="swiper mt-20"
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
@@ -30,7 +31,9 @@ export default function BookingForms() {
         <SwiperSlide>Slide 8</SwiperSlide>
         <SwiperSlide>Slide 9</SwiperSlide>
       </Swiper>
+      <button onClick={() => swiper.slideNext()}>Slide to the next slide</button>
+
+
     </>
   );
 }
-
