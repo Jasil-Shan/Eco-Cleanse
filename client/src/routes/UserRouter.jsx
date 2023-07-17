@@ -6,6 +6,7 @@ import VerifyEmailPage from "../pages/User/VerifyEmailPage";
 import HomePage from "../pages/Home/HomePage";
 import UserHomePage from "../pages/User/UserHomePage";
 import UserProfilePage from "../pages/User/UserProfilePage";
+import UserBookingPage from "../pages/User/UserBookingPage";
 
 
 
@@ -20,6 +21,7 @@ function UserRouter(){
             
             <Route path="" element={<UserHomePage />} />
             <Route path="profile" element={<UserProfilePage />} />
+            <Route path="booking" element={<UserBookingPage />} />
 
         </Routes>
     )

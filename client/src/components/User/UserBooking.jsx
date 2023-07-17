@@ -7,3 +7,5 @@ const UserBooking = ()=>{
         <BookingForms />
     )
 }
+
+export default UserBooking
