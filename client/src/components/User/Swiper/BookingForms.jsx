@@ -6,19 +6,19 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
 
-import './styles.css';
+import './swiper.css';
 
 // import required modules
 import { EffectCards } from 'swiper/modules';
 
-const BookingForms = ()=> {
+export default function BookingForms() {
   return (
     <>
       <Swiper
         effect={'cards'}
         grabCursor={true}
         modules={[EffectCards]}
-        className="mySwiper"
+        className=".swiper"
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
@@ -34,4 +34,3 @@ const BookingForms = ()=> {
   );
 }
 
-export default BookingForms
