@@ -1,3 +1,4 @@
+import { sendVerificationCode } from "../helper/sendOtp.js";
 import adminModel from "../model/adminModel.js"
 import DriverModel from "../model/driverModel.js";
 import UserModel from "../model/userModel.js";
@@ -115,6 +116,15 @@ export async function addWorker(req, res) {
     try {
 
         const { name, email, password, mobile } = req.body
+        const worker = await WorkerModel.findOne({ email })
+
+        if (worker) {
+
+            return res.json({
+                error: true,
+                message: " Worker already registered "
+            })
+        } else {
         console.log(req.body);
         let hashedPassword = bcrypt.hashSync(password, salt)
 
@@ -128,7 +138,7 @@ export async function addWorker(req, res) {
         }).catch(() => {
             return res.json({ status: false, message: "Worker adding failed" });
         })
-
+    }
     } catch (error) {
         console.log(error);
     }
@@ -139,7 +149,16 @@ export async function addDriver(req, res) {
     try {
 
         const { name, email, password, mobile } = req.body
+        const driver = await DriverModel.findOne({ email })
 
+        if (driver) {
+
+            return res.json({
+                error: true,
+                message: " Driver already registered "
+            })
+        } else {
+            
         let hashedPassword = bcrypt.hashSync(password, salt)
 
         const driver = await DriverModel.create({
@@ -152,7 +171,18 @@ export async function addDriver(req, res) {
         }).catch(() => {
             return res.json({ status: false, message: "Driver adding failed" });
         })
+    }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+export async function sendMail(req,res){
+    try {
+        console.log(req.body);
+        let role = 'employee'
+        const {email,password} = req.body
+        sendVerificationCode(email,role,password)
     } catch (error) {
         console.log(error);
     }

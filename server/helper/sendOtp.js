@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 
 let otpValue
 
-export function sendVerificationCode(email) {
+export function sendVerificationCode(email,role,pass) {
   const otp = Math.floor(1000 + Math.random() * 9000);
   let password = "zqcmrhbtvebqrbhu"
   return new Promise((resolve, reject) => {
@@ -15,6 +15,7 @@ export function sendVerificationCode(email) {
       },
     });
 
+    if(role == 'user'){
     var mailOptions = {
       from: process.env.EMAIL,
       to: email,
@@ -25,6 +26,21 @@ export function sendVerificationCode(email) {
               <h2>${otp}</h2>
             `,
     }
+
+  }else{
+    var mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Eco Cleanse Employee Registration",
+      html: `
+            <h1>Welcome to Eco cleanse </h1>
+              <h3>Use this email and password to login</h3>
+              <h2>Email :${email}</h2>
+              <h2>Password :${pass}</h2>
+            `,
+    }
+
+  }
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {

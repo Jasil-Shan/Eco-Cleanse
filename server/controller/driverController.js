@@ -20,7 +20,7 @@ export async function driverLogin(req, res) {
            const driverValid = bcrypt.compareSync(password, driver.password);
 
            if (!driverValid) {
-               return res.json({ err: true, message: "wrong Password" })
+               return res.json({ error: true, message: "wrong Password" })
            } else {
                const token = jwt.sign(
                    {

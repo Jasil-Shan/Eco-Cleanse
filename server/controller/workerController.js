@@ -19,9 +19,9 @@ export async function workerLogin(req, res) {
           }
 
            const workerValid = bcrypt.compareSync(password, worker.password);
-
+           console.log(workerValid);
            if (!workerValid) {
-               return res.json({ err: true, message: "wrong Password" })
+               return res.json({ error: true, message: "wrong Password" })
            } else {
                const token = jwt.sign(
                    {
@@ -35,7 +35,7 @@ export async function workerLogin(req, res) {
                    secure: true,
                    maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
                    sameSite: "none",
-               }).json({ err: false, worker: worker._id, token })
+               }).json({ error: false, worker: worker._id, token })
            }
     } catch (error) {
 

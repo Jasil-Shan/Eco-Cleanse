@@ -1,5 +1,5 @@
 import express from "express";
-import { addDriver, addWorker, adminLogin, block,  unBlock, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
+import { addDriver, addWorker, adminLogin, block,  sendMail,  unBlock, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
 
 
 
@@ -11,6 +11,8 @@ router.post('/login',adminLogin)
 
 //post requests
 router.post('/workers/add',addWorker)
+router.post('/sendMail',sendMail)
+
 router.post('/drivers/add',addDriver)
 
 
