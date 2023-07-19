@@ -8,4 +8,5 @@ function dbConnect(){
         console.log("data base error \n"+err)
     })
 }
+
 export default dbConnect

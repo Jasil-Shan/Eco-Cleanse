@@ -29,11 +29,11 @@ export async function generateOTP(req, res) {
                 message: " User already registered here"
             })
         } else {
-            sendVerificationCode(email, req)
+            let role = 'user'
+            sendVerificationCode(email, role)
                 .then((response) => {
                     res.json({ status: true, message: "Email sent successfully" })
                     userDetails = req.body
-                    console.log(userDetails);
                 })
                 .catch((response) => {
                     res.json({ status: false, message: "OTP not send" });
@@ -88,6 +88,9 @@ export async function login(req, res) {
         if (!user) {
             res.json({ error: true, message: 'User not registered' })
         }
+        if(user.blocked) {
+            return res.json({ login : false , message :"Sorry You are banned"})
+          }
         const userValid = bcrypt.compareSync(password, user.password);
 
         if (!userValid) {
@@ -96,10 +99,11 @@ export async function login(req, res) {
 
             const token = createToken(user._id);
             // return res.cookie("token", token, {
-            //     httpOnly: true,
+            //     httpOnly: true,3
             //     secure: true,
             //     maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
             //     sameSite: "none",
+            
             // ).json({ err: false, user: user._id, token })
             res.status(200).json({ user, token, login: true });
         }

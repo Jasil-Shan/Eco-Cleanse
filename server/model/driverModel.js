@@ -16,6 +16,14 @@ const DriverSchema = new mongoose.Schema({
     mobile: {
         type: String,
         required: true
+    },
+    blocked: {
+        type: Boolean,
+        default:false
+    },
+    role:{
+        type:String,
+        default: 'driver'
     }
 })
 

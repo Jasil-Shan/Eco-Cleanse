@@ -11,14 +11,18 @@ export async function workerLogin(req, res) {
         const {email,password} = req.body
 
         const worker = await WorkerModel.findOne({email})
-        if(worker)
-           res.json({ error: true, message: 'User not registered' })
-           const workerValid = bcrypt.compareSync(password, worker.password);
+        if(!worker)
+           return res.json({ error: true, message: 'User not registered' })
 
+           if(worker.blocked) {
+            return res.json({ blocked : true , message :"Sorry You are banned"})
+          }
+
+           const workerValid = bcrypt.compareSync(password, worker.password);
+           console.log(workerValid);
            if (!workerValid) {
-               return res.json({ err: true, message: "wrong Password" })
+               return res.json({ error: true, message: "wrong Password" })
            } else {
-   
                const token = jwt.sign(
                    {
                        id: worker._id
@@ -31,7 +35,7 @@ export async function workerLogin(req, res) {
                    secure: true,
                    maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
                    sameSite: "none",
-               }).json({ err: false, worker: worker._id, token })
+               }).json({ error: false, worker: worker._id, token })
            }
     } catch (error) {
 
