@@ -30,6 +30,8 @@ const AdminLogin = () => {
         
                     })
                 } else {
+                    localStorage.setItem('AdminJwtToken', data.token);
+
                     navigate("/admin/home")
                 }
             } catch (error) {
