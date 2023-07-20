@@ -13,8 +13,8 @@ import PrivateRoutes from "../utils/PrivateRoutes";
 function AdminRouter(){
     return(
         <Routes>
-            <Route element = {<PrivateRoutes role={'admin'} route={'/login'}/>}>
-            <Route path="home" element={<AdminHomePage/>}/>
+            <Route element = {<PrivateRoutes role={'admin'} route={'/admin/login'}/>}>
+            <Route path="dashboard" element={<AdminHomePage/>}/>
             <Route path="users" element={<AdminUsersPage/>}/>
             <Route path="workers" element={<AdminWorkersPage/>}/>
             <Route path="drivers" element={<AdminDriversPage/>}/>

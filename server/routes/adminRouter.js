@@ -1,5 +1,5 @@
 import express from "express";
-import { addDriver, addWorker, adminLogin, block,  sendMail,  unBlock, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
+import { addDriver, addWorker, adminAuth, adminLogin, block,  sendMail,  unBlock, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
 
 
 
@@ -8,6 +8,7 @@ const router = express.Router()
 
 //auth
 router.post('/login',adminLogin)
+router.post('/auth/',adminAuth)
 
 //post requests
 router.post('/workers/add',addWorker)

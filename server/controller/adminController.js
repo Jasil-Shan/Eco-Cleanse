@@ -1,4 +1,3 @@
-import { errorMonitor } from "nodemailer/lib/xoauth2/index.js";
 import { sendVerificationCode } from "../helper/sendOtp.js";
 import adminModel from "../model/adminModel.js"
 import DriverModel from "../model/driverModel.js";
@@ -9,6 +8,9 @@ import jwt from 'jsonwebtoken'
 
 
 let salt = bcrypt.genSaltSync(10);
+let secret_key = process.env.ADMIN_SECRET_KEY
+
+
 
 export async function adminAuth(req, res) {
     try {
@@ -45,6 +47,9 @@ export async function adminLogin(req, res) {
         console.log(admin);
         if (!admin) {
             return res.json({ error: true, message: "You have no Admin Access" })
+        }
+        if(admin.password !== password){
+            return res.json({ error: true, message: "Please check password" })
 
         } else {
 
@@ -52,7 +57,7 @@ export async function adminLogin(req, res) {
                 {
                     id: admin._id
                 },
-                'AdminJwtToken'
+                process.env.ADMIN_SECRET_KEY
             )
             res.status(200).json({ admin, token, login: true });
 

@@ -8,7 +8,7 @@ export const adminLogin = (values) =>{
   }
 
 export const authAdmin = ()=>{
-  return axiosInstance("AdminJwtToken").post("/admin/adminAuth")
+  return axiosInstance("AdminJwtToken").post("/admin/auth")
 }
 
 export const getUsers = ()=>{
