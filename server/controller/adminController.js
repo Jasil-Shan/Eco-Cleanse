@@ -52,7 +52,7 @@ export async function adminLogin(req, res) {
                 {
                     id: admin._id
                 },
-                'myjwtkey'
+                'AdminJwtToken'
             )
             res.status(200).json({ admin, token, login: true });
 

@@ -14,8 +14,18 @@ const PrivateRoutes = ({ role, route }) => {
             }).catch((response) => {
                 toast.error(response.message , { position :"top-center" })
                 setAuth(response.data?.status)
-                navigate('/');
+                navigate('/admin/login');
               })
         }
-    })
+    },[])
 }
+
+
+if( auth == null) return 
+
+return (
+  auth ? <Outlet/> : <Navigate to={route} />
+)
+
+
+export default PrivateRoutes
