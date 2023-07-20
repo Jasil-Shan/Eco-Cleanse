@@ -32,7 +32,7 @@ const AdminLogin = () => {
                 } else {
                     localStorage.setItem('AdminJwtToken', data.token);
 
-                    navigate("/admin/home")
+                    navigate("/admin/dashboard")
                 }
             } catch (error) {
 
