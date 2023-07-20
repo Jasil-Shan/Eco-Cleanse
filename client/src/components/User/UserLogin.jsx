@@ -43,7 +43,7 @@ const UserLogin = () => {
 
                     //   })
                     // );
-                    navigate("/home")
+                    navigate("/")
                 }else{
                     toast.error(data.message, {
                         position: "top-center"
