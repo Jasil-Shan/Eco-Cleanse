@@ -15,14 +15,16 @@ import UserBookingPage from "../pages/User/UserBookingPage";
 function UserRouter(){
     return(
         <Routes>
+            <Route element = {<PrivateRoutes role={'user'} route={'/login'}/>}>
+            <Route path="profile" element={<UserProfilePage />} />
+            <Route path="booking" element={<UserBookingPage />} />
+            </Route>
+            
             <Route path="login" element={<UserLoginPage/>}/>
             <Route path="signup" element={<UserSignupPage/>}/>
             <Route path="verifyMail" element={<VerifyEmailPage />} />
             
             <Route path="" element={<UserHomePage />} />
-            <Route path="profile" element={<UserProfilePage />} />
-            <Route path="booking" element={<UserBookingPage />} />
-
         </Routes>
     )
 }
