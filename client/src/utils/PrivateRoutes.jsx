@@ -20,15 +20,15 @@ const PrivateRoutes = ({ role, route }) => {
                 navigate('/admin/login');
               })
         }
-        // else if(role == 'user'){
-        //     authUser().then((response)=>{
-        //         setAuth(response.data.status)
-        //     }).catch((response) => {
-        //         toast.error(response.message , { position :"top-center" })
-        //         setAuth(response.data?.status)
-        //         navigate('/login');
-        //       })
-        // }
+        else if(role == 'user'){
+            authUser().then((response)=>{
+                setAuth(response.data.status)
+            }).catch((response) => {
+                toast.error(response.message , { position :"top-center" })
+                setAuth(response.data?.status)
+                navigate('/login');
+              })
+        }
     },[])
 
 
