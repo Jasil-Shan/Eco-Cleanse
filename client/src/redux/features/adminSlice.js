@@ -10,6 +10,7 @@ const admninSlice = createSlice ({
   name: "admin",
   initialState, 
   reducers : {
+    
     setAdminDetails : (state , action ) => {
       state.id = action.payload.id;
       state.login = action.payload.login;
