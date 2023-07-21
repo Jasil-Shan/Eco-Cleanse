@@ -8,10 +8,33 @@ let salt = bcrypt.genSaltSync(10);
 // const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, procces.env.JWT_SECRET_KEY, { expiresIn: maxAge });
+    return jwt.sign({ id }, procces.env.USER_SECRET_KEY, { expiresIn: maxAge });
   };
 
-
+  export async function userAuth(req, res) {
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.USER_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const user = UserModel.findById({_id:decoded.id})
+                    if(user){
+                        res.json({status:true , message:"Authorised"})
+                    }else{
+                        res.json({status:false, message:"User not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"User not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export async function generateOTP(req, res) {
     try {
