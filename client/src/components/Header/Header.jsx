@@ -1,8 +1,9 @@
 import { Navigate, useNavigate } from "react-router-dom";
 
 
+
 const Header = () => {
-  const navigate = useNavigate()
+
   return (
 
     <header className=" shadow-md z-10 text-gray-600 body-font">

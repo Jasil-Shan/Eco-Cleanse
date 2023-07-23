@@ -4,19 +4,20 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { userLogin } from '../../services/userApi';
 import { useFormik } from 'formik';
-import { AiFillEye,AiFillEyeInvisible } from "react-icons/ai";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux"
+import { setUserDetails } from '../../redux/features/userSlice';
 
 
 
 const UserLogin = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
 
-   
+    const dispatch = useDispatch()
 
     const formik = useFormik({
         initialValues: {
@@ -27,24 +28,20 @@ const UserLogin = () => {
             try {
                 console.log(values);
                 const { data } = await userLogin(values)
-                console.log(data);
-                
                 if (data.login) {
 
-                    localStorage.setItem('JwtToken', data.token);
+                    localStorage.setItem('UserJwtkey', data.token);
 
-                    // dispatch(
-                    //   setUserDetails({
-                    //     name: data.user.firstname,
-                    //     id: data.user._id,
-                    //     email: data.user.email, 
-                    //     image : data.user.picture,
-                    //     token : data.token
-
-                    //   })
-                    // );
+                    dispatch(
+                        setUserDetails({
+                            name: data.user.name,
+                            id: data.user._id,
+                            email: data.user.email,
+                            mobile: data.user.mobile,
+                        })
+                    );
                     navigate("/")
-                }else{
+                } else {
                     toast.error(data.message, {
                         position: "top-center"
                     })
@@ -56,7 +53,7 @@ const UserLogin = () => {
         },
     });
 
-    
+
 
     return (
 
@@ -71,7 +68,7 @@ const UserLogin = () => {
                         <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
                         <div className="relative">
                             <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
-                            <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4"/> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4"/> } </button>
+                            <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" /> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" />} </button>
                         </div>
                         <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
                     </form>
