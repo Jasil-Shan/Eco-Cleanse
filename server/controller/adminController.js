@@ -22,6 +22,7 @@ export async function adminAuth(req, res) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
                     const admin = adminModel.findById({_id:decoded.id})
+                    
                     if(admin){
                         res.json({status:true , message:"Authorised"})
                     }else{

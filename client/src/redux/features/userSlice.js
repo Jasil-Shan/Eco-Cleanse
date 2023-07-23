@@ -5,8 +5,7 @@ const initialState = {
     id: "",
     name: "",
     email: "",
-    phone: "",
-    token: "",
+    mobile: "",
 }
 
 
@@ -18,7 +17,7 @@ const userSlice = createSlice({
             state.id = action.payload.id;
             state.name = action.payload.name
             state.email = action.payload.email
-            state.phone = action.payload.phone
+            state.mobile = action.payload.mobile
         },
         setUserSignout: (state, action) => {
             state.id = null;
