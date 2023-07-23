@@ -1,8 +1,8 @@
 
 
 .swiper {
-  width: 250px;
-  height: 420px;
+  width: 350px;
+  height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,23 +15,26 @@
   border-radius: 18px;
   font-size: 22px;
   font-weight: bold;
-  color: #fff;
+  color: #c71b1b;
 }
 
 .swiper-slide:nth-child(1n) {
-  background-color: rgb(255, 255, 255);
+  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690108810/Eco%20cleanse/ewaste_csr2pi.png');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .swiper-slide:nth-child(2n) {
-    background-color: rgb(255, 255, 255);
+  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109157/Eco%20cleanse/Untitled_4_b3wjya.png');
+  background-size: cover;
 }
 
 .swiper-slide:nth-child(3n) {
-    background-color: rgb(255, 255, 255);
+  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109166/Eco%20cleanse/Untitled_2_sjwkk1.png');
 }
 
 .swiper-slide:nth-child(4n) {
-    background-color: rgb(255, 255, 255);
+  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109385/Eco%20cleanse/Untitled_5_c7odz0.png');
 }
 
 
