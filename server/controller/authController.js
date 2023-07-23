@@ -8,7 +8,7 @@ let salt = bcrypt.genSaltSync(10);
 // const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, procces.env.USER_SECRET_KEY, { expiresIn: maxAge });
+    return jwt.sign({ id }, process.env.USER_SECRET_KEY, { expiresIn: maxAge });
   };
 
   export async function userAuth(req, res) {
@@ -20,9 +20,11 @@ const createToken = (id) => {
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
-                    const user = UserModel.findById({_id:decoded.id})
+                    const user = await UserModel.findById({_id:decoded.id})
+                    console.log(user)
+
                     if(user){
-                        res.json({status:true , message:"Authorised"})
+                        res.json({status:true ,user,  message:"Authorised"})
                     }else{
                         res.json({status:false, message:"User not found"})
                     }
@@ -31,6 +33,34 @@ const createToken = (id) => {
         }else{
             res.json({status:false , message:"User not exists"})
         }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function login(req, res) {
+    try {
+        console.log("grtlogin");
+        const { email, password } = req.body
+        const user = await UserModel.findOne({ email })
+        console.log(user);
+        if (!user) {
+            res.json({ error: true, message: 'User not registered' })
+        }
+        if(user.blocked) {
+            return res.json({ login : false , message :"Sorry You are banned"})
+          }
+        const userValid = bcrypt.compareSync(password, user.password);
+
+        if (!userValid) {
+            return res.json({ err: true, message: "wrong Password" })
+        } else {
+
+            const token = createToken(user._id);
+
+            res.status(200).json({ user, token, login: true });
+        }
+
     } catch (error) {
         console.log(error);
     }
@@ -100,37 +130,5 @@ export async function signUp(req, res) {
 }
 
 
-export async function login(req, res) {
-    try {
-        console.log("grtlogin");
-        const { email, password } = req.body
-        const user = await UserModel.findOne({ email })
-        console.log(user);
-        if (!user) {
-            res.json({ error: true, message: 'User not registered' })
-        }
-        if(user.blocked) {
-            return res.json({ login : false , message :"Sorry You are banned"})
-          }
-        const userValid = bcrypt.compareSync(password, user.password);
 
-        if (!userValid) {
-            return res.json({ err: true, message: "wrong Password" })
-        } else {
-
-            const token = createToken(user._id);
-            // return res.cookie("token", token, {
-            //     httpOnly: true,3
-            //     secure: true,
-            //     maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-            //     sameSite: "none",
-            
-            // ).json({ err: false, user: user._id, token })
-            res.status(200).json({ user, token, login: true });
-        }
-
-    } catch (error) {
-        console.log(error);
-    }
-}
 
