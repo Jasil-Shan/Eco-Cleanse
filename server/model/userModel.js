@@ -1,5 +1,27 @@
 import mongoose from "mongoose"
 
+const garbageSchema = new mongoose.Schema(
+    {
+      eWaste: {
+        type: String,
+        required: true,
+      },
+      foodWaste: {
+        type: String,
+        required: true,
+      },
+      plasticWaste: {
+        type: String,
+        required: true,
+      },
+      others: {
+        type: String,
+        required: true,
+      },
+    },
+    { timestamps: true }
+  );
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -31,7 +53,9 @@ const UserSchema = new mongoose.Schema({
     role:{
         type:String,
         default: 'user'
-    }
+    },
+
+    garbageDetails : [garbageSchema]
 })
 
 const UserModel = mongoose.model("Users", UserSchema)
