@@ -22,7 +22,6 @@ const createToken = (id) => {
                 } else {
                     const user = await UserModel.findById({_id:decoded.id})
                     console.log(user)
-
                     if(user){
                         res.json({status:true ,user,  message:"Authorised"})
                     }else{
