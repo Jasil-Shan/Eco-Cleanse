@@ -8,10 +8,8 @@ const AdminDash = () => {
     return (
         <>
             <Sidebar />
-            <Header />
-            
+            <Header />           
         </>
-
     )
 
 }
