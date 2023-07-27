@@ -102,7 +102,7 @@ const FormModal = (props) => {
                     aria-hidden="true"
                     className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
                 >
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative bg-white rounded-lg shadow">
                         <button
                             type="button"
                             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -127,7 +127,7 @@ const FormModal = (props) => {
                             <span className="sr-only">Close modal</span>
                         </button>
                         <div className="px-8 py-6 text-center lg:px-8">
-                            <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                            <h3 className="mb-4 text-xl font-medium text-gray-900">
                                 New Worker
                             </h3>
                             <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
@@ -136,7 +136,7 @@ const FormModal = (props) => {
                                         type="text"
                                         name="name"
                                         id="name"
-                                        className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className=" border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                         placeholder="Full Name"
                                         onChange={formik.handleChange}
                                         required
@@ -151,7 +151,7 @@ const FormModal = (props) => {
                                         type="email"
                                         name="email"
                                         id="email"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                         placeholder="name@example.com"
                                         onChange={formik.handleChange}
                                         required
@@ -165,7 +165,7 @@ const FormModal = (props) => {
                                         type="number"
                                         name="mobile"
                                         id="mobile"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                         placeholder="Mobile Number"
                                         onChange={formik.handleChange}
                                         required
@@ -181,7 +181,7 @@ const FormModal = (props) => {
                                         id="password"
                                         placeholder="Password"
                                         onChange={formik.handleChange}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                         required
                                     />
                                     {formik.touched.password && formik.errors.password ? (
@@ -196,7 +196,7 @@ const FormModal = (props) => {
                                         placeholder="Confirm Password"
                                         onChange={formik.handleChange}
                                         required
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     />
                                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? (
                                         <div className='text-red-500'>{formik.errors.confirmpassword}</div>
