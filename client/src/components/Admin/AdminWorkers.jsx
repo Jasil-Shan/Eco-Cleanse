@@ -5,6 +5,7 @@ import Header from "../Header/Header"
 import { useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
+import { getWorkers } from "../../services/adminApi"
 
 
 
@@ -23,8 +24,7 @@ const AdminWorkers = () => {
         try {
             (
                 async function () {
-                    const { data } = await axios.get('/admin/workers')
-                    console.log(data);
+                    const { data } = await getWorkers()
                     if (data.status) {
                         setWorkers(data.workers)
                     }
