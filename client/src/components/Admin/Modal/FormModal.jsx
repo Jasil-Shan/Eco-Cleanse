@@ -53,7 +53,6 @@ const FormModal = (props) => {
                     const response = await axios.post('/admin/drivers/add', { ...values });
                     data = response.data;
                 }
-                console.log(data);
                 if (data.status && props.role == 'worker') {
                     toast.success(data.message, {
                         position: "top-center"
@@ -136,7 +135,7 @@ const FormModal = (props) => {
                                         type="text"
                                         name="name"
                                         id="name"
-                                        className=" border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className=" border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
                                         placeholder="Full Name"
                                         onChange={formik.handleChange}
                                         required
@@ -151,7 +150,7 @@ const FormModal = (props) => {
                                         type="email"
                                         name="email"
                                         id="email"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
                                         placeholder="name@example.com"
                                         onChange={formik.handleChange}
                                         required
@@ -165,7 +164,7 @@ const FormModal = (props) => {
                                         type="number"
                                         name="mobile"
                                         id="mobile"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
                                         placeholder="Mobile Number"
                                         onChange={formik.handleChange}
                                         required
@@ -181,7 +180,7 @@ const FormModal = (props) => {
                                         id="password"
                                         placeholder="Password"
                                         onChange={formik.handleChange}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
                                         required
                                     />
                                     {formik.touched.password && formik.errors.password ? (
@@ -196,7 +195,7 @@ const FormModal = (props) => {
                                         placeholder="Confirm Password"
                                         onChange={formik.handleChange}
                                         required
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
                                     />
                                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? (
                                         <div className='text-red-500'>{formik.errors.confirmpassword}</div>
