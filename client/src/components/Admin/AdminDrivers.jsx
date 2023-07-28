@@ -24,7 +24,6 @@ const AdminDrivers = () => {
             (
                 async function () {
                     const { data } = await axios.get('/admin/drivers')
-                    console.log(data);
                     if (data.status) {
                         setdrivers(data.drivers)
                     }
