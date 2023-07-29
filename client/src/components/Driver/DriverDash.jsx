@@ -12,7 +12,6 @@ const DriverDash = () => {
   return (
     <>
         <SidebarEmp />
-        <ModalEmp />
     </>
 
   );
