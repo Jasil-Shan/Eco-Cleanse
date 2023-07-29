@@ -5,73 +5,93 @@ import 'swiper/css/effect-cards';
 import './swiper.css';
 import { EffectCards } from 'swiper/modules';
 import { useFormik } from 'formik';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { userBooking } from '../../../services/userApi';
+import Card from '../Card/Card';
+
 
 const BookingForms = () => {
   const swiper = useSwiper();
+  const [cards, setcard] = useState(false)
+  const [formValues, setFormValues] = useState(null); // State to store form values
 
-//   const formik = useFormik({
-//     initialValues: {
-//         email: '',
-//         password: '',
-//     },
-//     onSubmit: async (values) => {
-//         try {
-//             console.log(values);
-//             const { data } = await
-//             if (data.login) {
 
-//                 localStorage.setItem('UserJwtkey', data.token);
-//                 navigate("/")
-//             } else {
-//                 toast.error(data.message, {
-//                     position: "top-center"
-//                 })
-//             }
-//         } catch (error) {
-//             console.log(error);
-//         }
+  const formik = useFormik({
+    initialValues: {
+      eWaste: '',
+      plasticWaste: '',
+      foodWaste: '',
+      others: '',
+    },
 
-//     },
-// });
+    onSubmit: async (values) => {
+      try {
+        setFormValues(values);
+
+        setcard(true)
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+  });
+
 
 
   return (
-    <>
-      <Swiper
-        effect={'cards'}
-        grabCursor={true}
-        modules={[EffectCards]}
-        className="swiper mt-20"
-      >
-        <form className="px-8 space-y-6" >
+    <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
+      {cards ? formValues && <Card formValues={formValues} /> :
+        <Swiper
+          effect={'cards'}
+          grabCursor={true}
+          modules={[EffectCards]}
+          className="swiper mt-20"
+        >
           <SwiperSlide>
-            <input type="number" placeholder="E Waste" className=" w-11/12 input input-ghost  max-w-xs" />
+            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='eWaste' id='eWaste'>
+              <option disabled selected>Pick Garbage Status</option>
+              <option>25%</option>
+              <option>50%</option>
+              <option>75%</option>
+              <option>100%</option>
+            </select>
           </SwiperSlide>
           <SwiperSlide>
-            <input type="number" placeholder="Plastic Waste" className=" w-11/12 input input-ghost  max-w-xs" />
+            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='plasticWaste' id='plasticWaste'>
+              <option disabled selected>Pick Garbage Status</option>
+              <option>25%</option>
+              <option>50%</option>
+              <option>75%</option>
+              <option>100%</option>
+            </select>
           </SwiperSlide>
           <SwiperSlide>
-            <input type="number" placeholder="Food Waste" className="w-11/12 input input-ghost  max-w-xs" />
+            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='foodWaste' id='foodWaste'>
+              <option disabled selected>Pick Garbage Status</option>
+              <option>25%</option>
+              <option>50%</option>
+              <option>75%</option>
+              <option>100%</option>
+            </select>
           </SwiperSlide>
           <SwiperSlide>
             <div className="flex flex-col items-center">
-              <input
-                type="number"
-                placeholder="Other Waste"
-                className="w-11/12 max-w-xs input input-ghost placeholder-gray-800"
-              />
+              <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='others' id='others'>
+                <option disabled selected>Pick Garbage Status</option>
+                <option>25%</option>
+                <option>50%</option>
+                <option>75%</option>
+                <option>100%</option>
+              </select>
               <button type='submit' className="btn glass number-center">Submit</button>
             </div>
 
           </SwiperSlide>
 
-
-        </form>
-      </Swiper>
-      {/* <button onClick={() => swiper.slideNext()}>Slide to the next slide</button> */}
-
-
-    </>
+        </Swiper >
+      }
+    </form>
   );
 }
 
