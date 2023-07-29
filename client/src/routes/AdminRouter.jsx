@@ -6,6 +6,7 @@ import AdminUsersPage from "../pages/Admin/AdminUsersPage";
 import AdminWorkersPage from "../pages/Admin/AdminWorkerPage";
 import AdminDriversPage from "../pages/Admin/AdminDriversPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
+import AdminWorkPage from "../pages/Admin/AdminWorkPage";
 
 
 
@@ -15,6 +16,7 @@ function AdminRouter(){
         <Routes>
             <Route element = {<PrivateRoutes role={'admin'} route={'/admin/login'}/>}>
             <Route path="dashboard" element={<AdminHomePage/>}/>
+            <Route path="work" element={<AdminWorkPage/>}/>
             <Route path="users" element={<AdminUsersPage/>}/>
             <Route path="workers" element={<AdminWorkersPage/>}/>
             <Route path="drivers" element={<AdminDriversPage/>}/>
