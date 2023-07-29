@@ -1,5 +1,6 @@
 import { sendVerificationCode } from "../helper/sendOtp.js";
 import adminModel from "../model/adminModel.js"
+import BookingModel from "../model/bookingModel.js";
 import DriverModel from "../model/driverModel.js";
 import UserModel from "../model/userModel.js";
 import WorkerModel from "../model/workerModel.js";
@@ -126,6 +127,19 @@ export async function unBlock(req, res) {
         res.json({ message: "something went wrong", err: true });
     }
 }
+
+
+export async function viewWorks(req, res) {
+    try {
+        const works = await BookingModel.find({}).populate('user');
+
+        res.json({ status: true, works });
+    } catch (error) {
+        res.json({ message: "Something went wrong", error: true });
+    }
+}
+
+
 
 export async function viewWorkers(req, res) {
     try {
