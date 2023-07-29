@@ -42,7 +42,7 @@ const DriverLogin = () => {
                 } else {
 
                     localStorage.setItem('DriverJwtkey', data.token)
-                    navigate("/driver/dashboard")
+                    navigate("/driver/welcome")
 
                 }
             } catch (error) {
