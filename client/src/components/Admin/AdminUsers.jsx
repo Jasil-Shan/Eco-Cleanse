@@ -144,7 +144,6 @@ const AdminUsers = () => {
                         </div>
                     </div>
                 </div>
-
             </section>
         </>
 
