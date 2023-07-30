@@ -29,11 +29,18 @@ const adminSidebarData = [
         ]
     },
     {
+        title: 'Work',
+        links: [
+            { route: "/admin/work" },
+        ]
+    },
+    {
         title: 'Logout',
         links: [
             { route: "/admin/logout" },
         ]
     },
+
 
 ]
 
