@@ -11,7 +11,7 @@ const [clicked , setClicked] = useState(true)
                     const { latitude, longitude } = position.coords;
                     // Do something with the latitude and longitude values
                     let locations = { latitude, longitude }
-                    const {data}=await driverLocation(locations)
+                    const {data}= await driverLocation(locations)
                     setClicked(false)
 
                 },
