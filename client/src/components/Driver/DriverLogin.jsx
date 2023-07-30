@@ -42,6 +42,7 @@ const DriverLogin = () => {
                 } else {
 
                     localStorage.setItem('DriverJwtkey', data.token)
+                    
                     navigate("/driver/welcome")
 
                 }
