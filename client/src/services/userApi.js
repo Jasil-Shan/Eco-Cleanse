@@ -1,4 +1,4 @@
-import axiosInstance from "../axios/axios.js";
+import axiosInstance from "../axios/axios"
 
 
 export const userLogin = (values) =>{
@@ -7,6 +7,11 @@ export const userLogin = (values) =>{
 
   export const authUser = ()=>{
     return axiosInstance("UserJwtkey").post('/user/auth' )
+
+  }
+
+  export const userBooking = (payment,garbage)=>{
+    return axiosInstance("UserJwtkey").post('/booking', {...payment,garbage} )
 
   }
 
