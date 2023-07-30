@@ -52,7 +52,9 @@ export async function login(req, res) {
         const userValid = bcrypt.compareSync(password, user.password);
 
         if (!userValid) {
+            
             return res.json({ err: true, message: "wrong Password" })
+
         } else {
 
             const token = createToken(user._id);

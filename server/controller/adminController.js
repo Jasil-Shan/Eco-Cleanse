@@ -132,8 +132,8 @@ export async function unBlock(req, res) {
 export async function viewWorks(req, res) {
     try {
         const works = await BookingModel.find({}).populate('user');
-
-        res.json({ status: true, works });
+        console.log(works);
+        res.json({ success: true, works });
     } catch (error) {
         res.json({ message: "Something went wrong", error: true });
     }
