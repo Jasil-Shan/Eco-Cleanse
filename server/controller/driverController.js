@@ -26,17 +26,39 @@ export async function driverLogin(req, res) {
                    {
                        id: driver._id
                    },
-                   'myjwtkey'
+                   'DriverJwtkey'
                )
-               return res.cookie("token", token, {
-                   httpOnly: true,
-                   secure: true,
-                   maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-                   sameSite: "none",
-               }).json({ error: false, driver: driver._id, token })
+               res.json({ error: false, token })
            }
     } catch (error) {
         console.log(error);
     }
 
+}
+
+
+export async function driverAuth(req, res) {
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.DRIVER_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const driver = await DriverModel.findById({_id:decoded.id})
+                    console.log(driver)
+                    if(driver){
+                       return res.json({status:true ,message:"Authorised"})
+                    }else{
+                       return res.json({status:false, message:"Driver not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"Driver not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
