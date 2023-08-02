@@ -24,6 +24,14 @@ const DriverSchema = new mongoose.Schema({
     role:{
         type:String,
         default: 'driver'
+    },
+    location: {
+        type: Object,
+        default:false
+    },
+    status:{
+        type:String,
+        default:'offline'
     }
 })
 

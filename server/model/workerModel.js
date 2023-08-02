@@ -24,6 +24,14 @@ const WorkerSchema = new mongoose.Schema({
     role:{
         type:String,
         default: 'worker'
+    },
+    location: {
+        type: Object,
+        default:false
+    },
+    status:{
+        type:String,
+        default:'offline'
     }
 })
 
