@@ -47,9 +47,8 @@ export async function driverAuth(req, res) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
                     const driver = await DriverModel.findById({_id:decoded.id})
-                    console.log(driver)
                     if(driver){
-                       return res.json({status:true ,message:"Authorised"})
+                       return res.json({status:true ,driver,message:"Authorised"})
                     }else{
                        return res.json({status:false, message:"Driver not found"})
                     }
@@ -60,5 +59,53 @@ export async function driverAuth(req, res) {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+
+
+
+
+export async function UpdateLocation(req,res){
+    try {
+        const {location} = req.body
+        const id = req.driverId
+        const Driver = await DriverModel.findByIdAndUpdate(
+            id,
+            { $set: { location } }).then(()=>{
+                res.json({success:true, message:"Location Update Success"})
+            })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export async function updateStatus(req,res){
+
+    try {
+
+        const {location,status} = req.body
+        const id = req.driverId
+        console.log(req.body);
+        if(status == 'Offline'){
+        const driver = await DriverModel.findByIdAndUpdate(
+            id,
+            { $set: { location,status:'Available' } }).then(()=>{
+                res.json({success:true, message:"Location Update Success"})
+            })
+            console.log(driver,"jjdbsj");
+
+        }else{
+        const driver = await DriverModel.findByIdAndUpdate(
+                id,
+                { $set: { location,status:'Offline' } }).then(()=>{
+                    res.json({success:true, message:"Location Update Success"})
+                })
+                console.log(driver,"jjdbsj");
+        }
+        
+    } catch (error) {
+        console.log(error); 
     }
 }
