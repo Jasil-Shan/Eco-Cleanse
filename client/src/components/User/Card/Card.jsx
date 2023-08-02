@@ -1,8 +1,9 @@
 import cans from "../assets/garbageCan.jpg"
-import { userBooking } from "../../../services/userApi";
+import { userBooking, userOnlinePay, verifyPayment } from "../../../services/userApi";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import Success from "../Success Card/Success";
+import { Navigate } from "react-router-dom";
 
 
 const Card = (props) => {
@@ -15,11 +16,47 @@ const Card = (props) => {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSuccess(true)
     try {
+
+      if(paymentMethod == 'Online'){
+
+        const {data:{order}} = await userOnlinePay()
+        var options = {
+          key: "rzp_test_X2EWEu9JQG1E2R", 
+          amount: "250000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          name: "Eco Cleanse",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          handler: async (response) => {
+            try {
+              await payment(response)
+              console.log(response);
+            } catch (error) {
+              console.error(error);
+            }
+          },
+          prefill: {
+              name: "Gaurav Kumar",
+              email: "gaurav.kumar@example.com",
+              contact: "9000090000"
+          },
+          notes: {
+              address: "Razorpay Corporate Office"
+          },
+          theme: {
+              color: "#3399cc"
+          }
+      };
+      const razor = new window.Razorpay(options)
+          razor.open();
+      }else {
+
       const { data } = await userBooking({ payment: paymentMethod }, garbage);
 
       if (data.success) {
+        setSuccess(true)
         toast.success(data.message, {
           position: "top-center",
         });
@@ -28,6 +65,29 @@ const Card = (props) => {
           position: "top-center",
         });
       }
+    }
+
+    const payment = async (response) => {
+      try {
+        const {data} = await verifyPayment(response,garbage,paymentMethod)
+        if (data.success) {
+          setSuccess(true)
+          toast.success(data.message, {
+            position: "top-center",
+          });
+        } else {
+          toast.error(data.message, {
+            position: "top-center",
+          });
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+
+
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +95,7 @@ const Card = (props) => {
 
   return (
     <>
-    { 
+  { 
     succesful ? <Success /> 
     :
     <div className="min-h- py-6 flex flex-col justify-center sm:py-12 bg-cover">
