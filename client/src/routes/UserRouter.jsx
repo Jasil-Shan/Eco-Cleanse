@@ -7,6 +7,7 @@ import UserHomePage from "../pages/User/UserHomePage";
 import UserProfilePage from "../pages/User/UserProfilePage";
 import UserBookingPage from "../pages/User/UserBookingPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
+import UserOrderSuccessPage from "../pages/User/UserOrderSuccessPage";
 
 
 
@@ -25,6 +26,7 @@ function UserRouter(){
             <Route path="login" element={<UserLoginPage/>}/>
             <Route path="signup" element={<UserSignupPage/>}/>
             <Route path="verifyMail" element={<VerifyEmailPage />} />
+            <Route path="orderSuccess" element={<UserOrderSuccessPage />} />
             
             <Route path="" element={<UserHomePage />} />
         </Routes>
