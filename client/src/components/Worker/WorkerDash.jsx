@@ -29,16 +29,15 @@ const WorkerDash = () => {
   return (
     <>
       <SidebarEmp />
-      
       {
+
       worker && worker.location ?
         <div className="h-screen w-screen flex justify-evenly space-x-12 align-middle items-center mt-0">
-          <Status status = {worker.status} />
-          <ProfileCard profile={worker} />
+          <Status status = {worker.status} role = {worker.role}/>
+          <ProfileCard profile ={worker} />
         </div>
         :
         <ModalEmp role = {'worker'}/>
-
       }
     </>
   );
