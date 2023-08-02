@@ -18,6 +18,7 @@ const userSlice = createSlice({
             state.name = action.payload.name
             state.email = action.payload.email
             state.mobile = action.payload.mobile
+            state.address = action.payload.address
         },
         setUserSignout: (state, action) => {
             state.id = null;
