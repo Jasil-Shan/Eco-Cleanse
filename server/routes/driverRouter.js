@@ -1,13 +1,19 @@
 import express from "express";
-import { driverLogin } from "../controller/driverController.js";
+import { UpdateLocation, driverAuth, driverLogin, updateStatus } from "../controller/driverController.js";
+import { verifyDriver } from "../middlewares/verifyDriver.js";
 
 
 
 
 const router = express.Router()
 
+router.post('/auth',driverAuth)
 
 router.post('/login',driverLogin)
+
+router.post('/UpdateLocation',verifyDriver,UpdateLocation)
+
+router.patch('/statusUpdate',verifyDriver,updateStatus)
 
 
 
