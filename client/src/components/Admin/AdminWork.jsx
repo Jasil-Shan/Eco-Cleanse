@@ -37,11 +37,10 @@ const AdminWork = () => {
                         <div className="rounded-t mb-0 px-4 py-3 border-0">
                             <div className="flex flex-wrap items-center">
                                 <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                                    <h3 className="font-semibold text-base text-blueGray-700">Users</h3>
+                                    <h3 className="font-semibold text-base text-blueGray-700">Requests</h3>
                                 </div>
                             </div>
                         </div>
-
                         <div className="block w-full overflow-x-auto">
                             <table className=" items-center bg-transparent w-full border-collapse">
                                 <thead>
@@ -98,10 +97,11 @@ const AdminWork = () => {
                                                     {
                                                         item.user.assigned ?
                                                             <button onClick={() => unBlockUser(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
+                                                                Assigned</button>
+                                                           :
+                                                           <button onClick={() => unBlockUser(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
                                                                 Assign</button>
-                                                            :
-                                                            <button onClick={() => blockUser(item)} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2">
-                                                                Block</button>
+
                                                     }
                                                 </td>
                                             </tr>
