@@ -3,6 +3,7 @@ import DriverLoginPage from "../pages/Driver/DriverLoginPage"
 import { Route, Routes } from "react-router-dom";
 import DriverWelcomePage from "../pages/Driver/DriverWelcomePage";
 import PrivateRoutes from "../utils/PrivateRoutes";
+import DriverProfilePage from "../pages/Driver/DriverProfilePage";
 
 
 
@@ -16,6 +17,7 @@ function DriverRouter() {
 
                 <Route path="dashboard" element={<DriverDashPage />} />
                 <Route path="welcome" element={<DriverWelcomePage />} />
+                <Route path="profile" element={<DriverProfilePage />} />
 
             </Route>
 
