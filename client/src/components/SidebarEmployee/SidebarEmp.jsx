@@ -12,7 +12,7 @@ const SidebarEmp = () => {
 
   return (
     <div>
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:border-base-100 shadow-lg">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
@@ -43,46 +43,13 @@ const SidebarEmp = () => {
                 href="https://flowbite.com"
                 className="flex ml-2 md:mr-24"
               >
-               
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+            
+                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
                   Eco Cleanse
                 </span>
               </a>
             </div>
-            <div className="flex items-center">
-              <div className="flex items-center ml-3">
-                <div>
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
-                  >
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
-                    />
-                  </button>
-                </div>
-                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
-                  <div className="px-4 py-3" role="none">
-                    <p className="text-sm text-gray-900 dark:text-white" role="none">
-                      Neil Sims
-                    </p>
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                      neil.sims@flowbite.com
-                    </p>
-                  </div>
-                  <ul className="py-1" role="none">
-                    <li>
-                      <a  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+           
           </div>
         </div>
       </nav>
@@ -90,18 +57,19 @@ const SidebarEmp = () => {
       <aside
 
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform ${
+        className={`fixed top-0 left-0 z-40 w-20 h-screen flex justify-center items-center pt-20 transition-transform shadow-2xl ${
           isSidebarOpen ? "" : "-translate-x-full"
-        } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
+        } bg-white  sm:translate-x-0 `}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-        <ul className="space-y-2 font-medium text-base-200">
+       
+        <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
+        <ul className="space-y-2 font-medium text-blue-950">  
         {
           driverSidebar.map((item,index)=>{
             return(
           <li className="flex justify-center items-center mt-8" key={index}>
-           <p className="mt-8"> {item.icon}</p>
+           <Link to={item.link}><p className="mt-8"> {item.icon}</p></Link> 
           </li>
            ) }) }
         </ul>
@@ -111,4 +79,4 @@ const SidebarEmp = () => {
   );
 };
 
-export default SidebarEmp;
+export default SidebarEmp
