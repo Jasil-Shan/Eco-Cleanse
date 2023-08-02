@@ -20,13 +20,14 @@ const UserLogin = () => {
     const dispatch = useDispatch()
 
     const formik = useFormik({
+
         initialValues: {
             email: '',
             password: '',
         },
+
         onSubmit: async (values) => {
             try {
-                console.log(values);
                 const { data } = await userLogin(values)
                 if (data.login) {
 
@@ -38,6 +39,7 @@ const UserLogin = () => {
                             id: data.user._id,
                             email: data.user.email,
                             mobile: data.user.mobile,
+                            address: data.user.address,
                         })
                     );
                     navigate("/")
