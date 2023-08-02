@@ -1,4 +1,6 @@
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome , } from "react-icons/ai";
+import { MdWork , } from "react-icons/md";
+import { FaUserAlt , } from "react-icons/fa";
 
 
 
@@ -6,32 +8,33 @@ import { AiFillHome } from "react-icons/ai";
 export const driverSidebar = [
     {
         icon: <AiFillHome size={22}/>,
-        link: "/admin/dashboard"
+        link: ""
      },
      {
-        icon: <AiFillHome size={22}/>,
-        link: "/admin/dashboard"
+        icon: <MdWork size={22}/>,
+        link: ""
      },
      {
-        icon: <AiFillHome size={22}/>,
-        link: "/admin/dashboard"
+        icon: <FaUserAlt size={22}/>,
+        link: "/driver/profile"
      },
         
 ]
 
 export const workerSidebar = [
-    {
-        icon: 'Dashboard',
-        link: "/admin/dashboard"
-     },
-     {
-        icon: 'Dashboard',
-        link: "/admin/dashboard"
-     },
-     {
-        icon: 'Dashboard',
-        link: "/admin/dashboard"
-     },
+   
+   {
+      icon: <AiFillHome size={22}/>,
+      link: ""
+   },
+   {
+      icon: <MdWork size={22}/>,
+      link: ""
+   },
+   {
+      icon: <FaUserAlt size={22}/>,
+      link: ""
+   },
         
 ]
 
