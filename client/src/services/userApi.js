@@ -10,6 +10,15 @@ export const userLogin = (values) =>{
 
   }
 
+  export const userOnlinePay = ()=>{
+    return axiosInstance("UserJwtkey").post('/payment' )
+
+  }
+  export const verifyPayment = (response,garbage,payment)=>{
+    return axiosInstance("UserJwtkey").post('/paymentVerify', {response, garbage,payment})
+
+  }
+
   export const userBooking = (payment,garbage)=>{
     return axiosInstance("UserJwtkey").post('/booking', {...payment,garbage} )
 
