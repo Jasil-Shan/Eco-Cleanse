@@ -78,7 +78,7 @@ const Navbar = () => {
                     <span className="badge">New</span>
                   </p></Link>
                 </li>
-                <li><a>History</a></li>
+                <li><Link to={'/history'}><a>History</a></Link></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('UserJwtkey');
