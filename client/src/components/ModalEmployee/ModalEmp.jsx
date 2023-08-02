@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import welcome from '../Driver/assets/arrived.png'
-import { driverLocation } from "../../services/driverApi";
+import { getLocation } from "../../services/driverApi";
 
-const ModalEmp = () => {
+const ModalEmp = (props) => {
+    let role = props.role
 const [clicked , setClicked] = useState(true)
     const handleClick = () => {
         if (navigator.geolocation) {
@@ -11,7 +12,7 @@ const [clicked , setClicked] = useState(true)
                     const { latitude, longitude } = position.coords;
                     // Do something with the latitude and longitude values
                     let locations = { latitude, longitude }
-                    const {data}= await driverLocation(locations)
+                    const {data}= await getLocation(locations,role)
                     setClicked(false)
 
                 },
