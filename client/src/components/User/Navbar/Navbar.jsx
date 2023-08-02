@@ -7,16 +7,17 @@ import { useEffect, useState } from "react";
 
 
 const Navbar = () => {
+
   const navigate = useNavigate()
   const users = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  const [isLoggedIn, setIsLoggedIn] = useState(users.id ? true : false);
+  
+  useEffect( () => {
 
-
-
-  useEffect(() => {
     if (!users.id) {
+
       authUser().then((response) => {
+
         if (response.data.status) {
           dispatch(
             setUserDetails({
@@ -24,6 +25,7 @@ const Navbar = () => {
               id: response.data.user._id,
               email: response.data.user.email,
               mobile: response.data.user.mobile,
+              address: response.data.user.address,
             })
           );
         }
@@ -33,14 +35,14 @@ const Navbar = () => {
   return (
     
 
-    <div className="navbar text-white z-50 bg-transparent mb-1 shadow-lg bg-base-100">
+    <div className="navbar glass text-green-950 z-50 bg-transparent mb-1 shadow-lg bg-base-100">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case font-semibold text-xl">Eco cleanse</a>
       </div>
       <div className="flex-none ">
         <ul className="menu menu-horizontal mr-6 font-semibold px-1">
         <Link to={'/'}><li><a>Home</a></li></Link>
-          <Link to={'/booking'}><li>Booking</li></Link>
+        <Link to={'/booking'}><li><a>Booking</a></li></Link>
           <li><a>Blog</a></li>
         </ul>
         {/* <div className="dropdown dropdown-end">
@@ -61,7 +63,7 @@ const Navbar = () => {
           </div>
         </div> */}
         {
-          isLoggedIn ?
+          users.id && users.id ?
             <div className="dropdown dropdown-end mr-4">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
@@ -70,16 +72,16 @@ const Navbar = () => {
               </label>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
-                  <a className="justify-between">
+                  <Link to={'/profile'}>
+                  <p className="justify-between">
                     Profile
                     <span className="badge">New</span>
-                  </a>
+                  </p></Link>
                 </li>
                 <li><a>Settings</a></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('UserJwtkey');
-                    setIsLoggedIn(false)
                     navigate('/')
                   }}><a>Logout</a></li>
               </ul>
