@@ -1,9 +1,11 @@
 import React from "react";
+import Navbar from "../Navbar/Navbar";
 
 const UserProfile = () => {
   return (
-    <main className="profile-page">
-      <section className="relative block h-500-px">
+    <>
+    <main className="profile-page flex justify-center items-center mt-96">
+      <section className="flex  ">
         <div
           className="absolute top-0 w-full h-full bg-center bg-cover"
           style={{
@@ -108,6 +110,7 @@ const UserProfile = () => {
         </footer>
       </section>
     </main>
+    </>
   );
 };
 
