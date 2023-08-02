@@ -27,19 +27,83 @@ export async function workerLogin(req, res) {
                    {
                        id: worker._id
                    },
-                   'myjwtkey'
+                   'WorkerJwtkey'
                )
    
-               return res.cookie("token", token, {
-                   httpOnly: true,
-                   secure: true,
-                   maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
-                   sameSite: "none",
-               }).json({ error: false, worker: worker._id, token })
+               res.json({ error: false, token })
            }
     } catch (error) {
 
         console.log(error);
     }
 
+}
+
+
+export async function workerAuth(req, res) {
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.WORKER_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const worker = await WorkerModel.findById({_id:decoded.id})
+                    console.log(worker)
+                    if(worker){
+                        res.json({status:true , worker ,  message:"Authorised"})
+                    }else{
+                        res.json({status:false, message:"User not found"})
+                    }
+                }
+            })
+        }else{
+            res.json({status:false , message:"User not exists"})
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function UpdateLocation(req,res){
+    try {
+
+        const {location} = req.body
+        const id = req.workerId
+        const worker = await WorkerModel.findByIdAndUpdate(
+            id,
+            { $set: { location } }).then(()=>{
+                res.json({success:true, message:"Location Update Success"})
+            })
+
+    } catch (error) {
+
+        console.log(error);
+    }
+}
+
+export async function updateStatus(req,res){
+
+    try {
+
+        const {location,status} = req.body
+        const id = req.workerId
+        if(status == 'Offline'){
+        const worker = await WorkerModel.findByIdAndUpdate(
+            id,
+            { $set: { location,status:'Available' } }).then(()=>{
+                res.json({success:true, message:"Location Update Success"})
+            })
+        }else{
+         const worker = await WorkerModel.findByIdAndUpdate(
+                id,
+                { $set: { location,status:'Offline' } }).then(()=>{
+                    res.json({success:true, message:"Location Update Success"})
+                })
+        }
+              
+    } catch (error) {
+        console.log(); 
+    }
 }

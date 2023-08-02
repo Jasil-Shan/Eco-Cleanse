@@ -1,20 +1,20 @@
+import BookingModel from "../model/bookingModel.js";
 import UserModel from "../model/userModel.js"
 
 
-
-
 export async function userBooking(req, res) {
-    try {
+  try {
+    const { garbage, payment } = req.body;
+    const id = req.userId;
 
-        const {eWaste,foodWaste,plasticWaste,others} = req.body
-        console.log(req.body,"shaGSHG");
-        const id = req.userId
-        const user = await UserModel.findById(id)
-        console.log("sdghdsg",user,'shgdhgsd');
-        user.garbageDetails.push({eWaste,foodWaste,plasticWaste,others})
-        
-    } catch (error) {
-        console.log(error);
-    }
-
+    await BookingModel.create({
+      garbage: garbage,
+      paymentMethod: payment,
+      user: id
+    })
+    res.json({ success: true, message: "Added successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Failed" });
+  }
 }
