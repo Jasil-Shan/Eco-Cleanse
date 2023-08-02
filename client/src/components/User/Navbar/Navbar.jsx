@@ -11,7 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const users = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  
+
   useEffect( () => {
 
     if (!users.id) {
@@ -78,7 +78,7 @@ const Navbar = () => {
                     <span className="badge">New</span>
                   </p></Link>
                 </li>
-                <li><a>Settings</a></li>
+                <li><a>History</a></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('UserJwtkey');
