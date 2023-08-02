@@ -8,6 +8,7 @@ import UserProfilePage from "../pages/User/UserProfilePage";
 import UserBookingPage from "../pages/User/UserBookingPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
 import UserOrderSuccessPage from "../pages/User/UserOrderSuccessPage";
+import UserHistoryPage from "../pages/User/UserHistoryPage";
 
 
 
@@ -20,13 +21,14 @@ function UserRouter(){
                 
             <Route path="profile" element={<UserProfilePage />} />
             <Route path="booking" element={<UserBookingPage />} />
+            <Route path="orderSuccess" element={<UserOrderSuccessPage />} />
+            <Route path="history" element={<UserHistoryPage />} />
 
             </Route>
 
             <Route path="login" element={<UserLoginPage/>}/>
             <Route path="signup" element={<UserSignupPage/>}/>
             <Route path="verifyMail" element={<VerifyEmailPage />} />
-            <Route path="orderSuccess" element={<UserOrderSuccessPage />} />
             
             <Route path="" element={<UserHomePage />} />
         </Routes>
