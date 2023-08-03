@@ -17,6 +17,14 @@ const DriverSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dob: {
+        type: Date,
+        required: true
+    },
+    image: {
+        type: Object,
+        required:true
+    },
     blocked: {
         type: Boolean,
         default:false
