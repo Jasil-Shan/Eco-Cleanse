@@ -4,6 +4,7 @@ import ModalEmp from "../ModalEmployee/ModalEmp";
 import ProfileCard from "../Employees/ProfileCard/ProfileCard";
 import { authWorker } from "../../services/workerApi";
 import Status from "../Employees/Status/Status";
+import Dashboard from "../Employees/Dashboard/Dashboard";
 
 const WorkerDash = () => {
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +30,7 @@ const WorkerDash = () => {
   return (
     <>
       <SidebarEmp />
-      {
+      {/* {
 
       worker && worker.location ?
         <div className="h-screen w-screen flex justify-evenly space-x-12 align-middle items-center mt-0">
@@ -38,7 +39,12 @@ const WorkerDash = () => {
         </div>
         :
         <ModalEmp role = {'worker'}/>
-      }
+      } */}
+
+{
+        worker &&
+      <Dashboard profile = {worker}/>
+}
     </>
   );
 };
