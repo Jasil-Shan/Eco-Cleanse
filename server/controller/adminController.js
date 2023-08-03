@@ -1,3 +1,4 @@
+import cloudinary from "../config/cloudinary.js";
 import { sendVerificationCode } from "../helper/sendOtp.js";
 import adminModel from "../model/adminModel.js"
 import BookingModel from "../model/bookingModel.js";
@@ -22,17 +23,17 @@ export async function adminAuth(req, res) {
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
-                    const admin = adminModel.findById({_id:decoded.id})
-                    
-                    if(admin){
-                        res.json({status:true , message:"Authorised"})
-                    }else{
-                        res.json({status:false, message:"Admin not found"})
+                    const admin = adminModel.findById({ _id: decoded.id })
+
+                    if (admin) {
+                        res.json({ status: true, message: "Authorised" })
+                    } else {
+                        res.json({ status: false, message: "Admin not found" })
                     }
                 }
             })
-        }else{
-            res.json({status:false , message:"Admin not exists"})
+        } else {
+            res.json({ status: false, message: "Admin not exists" })
         }
     } catch (error) {
         console.log(error);
@@ -50,7 +51,7 @@ export async function adminLogin(req, res) {
         if (!admin) {
             return res.json({ error: true, message: "You have no Admin Access" })
         }
-        if(admin.password !== password){
+        if (admin.password !== password) {
             return res.json({ error: true, message: "Please check password" })
 
         } else {
@@ -161,8 +162,8 @@ export async function viewDrivers(req, res) {
 
 export async function addWorker(req, res) {
     try {
-
-        const { name, email, password, mobile } = req.body
+        console.log(req.body);
+        const { name, email, dob, password, mobile, image } = req.body
         const worker = await WorkerModel.findOne({ email })
 
         if (worker) {
@@ -172,7 +173,11 @@ export async function addWorker(req, res) {
                 message: " Worker already registered "
             })
         } else {
-            console.log(req.body);
+
+            const result = await cloudinary.uploader.upload(...image, {
+                folder: "Shaj Paradise",
+            });
+            console.log(result);
             let hashedPassword = bcrypt.hashSync(password, salt)
 
             const worker = await WorkerModel.create({
@@ -180,6 +185,8 @@ export async function addWorker(req, res) {
                 email,
                 mobile,
                 password: hashedPassword,
+                dob,
+                image:result.secure_url
             }).then(() => {
                 return res.json({ status: true, message: "Worker added successfully" });
             }).catch(() => {
