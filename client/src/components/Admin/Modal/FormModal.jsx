@@ -6,12 +6,51 @@ import { toast } from "react-toastify";
 import * as Yup from 'yup';
 
 const FormModal = (props) => {
+
     const [isOpen, setIsOpen] = useState(false);
+    const [image, setSelectedImages] = useState([]);
+
     const navigate = useNavigate()
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
     };
+
+  
+    const isValidFileUploaded = (file) => {
+      const validExtensions = ['jpg', 'png', 'jpeg', 'gif','webp'];
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      return validExtensions.includes(fileExtension);
+    };
+  
+    const convertToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    };
+
+    const handleFileChange = (e) => {
+
+        const files = e.target.files;
+        const imageList = Array.from(files);
+        const isValidImages = imageList.every((file) => isValidFileUploaded(file));
+    
+        if (isValidImages) {
+          Promise.all(imageList.map(convertToBase64))
+            .then((base64Images) => setSelectedImages(base64Images))
+            .catch((error) => console.log('Error converting images to base64:', error));
+        } else {
+          console.log('Invalid File type');
+        }
+      };
+      
 
     const validate = Yup.object({
         name: Yup.string()
@@ -37,6 +76,7 @@ const FormModal = (props) => {
             name: '',
             email: '',
             mobile: '',
+            dob: '',
             password: '',
             confirmpassword: ''
         },
@@ -47,10 +87,10 @@ const FormModal = (props) => {
             try {
                 let data;
                 if (props.role === 'worker') {
-                    const response = await axios.post('/admin/workers/add', { ...values });
+                    const response = await axios.post('/admin/workers/add', { ...values , image });
                     data = response.data;
                 } else {
-                    const response = await axios.post('/admin/drivers/add', { ...values });
+                    const response = await axios.post('/admin/drivers/add', { ...values, image });
                     data = response.data;
                 }
                 if (data.status && props.role == 'worker') {
@@ -175,6 +215,20 @@ const FormModal = (props) => {
                                 </div>
                                 <div>
                                     <input
+                                        type="date"
+                                        name="dob"
+                                        id="dob"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
+                                        placeholder="Mobile Number"
+                                        onChange={formik.handleChange}
+                                        required
+                                    />
+                                    {formik.touched.mobile && formik.errors.mobile ? (
+                                        <div className="text-red-500"> {formik.errors.mobile} </div>
+                                    ) : null}
+                                </div>
+                                <div>
+                                    <input
                                         type="password"
                                         name="password"
                                         id="password"
@@ -199,6 +253,20 @@ const FormModal = (props) => {
                                     />
                                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? (
                                         <div className='text-red-500'>{formik.errors.confirmpassword}</div>
+                                    ) : null}
+                                </div>
+                                <div>
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        id="image"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
+                                        placeholder="Mobile Number"
+                                        onChange={handleFileChange}
+                                        required
+                                    />
+                                    {formik.touched.mobile && formik.errors.mobile ? (
+                                        <div className="text-red-500"> {formik.errors.mobile} </div>
                                     ) : null}
                                 </div>
 
