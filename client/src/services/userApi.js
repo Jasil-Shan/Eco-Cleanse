@@ -20,7 +20,14 @@ export const userLogin = (values) =>{
   }
 
   export const userBooking = (payment,garbage)=>{
+
     return axiosInstance("UserJwtkey").post('/booking', {...payment,garbage} )
+
+  }
+
+  export const getBookings = ()=>{
+
+    return axiosInstance("UserJwtkey").get('/getBooking')
 
   }
 
