@@ -34,8 +34,7 @@ const bookingSchema = new mongoose.Schema(
         others: {
           type: String,
           required: true,
-        }},
-
+      }},
       paymentMethod: {
         type: String,
         required:true
@@ -43,6 +42,10 @@ const bookingSchema = new mongoose.Schema(
       assigned:{
         type:Boolean,
         default:false
+      },
+      status:{
+        type:String,
+        default:"Pending"
       }
     },
     { timestamps: true }
