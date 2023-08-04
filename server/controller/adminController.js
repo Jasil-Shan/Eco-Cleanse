@@ -162,7 +162,6 @@ export async function viewDrivers(req, res) {
 
 export async function addWorker(req, res) {
     try {
-        console.log(req.body);
         const { name, email, dob, password, mobile, image } = req.body
         const worker = await WorkerModel.findOne({ email })
 
@@ -200,32 +199,38 @@ export async function addWorker(req, res) {
 
 
 export async function addDriver(req, res) {
-    try {
+    try{
 
-        const { name, email, password, mobile } = req.body
-        const driver = await DriverModel.findOne({ email })
+    const { name, email, dob, password, mobile, image } = req.body
+    const Driver = await DriverModel.findOne({ email })
 
-        if (driver) {
+    if (Driver) {
 
-            return res.json({
-                error: true,
-                message: " Driver already registered "
-            })
-        } else {
+        return res.json({
+            error: true,
+            message: " Driver already registered "
+        })
+    } else {
 
-            let hashedPassword = bcrypt.hashSync(password, salt)
+        const result = await cloudinary.uploader.upload(...image, {
+            folder: "Shaj Paradise",
+        });
+        console.log(result);
+        let hashedPassword = bcrypt.hashSync(password, salt)
 
-            const driver = await DriverModel.create({
-                name,
-                email,
-                mobile,
-                password: hashedPassword,
-            }).then(() => {
-                return res.json({ status: true, message: "Driver added successfully" });
-            }).catch(() => {
-                return res.json({ status: false, message: "Driver adding failed" });
-            })
-        }
+        const Driver = await DriverModel.create({
+            name,
+            email,
+            mobile,
+            password: hashedPassword,
+            dob,
+            image:result.secure_url
+        }).then(() => {
+            return res.json({ status: true, message: "Driver added successfully" });
+        }).catch(() => {
+            return res.json({ status: false, message: "Driver adding failed" });
+        })
+    }
     } catch (error) {
         console.log(error);
     }
