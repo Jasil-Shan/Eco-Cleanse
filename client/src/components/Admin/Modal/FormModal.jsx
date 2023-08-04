@@ -16,24 +16,24 @@ const FormModal = (props) => {
         setIsOpen(!isOpen);
     };
 
-  
+
     const isValidFileUploaded = (file) => {
-      const validExtensions = ['jpg', 'png', 'jpeg', 'gif','webp'];
-      const fileExtension = file.name.split('.').pop().toLowerCase();
-      return validExtensions.includes(fileExtension);
+        const validExtensions = ['jpg', 'png', 'jpeg', 'gif', 'webp'];
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        return validExtensions.includes(fileExtension);
     };
-  
+
     const convertToBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = (error) => {
-          reject(error);
-        };
-      });
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                resolve(reader.result);
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+        });
     };
 
     const handleFileChange = (e) => {
@@ -41,16 +41,16 @@ const FormModal = (props) => {
         const files = e.target.files;
         const imageList = Array.from(files);
         const isValidImages = imageList.every((file) => isValidFileUploaded(file));
-    
+
         if (isValidImages) {
-          Promise.all(imageList.map(convertToBase64))
-            .then((base64Images) => setSelectedImages(base64Images))
-            .catch((error) => console.log('Error converting images to base64:', error));
+            Promise.all(imageList.map(convertToBase64))
+                .then((base64Images) => setSelectedImages(base64Images))
+                .catch((error) => console.log('Error converting images to base64:', error));
         } else {
-          console.log('Invalid File type');
+            console.log('Invalid File type');
         }
-      };
-      
+    };
+
 
     const validate = Yup.object({
         name: Yup.string()
@@ -87,7 +87,7 @@ const FormModal = (props) => {
             try {
                 let data;
                 if (props.role === 'worker') {
-                    const response = await axios.post('/admin/workers/add', { ...values , image });
+                    const response = await axios.post('/admin/workers/add', { ...values, image });
                     data = response.data;
                 } else {
                     const response = await axios.post('/admin/drivers/add', { ...values, image });
@@ -97,13 +97,13 @@ const FormModal = (props) => {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    axios.post('/admin/sendMail',{...values})
+                    axios.post('/admin/sendMail', { ...values })
                     navigate("/admin/drivers")
                 } else if (data.status && props.role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    axios.post('/admin/sendMail',{...values})
+                    axios.post('/admin/sendMail', { ...values })
                     toggleModal()
                     navigate("/admin/drivers")
                 } else {
@@ -227,6 +227,10 @@ const FormModal = (props) => {
                                         <div className="text-red-500"> {formik.errors.mobile} </div>
                                     ) : null}
                                 </div>
+                                <div className="border-black ">
+                                    <input type="radio" name="radio-5" className="radio radio-xs " /> Male
+                                    <input type="radio" name="radio-5" className="radio radio-xs  " /> Female
+                                </div>
                                 <div>
                                     <input
                                         type="password"
@@ -269,7 +273,8 @@ const FormModal = (props) => {
                                         <div className="text-red-500"> {formik.errors.mobile} </div>
                                     ) : null}
                                 </div>
-
+                                
+                                
                                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                     <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
                                         Add</button>
