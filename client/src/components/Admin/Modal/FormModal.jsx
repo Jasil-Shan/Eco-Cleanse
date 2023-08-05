@@ -9,6 +9,33 @@ const FormModal = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [image, setSelectedImages] = useState([]);
+    const [location, setLocation] = useState([]);
+    const [suggestions, setSuggest] = useState([]);
+    const [value, setValue] = useState("");
+    const [place, setPlace] = useState("");
+
+    const handleRetrieve = (itemLocation, place) => {
+        setLocation(itemLocation);
+        setPlace(place);
+
+    };
+
+    const handleChange = async (e) => {
+        setValue(e.target.value);
+        console.log(value);
+
+        const response = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+                value
+            )}.json?access_token=pk.eyJ1Ijoic2hhanBhcmFkaXNlLTEyMyIsImEiOiJjbGt3djVieXExYWRyM3BwcDB1eTQ5NjF2In0.qO4fld59j3Og7WhdT6gzHw`
+        );
+        if (response.ok) {
+            const { features } = await response.json();
+            setSuggest(features);
+            console.log(features);
+        }
+    };
+
 
     const navigate = useNavigate()
 
@@ -77,6 +104,7 @@ const FormModal = (props) => {
             email: '',
             mobile: '',
             dob: '',
+            gender:'',
             password: '',
             confirmpassword: ''
         },
@@ -86,11 +114,12 @@ const FormModal = (props) => {
         onSubmit: async (values) => {
             try {
                 let data;
+                console.log(values);
                 if (props.role === 'worker') {
-                    const response = await axios.post('/admin/workers/add', { ...values, image });
+                    const {response} = await axios.post('/admin/workers/add', { ...values, image, location, place });
                     data = response.data;
                 } else {
-                    const response = await axios.post('/admin/drivers/add', { ...values, image });
+                    const response = await axios.post('/admin/drivers/add', { ...values, image, location, place });
                     data = response.data;
                 }
                 if (data.status && props.role == 'worker') {
@@ -215,6 +244,47 @@ const FormModal = (props) => {
                                 </div>
                                 <div>
                                     <input
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 "
+                                        placeholder="Select Location"
+                                        onChange={handleChange}
+                                        value={place ? place : value}
+                                        onFocus={() => setPlace('')}
+                                        required
+                                    />
+                                    <ul className=" absolute  w-45 py-4  ">
+                                        {!place &&
+                                            suggestions.map((item) => {
+                                                return <li onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+                                                    <svg
+                                                        className="stroke-current absolute w-4 h-4 left-2 top-2"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                        />
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                        />
+                                                    </svg>
+                                                    {item.place_name}
+                                                </li>
+                                            })}
+                                    </ul>
+
+
+                                </div>
+                                <div>
+                                    <input
                                         type="date"
                                         name="dob"
                                         id="dob"
@@ -227,9 +297,9 @@ const FormModal = (props) => {
                                         <div className="text-red-500"> {formik.errors.mobile} </div>
                                     ) : null}
                                 </div>
-                                <div className="border-black ">
-                                    <input type="radio" name="radio-5" className="radio radio-xs " /> Male
-                                    <input type="radio" name="radio-5" className="radio radio-xs  " /> Female
+                                <div className="join">
+                                    <input className="join-item btn btn-sm" value='male'  id="gender" type="radio" name="gender" aria-label="Male" />
+                                    <input className="join-item btn btn-sm" type="radio" value='female' id="gender" name="gender" aria-label="Female" />
                                 </div>
                                 <div>
                                     <input
@@ -273,8 +343,8 @@ const FormModal = (props) => {
                                         <div className="text-red-500"> {formik.errors.mobile} </div>
                                     ) : null}
                                 </div>
-                                
-                                
+
+
                                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                     <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
                                         Add</button>
