@@ -17,6 +17,10 @@ const DriverSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    place: {
+        type: String,
+        required: true
+    },
     dob: {
         type: Date,
         required: true
