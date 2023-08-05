@@ -201,7 +201,9 @@ export async function addWorker(req, res) {
 export async function addDriver(req, res) {
     try{
 
-    const { name, email, dob, password, mobile, image } = req.body
+        console.log(req.body);
+
+    const { name, email, dob, password, mobile, image,location,place } = req.body
     const Driver = await DriverModel.findOne({ email })
 
     if (Driver) {
@@ -215,7 +217,6 @@ export async function addDriver(req, res) {
         const result = await cloudinary.uploader.upload(...image, {
             folder: "Shaj Paradise",
         });
-        console.log(result);
         let hashedPassword = bcrypt.hashSync(password, salt)
 
         const Driver = await DriverModel.create({
@@ -224,7 +225,9 @@ export async function addDriver(req, res) {
             mobile,
             password: hashedPassword,
             dob,
-            image:result.secure_url
+            image:result.secure_url,
+            location,
+            place
         }).then(() => {
             return res.json({ status: true, message: "Driver added successfully" });
         }).catch(() => {
