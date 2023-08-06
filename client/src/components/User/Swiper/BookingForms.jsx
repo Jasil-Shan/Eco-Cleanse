@@ -27,9 +27,18 @@ const BookingForms = () => {
 
     onSubmit: async (values) => {
       try {
-        setFormValues(values);
-
-        setcard(true)
+        if (
+          values.eWaste &&
+          values.plasticWaste &&
+          values.foodWaste &&
+          values.others
+        ) {
+          setFormValues(values);
+          setcard(true);
+        } else {
+          // If any of the fields are missing, show a toast message
+          toast.error('Please fill in all the fields', { position: 'top-center' });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -49,7 +58,7 @@ const BookingForms = () => {
           className="swiper mt-20"
         >
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='eWaste' id='eWaste'>
+            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='eWaste' id='eWaste' required>
               <option disabled selected>Pick Garbage Status</option>
               <option>25%</option>
               <option>50%</option>
@@ -88,6 +97,11 @@ const BookingForms = () => {
             </div>
 
           </SwiperSlide>
+          {/* <SwiperSlide>
+            <div className="flex flex-col items-center">
+              <p>nskndskk</p>
+            </div>
+          </SwiperSlide> */}
 
         </Swiper >
       }
