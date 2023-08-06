@@ -13,11 +13,11 @@ const FormModal = (props) => {
     const [suggestions, setSuggest] = useState([]);
     const [value, setValue] = useState("");
     const [place, setPlace] = useState("");
+    const role = props.role
 
     const handleRetrieve = (itemLocation, place) => {
         setLocation(itemLocation);
         setPlace(place);
-
     };
 
     const handleChange = async (e) => {
@@ -113,21 +113,16 @@ const FormModal = (props) => {
 
         onSubmit: async (values) => {
             try {
-                let data;
-                console.log(values);
-                if (props.role === 'worker') {
-                    const {response} = await axios.post('/admin/workers/add', { ...values, image, location, place });
-                    data = response.data;
-                } else {
-                    const response = await axios.post('/admin/drivers/add', { ...values, image, location, place });
-                    data = response.data;
-                }
-                if (data.status && props.role == 'worker') {
+        
+                    const {data} = await axios.post('/admin/addEmployee', { ...values, image, location, place,role });
+                
+                if (data?.status && props.role == 'worker') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
+                    toggleModal()
                     axios.post('/admin/sendMail', { ...values })
-                    navigate("/admin/drivers")
+                    navigate("/admin/workers")
                 } else if (data.status && props.role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
@@ -254,8 +249,8 @@ const FormModal = (props) => {
                                     />
                                     <ul className=" absolute  w-45 py-4  ">
                                         {!place &&
-                                            suggestions.map((item) => {
-                                                return <li onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+                                            suggestions.map((item,index) => {
+                                                return <li key={index} onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
                                                     <svg
                                                         className="stroke-current absolute w-4 h-4 left-2 top-2"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -298,8 +293,8 @@ const FormModal = (props) => {
                                     ) : null}
                                 </div>
                                 <div className="join">
-                                    <input className="join-item btn btn-sm" value='male'  id="gender" type="radio" name="gender" aria-label="Male" />
-                                    <input className="join-item btn btn-sm" type="radio" value='female' id="gender" name="gender" aria-label="Female" />
+                                    <input className="join-item btn btn-sm" value={'male'}  id="gender" type="radio" name="gender" aria-label="Male" />
+                                    <input className="join-item btn btn-sm" type="radio" value={'female'} id="gender" name="gender" aria-label="Female" />
                                 </div>
                                 <div>
                                     <input
