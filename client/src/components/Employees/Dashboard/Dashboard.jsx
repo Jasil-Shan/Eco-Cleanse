@@ -5,9 +5,9 @@ import { updateStatus } from "../../../services/driverApi";
 const Dashboard = (props) => {
 
     const profile = props.profile
-    console.log(profile);
     const status = profile.status
     const role = profile.role
+    console.log(profile);
 
     const handleSubmit = () => {
         try {
@@ -54,7 +54,7 @@ const Dashboard = (props) => {
                             />
                         </div>
                         <div className="flex flex-col">
-                            <img className="self-center rounded-3xl  w-fit " src="https://source.unsplash.com/100x100/?portrait" alt="dndjsh" />
+                            <img className="self-center rounded-3xl  w-fit " src={profile.image} alt="dndjsh" />
 
                             <span className="text-gray-900 w-fit font-bold text-xl leading-8 my-1">{profile.name}</span>
                             <p className="text-gray-600 font-lg w-fit text-semibold leading-6 uppercase">{profile.role}</p>
