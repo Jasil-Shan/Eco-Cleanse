@@ -32,7 +32,9 @@ const createToken = (id) => {
         }else{
             res.json({status:false , message:"User not exists"})
         }
-    } catch (error) {
+        
+    }catch (error) {
+
         console.log(error);
     }
 }
