@@ -14,6 +14,13 @@ const AdminDrivers = () => {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [refresh, setRefresh] = useState(false)
+    const [ obj ,setObj] = useState({})
+    const [ sort, setSort] = useState({sort:'amount',order:'desc'})
+    const [filter,setFilter] = useState([])
+    const[page , setPage] = useState(1)
+    const[search , setSearch] = useState("")
+
+    
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -21,9 +28,10 @@ const AdminDrivers = () => {
 
     useEffect(() => {
         try {
+            const url = `page=${page}&sort${sort.sort},${sort.order}&filter=${filter.toString()}&search=${search}`
             (
                 async function () {
-                    const { data } = await axios.get('/admin/drivers')
+                    const { data } = await axios.get(`/admin/drivers?${url}`)
                     if (data.status) {
                         setdrivers(data.drivers)
                     }
@@ -32,7 +40,7 @@ const AdminDrivers = () => {
             
             console.log(error);
         }
-    }, [refresh])
+    }, [refresh,sort,filter,search,page])
     async function block(values) {
         Swal.fire({
             title: 'Are you sure? Block',
@@ -72,7 +80,6 @@ const AdminDrivers = () => {
         <>
             <Sidebar />
             <Header />
-
             <section className="py-1 bg-blueGray-50">
 
                 <div className="w-full  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
