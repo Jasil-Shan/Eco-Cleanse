@@ -11,8 +11,33 @@ let locations = {}
 const UserSignup = () => {
     const [errorMessage, setErrorMessage] = useState(false)
     const navigate = useNavigate()
-    const [location, setLocation] = useState({ latitude: null, longitude: null });
+    // const [location, setLocation] = useState({ latitude: null, longitude: null });
+    const [locations, setLocation] = useState([]);
+    const [suggestions, setSuggest] = useState([]);
+    const [value, setValue] = useState("");
+    const [place, setPlace] = useState("");
 
+
+    const handleRetrieve = (itemLocation, place) => {
+        setLocation(itemLocation);
+        setPlace(place);
+    };
+
+    const handleSearch = async (e) => {
+        setValue(e.target.value);
+        console.log(value);
+
+        const response = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+                value
+            )}.json?access_token=pk.eyJ1Ijoic2hhanBhcmFkaXNlLTEyMyIsImEiOiJjbGt3djVieXExYWRyM3BwcDB1eTQ5NjF2In0.qO4fld59j3Og7WhdT6gzHw`
+        );
+        if (response.ok) {
+            const { features } = await response.json();
+            setSuggest(features);
+            console.log(features);
+        }
+    };
 
 
     const validate = Yup.object({
@@ -54,7 +79,7 @@ const UserSignup = () => {
                 console.log(values);
                 const { data } = await axios.post('/user/verify', { ...values, locations })
                 console.log(data);
-                
+
                 if (data.status) {
                     toast.success(data.message, {
                         position: "top-center"
@@ -85,27 +110,27 @@ const UserSignup = () => {
         })
     }
 
-    const handleClick = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const { latitude, longitude } = position.coords;
-                    // Do something with the latitude and longitude values
-                    setLocation({ latitude, longitude });
-                    locations = { latitude, longitude }
-                    console.log(locations);
+    // const handleClick = () => {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             (position) => {
+    //                 const { latitude, longitude } = position.coords;
+    //                 // Do something with the latitude and longitude values
+    //                 setLocation({ latitude, longitude });
+    //                 locations = { latitude, longitude }
+    //                 console.log(locations);
 
-                },
-                (error) => {
-                    console.log('Error:', error);
-                    // Handle any errors that occur while getting the location
-                }
-            );
-        } else {
-            console.log('Geolocation is not supported by this browser.');
-            // Handle the case where geolocation is not supported
-        }
-    };
+    //             },
+    //             (error) => {
+    //                 console.log('Error:', error);
+    //                 // Handle any errors that occur while getting the location
+    //             }
+    //         );
+    //     } else {
+    //         console.log('Geolocation is not supported by this browser.');
+    //         // Handle the case where geolocation is not supported
+    //     }
+    // };
 
 
     return (
@@ -140,7 +165,42 @@ const UserSignup = () => {
                                 formik.touched.address && formik.errors.address ? (
                                     <div className="text-red-500"> {formik.errors.address} </div>
                                 ) : null}
-                            <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button>
+                            <div>
+                            <input className='p-2 rounded-xl border w-full' type="text" name="location" placeholder='Select Your Location' id="location" onChange={handleSearch}
+                                value={place ? place : value}
+                                onFocus={() => setPlace('')}
+                                required />
+                            <ul className=" absolute z-30 w-96 py-4  ">
+                                {!place &&
+                                    suggestions.map((item, index) => {
+                                        return <li key={index} onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
+                                            <svg
+                                                className="stroke-current absolute w-4 h-4 left-2 top-2"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                />
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                />
+                                            </svg>
+                                            {item.place_name}
+                                        </li>
+                                    })}
+                            </ul>
+                            </div>
+
+                            {/* <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button> */}
 
 
                             <div className="relative">
@@ -193,7 +253,7 @@ const UserSignup = () => {
 
                         <div className='mt-3 text-xs flex justify-between items-center'>
                             <p>Already a member !?</p>
-                            <a href='/login' className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Login</a>
+                            <Link to={'/login'}><p className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Log in</p></Link>
                         </div>
 
                     </div>
