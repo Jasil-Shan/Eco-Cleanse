@@ -5,6 +5,10 @@ import Header from "../Header/Header"
 import { useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
+import SearchBar from "./SearchBar/SearchBar"
+import Paginations from "./Pagination/Pagination"
+import { Button } from "@mui/material"
+import SelectBox from "./SelectBox/SelectBox"
 
 
 
@@ -14,13 +18,15 @@ const AdminDrivers = () => {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [refresh, setRefresh] = useState(false)
-    const [ obj ,setObj] = useState({})
-    const [ sort, setSort] = useState({sort:'amount',order:'desc'})
-    const [filter,setFilter] = useState([])
-    const[page , setPage] = useState(1)
-    const[search , setSearch] = useState("")
+    const [obj, setObj] = useState({})
+    const [sort, setSort] = useState({ sort: '', order: 'desc' })
+    const [filter, setFilter] = useState([])
+    const [page, setPage] = useState(1)
+    const [search, setSearch] = useState("")
+    const [total, setTotal] = useState()
+    const [limit, setLimit] = useState()
 
-    
+
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -28,19 +34,22 @@ const AdminDrivers = () => {
 
     useEffect(() => {
         try {
-            const url = `page=${page}&sort${sort.sort},${sort.order}&filter=${filter.toString()}&search=${search}`
             (
                 async function () {
-                    const { data } = await axios.get(`/admin/drivers?${url}`)
+                    const { data } = await axios.get(`/admin/drivers?page=${page}&sort=${sort}&filter=${filter.toString()}&search=${search}`)
                     if (data.status) {
+                        console.log(data);
                         setdrivers(data.drivers)
+                        setLimit(data.limit)
+                        setTotal(data.total)
+                        setPage(data.page)
+                        console.log(sort);
                     }
                 })()
         } catch (error) {
-            
             console.log(error);
         }
-    }, [refresh,sort,filter,search,page])
+    }, [refresh, sort, filter, search, page])
     async function block(values) {
         Swal.fire({
             title: 'Are you sure? Block',
@@ -52,7 +61,7 @@ const AdminDrivers = () => {
             confirmButtonText: 'Yes, Block!'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const { data } = await axios.patch("/admin/block", { ...values});
+                const { data } = await axios.patch("/admin/block", { ...values });
                 setRefresh(!refresh)
             }
         })
@@ -77,12 +86,13 @@ const AdminDrivers = () => {
 
 
     return (
-        <>
+        <div>
             <Sidebar />
             <Header />
             <section className="py-1 bg-blueGray-50">
-
-                <div className="w-full  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
+                <div className="ml-60 mt-2"><SelectBox sort={sort} setSort={(sort) => setSort(sort)}/></div>
+                <SearchBar setSearch={(search) => setSearch(search)} />
+                <div className="w-full flex flex-col  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                         <div className="rounded-t mb-0 px-4 py-3 border-0">
                             <div className="flex flex-wrap items-center">
@@ -90,7 +100,7 @@ const AdminDrivers = () => {
                                     <h3 className="font-semibold text-base text-blueGray-700">Drivers</h3>
                                 </div>
                                 <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                <FormModal role = {'driver'} />
+                                    <FormModal role={'driver'} />
                                 </div>
                             </div>
                         </div>
@@ -121,45 +131,55 @@ const AdminDrivers = () => {
 
                                 <tbody>
                                     {
-                                    drivers.map((item, index) => {
-                                        return <tr key={index}>
-                                            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                                                {index + 1}
-                                            </th>
-                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                {item.name}
-                                            </td>
-                                            <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                {item.email}
-                                            </td>
-                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                <i className="fas fa-arrow-up text-emerald-500"></i>
-                                                {item.mobile}
-                                            </td>
-                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                <i className="fas fa-arrow-up text-emerald-500 mr-2"></i>
-                                                {item.blocked == true ? 'Blocked' : 'Active'}
-                                            </td>
-                                            <td>
-                                                {
-                                                    item.blocked ?
-                                                        <button onClick={(e) => unBlock(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
-                                                            Unblock</button>
-                                                        :
-                                                        <button onClick={(e) => block(item)} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2">
-                                                            Block</button>
-                                                }
-                                            </td>
-                                        </tr>
-                                    })}
+                                        drivers.map((item, index) => {
+                                            return <tr key={index}>
+                                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
+                                                    {index + 1}
+                                                </th>
+                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                    {item.name}
+                                                </td>
+                                                <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                    {item.email}
+                                                </td>
+                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                    <i className="fas fa-arrow-up text-emerald-500"></i>
+                                                    {item.mobile}
+                                                </td>
+                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                    <i className="fas fa-arrow-up text-emerald-500 mr-2"></i>
+                                                    {item.blocked == true ? 'Blocked' : 'Active'}
+                                                </td>
+                                                <td>
+                                                    {
+                                                        item.blocked ?
+                                                            <button onClick={(e) => unBlock(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
+                                                                Unblock</button>
+                                                            :
+                                                            <button onClick={(e) => block(item)} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2">
+                                                                Block</button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        })}
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <div className="mt-auto">
+                    <Paginations 
+                    page={page}
+                    limit={limit ? limit : 0}
+                    total={total ? total : 0}
+                    setPage={(page) => setPage(page)} />
+                    </div>
+                    
                 </div>
+               
 
             </section>
-        </>
+
+        </div>
 
     )
 }
