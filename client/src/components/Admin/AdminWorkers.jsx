@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Sidebar from "../Sidebar/Sidebar"
 import Header from "../Header/Header"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
 import { getWorkers } from "../../services/adminApi"
@@ -20,6 +20,7 @@ const AdminWorkers = () => {
         setIsOpen(!isOpen);
     };
 
+    
     useEffect(() => {
         try {
             (
@@ -84,7 +85,7 @@ const AdminWorkers = () => {
                                     <h3 className="font-semibold text-base text-blueGray-700">Workers</h3>
                                 </div>
                                 <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                    <FormModal role={'worker'} />
+                                    <FormModal role={'worker'} refresh={refresh} setRefresh = {setRefresh}  />
                                 </div>
                             </div>
                         </div>
