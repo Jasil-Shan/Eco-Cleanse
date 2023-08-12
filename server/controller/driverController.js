@@ -1,6 +1,7 @@
 import DriverModel from "../model/driverModel.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import BookingModel from "../model/bookingModel.js";
 
 
 
@@ -109,3 +110,18 @@ export async function updateStatus(req,res){
         console.log(error); 
     }
 }
+
+
+export async function getTasks(req,res){
+    try {
+        const {taskId} = req.body
+        const _id = req.driverId
+        const task = await BookingModel.findById(taskId).populate('user').populate('worker').populate('driver')
+        console.log(task,'jhj');
+        return res.json({status:true, message:'Success', task})
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
