@@ -1,4 +1,7 @@
-import { updateStatus } from "../../../services/driverApi";
+import { toast } from "react-toastify";
+import { getCurrentLocation } from "../../../helpers/currentLocation";
+import {  updateStatus } from "../../../services/driverApi";
+import Tasks from "../Tasks/Tasks";
 
 
 
@@ -7,32 +10,17 @@ const Dashboard = (props) => {
     const profile = props.profile
     const status = profile.status
     const role = profile.role
-    console.log(profile);
+    
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         try {
-            if (navigator.geolocation) {
+            const data = await getCurrentLocation(role,status)
+            if (data && data.success) {
+                toast.success(data.message, {
+                    position: "top-center",
 
-                navigator.geolocation.getCurrentPosition(
-
-                    async (position) => {
-                        const { latitude, longitude } = position.coords;
-                        let locations = { latitude, longitude }
-                        let { data } = await updateStatus(locations, role, status)
-                        console.log(data);
-                        if (data.success) {
-                            setRefresh(!refresh)
-                        }
-                    },
-                    (error) => {
-
-                        console.log('Error:', error);
-                    }
-                );
-            } else {
-                console.log('Geolocation is not supported by this browser.');
+                })
             }
-
         } catch (error) {
             console.log(error);
         }
@@ -56,19 +44,19 @@ const Dashboard = (props) => {
                         <div className="flex flex-col">
                             <img className="self-center rounded-3xl  w-fit " src={profile.image} alt="dndjsh" />
 
-                            <span className="text-gray-900 w-fit font-bold text-xl leading-8 my-1">{profile.name}</span>
+                            <span className="text-gray-900 w-fit font-bold text-xl leading-8 mt-5 uppercase">{profile.name}</span>
                             <p className="text-gray-600 font-lg w-fit text-semibold leading-6 uppercase">{profile.role}</p>
 
                         </div>
-                        <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
+                        <ul className="bg-gray-100 text-gray-600 py-2 px-3 mt-3 divide-y rounded shadow-sm">
                             <li className="flex items-center py-3">
                                 <span>Status</span>
                                 <span className="ml-auto">
-                                    <span className="bg-green-500 py-1 px-2 rounded text-white text-sm uppercase">{profile.status}</span>
+                                    <span className="bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase">{profile.status}</span>
                                 </span>
                             </li>
                             <li className="flex items-center justify-center mt-2">
-                                {/* <button className='btn btn-success text-base-100 btn-sm' onClick={handleSubmit}>Update Current Location</button> */}
+                                <button className='btn bg-green-500 w-full text-base-100 btn-sm' onClick={handleSubmit}>Update Status</button>
                             </li>
                         </ul>
                     </div>
@@ -170,7 +158,7 @@ const Dashboard = (props) => {
                             <div className="grid md:grid-cols-2 text-sm">
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">First Name</div>
-                                    <div className="px-4 py-2">{profile.name}</div>
+                                    <div className="px-4 py-2 ">{profile.name}</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Last Name</div>
@@ -178,19 +166,19 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Gender</div>
-                                    <div className="px-4 py-2">Female</div>
+                                    <div className="px-4 py-2">Male</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Contact No.</div>
-                                    <div className="px-4 py-2">+11 998001001</div>
+                                    <div className="px-4 py-2">{profile.mobile}</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Current Address</div>
-                                    <div className="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+                                    <div className="px-4 py-2">{profile.place}</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Permanent Address</div>
-                                    <div className="px-4 py-2">Arlington Heights, IL, Illinois</div>
+                                    <div className="px-4 py-2">{profile.place}</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Email.</div>
@@ -202,7 +190,7 @@ const Dashboard = (props) => {
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">Birthday</div>
-                                    <div className="px-4 py-2">Feb 06, 1998</div>
+                                    <div className="px-4 py-2">{profile.dob}</div>
                                 </div>
                             </div>
                         </div>
@@ -212,7 +200,7 @@ const Dashboard = (props) => {
                     <div className="my-4"></div>
 
                     {/* Experience and education */}
-
+                   <Tasks id = {profile.task} role ={profile.role}/>
                     {/* End of experience and education */}
                 </div>
 
