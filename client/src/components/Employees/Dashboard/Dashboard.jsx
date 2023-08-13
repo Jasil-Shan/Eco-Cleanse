@@ -2,27 +2,30 @@ import { toast } from "react-toastify";
 import { getCurrentLocation } from "../../../helpers/currentLocation";
 import {  updateStatus } from "../../../services/driverApi";
 import Tasks from "../Tasks/Tasks";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 
 
-const Dashboard = (props) => {
+const Dashboard = ({profile,setRefresh ,refresh}) => {
 
-    const profile = props.profile
     const status = profile.status
     const role = profile.role
-    
-
+    const sample = useSelector((state) => state.worker)
+    const sample1 = useSelector((state) => state.driver)
+    console.log(sample1) 
     const handleSubmit = async () => {
         try {
-            const data = await getCurrentLocation(role,status)
-            if (data && data.success) {
+            const {data} = await getCurrentLocation(role,status)
+            if (data.success) {
+                setRefresh(!refresh)
                 toast.success(data.message, {
                     position: "top-center",
 
                 })
             }
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
 
     }
@@ -52,7 +55,7 @@ const Dashboard = (props) => {
                             <li className="flex items-center py-3">
                                 <span>Status</span>
                                 <span className="ml-auto">
-                                    <span className="bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase">{profile.status}</span>
+                                    <span className={ profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase" : "bg-red-600 py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</span>
                                 </span>
                             </li>
                             <li className="flex items-center justify-center mt-2">
