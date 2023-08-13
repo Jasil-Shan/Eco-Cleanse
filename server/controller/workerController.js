@@ -89,12 +89,12 @@ export async function updateStatus(req,res){
 
         const {location,status} = req.body
         const id = req.workerId
+        console.log(req.body);
         if(status == 'Offline'){
         const worker = await WorkerModel.findByIdAndUpdate(
             id,
-            { $set: { location,status:'Available' } }).then(()=>{
-                res.json({success:true, message:"Location Update Success"})
-            })
+            { $set: { location,status:'Available' } })
+            res.json({success:true, message:"Location Update Success"})
         }else{
          const worker = await WorkerModel.findByIdAndUpdate(
                 id,
