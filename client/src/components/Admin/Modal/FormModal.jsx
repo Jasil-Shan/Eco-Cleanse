@@ -14,6 +14,7 @@ const FormModal = (props) => {
     const [value, setValue] = useState("");
     const [place, setPlace] = useState("");
     const role = props.role
+    const refresh = props.refresh
 
     const handleRetrieve = (itemLocation, place) => {
         setLocation(itemLocation);
@@ -120,9 +121,10 @@ const FormModal = (props) => {
                     toast.success(data.message, {
                         position: "top-center"
                     })
+                    props.setRefresh(!refresh)
                     toggleModal()
                     axios.post('/admin/sendMail', { ...values })
-                    navigate("/admin/workers")
+                    navigate("/admin/workers",{state:{data:'added' }})
                 } else if (data.status && props.role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
@@ -163,8 +165,8 @@ const FormModal = (props) => {
                     id="authentication-modal"
                     tabIndex="-1"
                     aria-hidden="true"
-                    className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
-                >
+                    className="fixed card top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
+                > 
                     <div className="relative bg-white rounded-lg shadow">
                         <button
                             type="button"
