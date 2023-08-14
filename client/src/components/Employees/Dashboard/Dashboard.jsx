@@ -1,31 +1,38 @@
 import { toast } from "react-toastify";
 import { getCurrentLocation } from "../../../helpers/currentLocation";
-import {  updateStatus } from "../../../services/driverApi";
+import { updateStatus } from "../../../services/driverApi";
 import Tasks from "../Tasks/Tasks";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
 
 
-const Dashboard = ({profile,setRefresh ,refresh}) => {
+const Dashboard = ({ role, setRefresh, refresh }) => {
+
+    // const role = profile.role
+    let profile
+    if (role == 'worker') {
+        profile = useSelector((state) => state.worker)
+    } else {
+        profile = useSelector((state) => state.driver)
+    }
 
     const status = profile.status
-    const role = profile.role
-    const sample = useSelector((state) => state.worker)
-    const sample1 = useSelector((state) => state.driver)
-    console.log(sample1) 
+
     const handleSubmit = async () => {
         try {
-            const {data} = await getCurrentLocation(role,status)
+            const data  = await getCurrentLocation(role, status)
             if (data.success) {
+
                 setRefresh(!refresh)
+
                 toast.success(data.message, {
                     position: "top-center",
 
                 })
             }
         } catch (error) {
-            console.log(error); 
+            console.log(error);
         }
 
     }
@@ -55,7 +62,7 @@ const Dashboard = ({profile,setRefresh ,refresh}) => {
                             <li className="flex items-center py-3">
                                 <span>Status</span>
                                 <span className="ml-auto">
-                                    <span className={ profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase" : "bg-red-600 py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</span>
+                                    <span className={profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase" : "bg-red-600 py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</span>
                                 </span>
                             </li>
                             <li className="flex items-center justify-center mt-2">
@@ -203,7 +210,11 @@ const Dashboard = ({profile,setRefresh ,refresh}) => {
                     <div className="my-4"></div>
 
                     {/* Experience and education */}
-                   <Tasks id = {profile.task} role ={profile.role}/>
+                    {profile.task ?
+
+                        <Tasks id={profile.task} role = {profile.role} />
+                        : <h1>No Tasks</h1>
+                    }
                     {/* End of experience and education */}
                 </div>
 
