@@ -39,7 +39,10 @@ const WorkerLogin = () => {
         
                     })
                 } else {
-                    navigate("/home")
+
+                    localStorage.setItem('WorkerJwtkey', data.token)
+
+                    navigate("/worker/dashboard")
                 }
             } catch (error) {
 

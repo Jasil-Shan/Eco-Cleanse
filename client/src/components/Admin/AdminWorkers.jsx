@@ -2,9 +2,10 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Sidebar from "../Sidebar/Sidebar"
 import Header from "../Header/Header"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
+import { getWorkers } from "../../services/adminApi"
 
 
 
@@ -19,12 +20,12 @@ const AdminWorkers = () => {
         setIsOpen(!isOpen);
     };
 
+    
     useEffect(() => {
         try {
             (
                 async function () {
-                    const { data } = await axios.get('/admin/workers')
-                    console.log(data);
+                    const { data } = await getWorkers()
                     if (data.status) {
                         setWorkers(data.workers)
                     }
@@ -84,7 +85,7 @@ const AdminWorkers = () => {
                                     <h3 className="font-semibold text-base text-blueGray-700">Workers</h3>
                                 </div>
                                 <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                    <FormModal role={'worker'} />
+                                    <FormModal role={'worker'} refresh={refresh} setRefresh = {setRefresh}  />
                                 </div>
                             </div>
                         </div>
@@ -137,10 +138,10 @@ const AdminWorkers = () => {
                                                 <td>
                                                     {
                                                         item.blocked ?
-                                                            <button onClick={(e) => unBlock(item)} type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
+                                                            <button onClick={(e) => unBlock(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mr-2 mb-2">
                                                                 Unblock</button>
                                                             :
-                                                            <button onClick={(e) => block(item)} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2">
+                                                            <button onClick={(e) => block(item)} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-3 mt-2 mb-2">
                                                                 Block</button>
                                                     }
                                                 </td>

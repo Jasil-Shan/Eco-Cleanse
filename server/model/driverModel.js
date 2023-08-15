@@ -17,6 +17,18 @@ const DriverSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    place: {
+        type: String,
+        required: true
+    },
+    dob: {
+        type: Date,
+        required: true
+    },
+    image: {
+        type: Object,
+        required:true
+    },
     blocked: {
         type: Boolean,
         default:false
@@ -24,6 +36,14 @@ const DriverSchema = new mongoose.Schema({
     role:{
         type:String,
         default: 'driver'
+    },
+    location: {
+        type: Object,
+        default:false
+    },
+    status:{
+        type:String,
+        default:'offline'
     }
 })
 

@@ -9,6 +9,12 @@ const adminSidebarData = [
             { link: "/admin/dashboard" },
         ]
     },
+    {
+        title: 'Work',
+        links: [
+            { route: "/admin/work" },
+        ]
+    },
 
     {
         title: 'Users',
@@ -28,12 +34,9 @@ const adminSidebarData = [
             { route: "/admin/drivers" },
         ]
     },
-    {
-        title: 'Logout',
-        links: [
-            { route: "/admin/logout" },
-        ]
-    },
+    
+   
+
 
 ]
 

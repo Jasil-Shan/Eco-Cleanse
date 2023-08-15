@@ -1,5 +1,7 @@
+import cloudinary from "../config/cloudinary.js";
 import { sendVerificationCode } from "../helper/sendOtp.js";
 import adminModel from "../model/adminModel.js"
+import BookingModel from "../model/bookingModel.js";
 import DriverModel from "../model/driverModel.js";
 import UserModel from "../model/userModel.js";
 import WorkerModel from "../model/workerModel.js";
@@ -8,6 +10,36 @@ import jwt from 'jsonwebtoken'
 
 
 let salt = bcrypt.genSaltSync(10);
+let secret_key = process.env.ADMIN_SECRET_KEY
+
+
+
+export async function adminAuth(req, res) {
+    try {
+        const authHeader = req.headers.authorization
+        if (authHeader) {
+            const token = authHeader.split(' ')[1]
+            jwt.verify(token, process.env.ADMIN_SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    res.json({ status: false, message: "Unauthorized" })
+                } else {
+                    const admin = adminModel.findById({ _id: decoded.id })
+
+                    if (admin) {
+                        res.json({ status: true, message: "Authorised" })
+                    } else {
+                        res.json({ status: false, message: "Admin not found" })
+                    }
+                }
+            })
+        } else {
+            res.json({ status: false, message: "Admin not exists" })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 export async function adminLogin(req, res) {
     try {
@@ -18,6 +50,9 @@ export async function adminLogin(req, res) {
         console.log(admin);
         if (!admin) {
             return res.json({ error: true, message: "You have no Admin Access" })
+        }
+        if (admin.password !== password) {
+            return res.json({ error: true, message: "Please check password" })
 
         } else {
 
@@ -25,7 +60,7 @@ export async function adminLogin(req, res) {
                 {
                     id: admin._id
                 },
-                'myjwtkey'
+                process.env.ADMIN_SECRET_KEY
             )
             res.status(200).json({ admin, token, login: true });
 
@@ -53,21 +88,21 @@ export async function viewUsers(req, res) {
 }
 
 export async function block(req, res) {
-     try {
-        if(req.body.role == 'user'){
+    try {
+        if (req.body.role == 'user') {
             await UserModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: true },
             }).lean();
-        }else if(req.body.role == 'worker'){
+        } else if (req.body.role == 'worker') {
             await WorkerModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: true },
             }).lean();
-        }else{
+        } else {
             await DriverModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: true },
             }).lean();
         }
-            res.json({ err: false });
+        res.json({ err: false });
     } catch (err) {
         res.json({ message: "something went wrong", err: true });
     }
@@ -75,15 +110,15 @@ export async function block(req, res) {
 
 export async function unBlock(req, res) {
     try {
-        if(req.body.role == 'user'){
+        if (req.body.role == 'user') {
             await UserModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: false },
             }).lean();
-        }else if(req.body.role == 'worker'){
+        } else if (req.body.role == 'worker') {
             await WorkerModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: false },
             }).lean();
-        }else{
+        } else {
             await DriverModel.findByIdAndUpdate(req.body._id, {
                 $set: { blocked: false },
             }).lean();
@@ -93,6 +128,19 @@ export async function unBlock(req, res) {
         res.json({ message: "something went wrong", err: true });
     }
 }
+
+
+export async function viewWorks(req, res) {
+    try {
+        const works = await BookingModel.find({}).populate('user');
+        console.log(works);
+        res.json({ success: true, works });
+    } catch (error) {
+        res.json({ message: "Something went wrong", error: true });
+    }
+}
+
+
 
 export async function viewWorkers(req, res) {
     try {
@@ -114,8 +162,7 @@ export async function viewDrivers(req, res) {
 
 export async function addWorker(req, res) {
     try {
-
-        const { name, email, password, mobile } = req.body
+        const { name, email, dob, password, mobile, image } = req.body
         const worker = await WorkerModel.findOne({ email })
 
         if (worker) {
@@ -125,20 +172,26 @@ export async function addWorker(req, res) {
                 message: " Worker already registered "
             })
         } else {
-        console.log(req.body);
-        let hashedPassword = bcrypt.hashSync(password, salt)
 
-        const worker = await WorkerModel.create({
-            name,
-            email,
-            mobile,
-            password: hashedPassword,
-        }).then(() => {
-            return res.json({ status: true, message: "Worker added successfully" });
-        }).catch(() => {
-            return res.json({ status: false, message: "Worker adding failed" });
-        })
-    }
+            const result = await cloudinary.uploader.upload(...image, {
+                folder: "Shaj Paradise",
+            });
+            console.log(result);
+            let hashedPassword = bcrypt.hashSync(password, salt)
+
+            const worker = await WorkerModel.create({
+                name,
+                email,
+                mobile,
+                password: hashedPassword,
+                dob,
+                image:result.secure_url
+            }).then(() => {
+                return res.json({ status: true, message: "Worker added successfully" });
+            }).catch(() => {
+                return res.json({ status: false, message: "Worker adding failed" });
+            })
+        }
     } catch (error) {
         console.log(error);
     }
@@ -146,26 +199,35 @@ export async function addWorker(req, res) {
 
 
 export async function addDriver(req, res) {
-    try {
+    try{
 
-        const { name, email, password, mobile } = req.body
-        const driver = await DriverModel.findOne({ email })
+        console.log(req.body);
 
-        if (driver) {
+    const { name, email, dob, password, mobile, image,location,place } = req.body
+    const Driver = await DriverModel.findOne({ email })
 
-            return res.json({
-                error: true,
-                message: " Driver already registered "
-            })
-        } else {
-            
+    if (Driver) {
+
+        return res.json({
+            error: true,
+            message: " Driver already registered "
+        })
+    } else {
+
+        const result = await cloudinary.uploader.upload(...image, {
+            folder: "Shaj Paradise",
+        });
         let hashedPassword = bcrypt.hashSync(password, salt)
 
-        const driver = await DriverModel.create({
+        const Driver = await DriverModel.create({
             name,
             email,
             mobile,
             password: hashedPassword,
+            dob,
+            image:result.secure_url,
+            location,
+            place
         }).then(() => {
             return res.json({ status: true, message: "Driver added successfully" });
         }).catch(() => {
@@ -177,12 +239,12 @@ export async function addDriver(req, res) {
     }
 }
 
-export async function sendMail(req,res){
+export async function sendMail(req, res) {
     try {
         console.log(req.body);
         let role = 'employee'
-        const {email,password} = req.body
-        sendVerificationCode(email,role,password)
+        const { email, password } = req.body
+        sendVerificationCode(email, role, password)
     } catch (error) {
         console.log(error);
     }

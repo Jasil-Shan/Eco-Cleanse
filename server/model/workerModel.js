@@ -17,6 +17,14 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dob: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: Object,
+        required:true
+    },
     blocked: {
         type: Boolean,
         default:false
@@ -24,6 +32,14 @@ const WorkerSchema = new mongoose.Schema({
     role:{
         type:String,
         default: 'worker'
+    },
+    location: {
+        type: Object,
+        default:false
+    },
+    status:{
+        type:String,
+        default:'offline'
     }
 })
 
