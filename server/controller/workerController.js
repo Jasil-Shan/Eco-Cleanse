@@ -1,6 +1,7 @@
 import WorkerModel from "../model/workerModel.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import BookingModel from "../model/bookingModel.js"
 
 
 
@@ -8,30 +9,30 @@ import jwt from 'jsonwebtoken'
 export async function workerLogin(req, res) {
     try {
 
-        const {email,password} = req.body
+        const { email, password } = req.body
 
-        const worker = await WorkerModel.findOne({email})
-        if(!worker)
-           return res.json({ error: true, message: 'User not registered' })
+        const worker = await WorkerModel.findOne({ email })
+        if (!worker)
+            return res.json({ error: true, message: 'User not registered' })
 
-           if(worker.blocked) {
-            return res.json({ blocked : true , message :"Sorry You are banned"})
-          }
+        if (worker.blocked) {
+            return res.json({ blocked: true, message: "Sorry You are banned" })
+        }
 
-           const workerValid = bcrypt.compareSync(password, worker.password);
-           console.log(workerValid);
-           if (!workerValid) {
-               return res.json({ error: true, message: "wrong Password" })
-           } else {
-               const token = jwt.sign(
-                   {
-                       id: worker._id
-                   },
-                   'WorkerJwtkey'
-               )
-   
-               res.json({ error: false, token })
-           }
+        const workerValid = bcrypt.compareSync(password, worker.password);
+        console.log(workerValid);
+        if (!workerValid) {
+            return res.json({ error: true, message: "wrong Password" })
+        } else {
+            const token = jwt.sign(
+                {
+                    id: worker._id
+                },
+                'WorkerJwtkey'
+            )
+
+            res.json({ error: false, token })
+        }
     } catch (error) {
 
         console.log(error);
@@ -49,32 +50,32 @@ export async function workerAuth(req, res) {
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
-                    const worker = await WorkerModel.findById({_id:decoded.id})
+                    const worker = await WorkerModel.findById({ _id: decoded.id })
                     console.log(worker)
-                    if(worker){
-                        res.json({status:true , worker ,  message:"Authorised"})
-                    }else{
-                        res.json({status:false, message:"User not found"})
+                    if (worker) {
+                        res.json({ status: true, worker, message: "Authorised" })
+                    } else {
+                        res.json({ status: false, message: "User not found" })
                     }
                 }
             })
-        }else{
-            res.json({status:false , message:"User not exists"})
+        } else {
+            res.json({ status: false, message: "User not exists" })
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function UpdateLocation(req,res){
+export async function UpdateLocation(req, res) {
     try {
 
-        const {location} = req.body
+        const { location } = req.body
         const id = req.workerId
         const worker = await WorkerModel.findByIdAndUpdate(
             id,
-            { $set: { location } }).then(()=>{
-                res.json({success:true, message:"Location Update Success"})
+            { $set: { location } }).then(() => {
+                res.json({ success: true, message: "Location Update Success" })
             })
 
     } catch (error) {
@@ -83,27 +84,43 @@ export async function UpdateLocation(req,res){
     }
 }
 
-export async function updateStatus(req,res){
+export async function updateStatus(req, res) {
 
     try {
 
-        const {location,status} = req.body
+        const { location, status } = req.body
         const id = req.workerId
         console.log(req.body);
-        if(status == 'Offline'){
-        const worker = await WorkerModel.findByIdAndUpdate(
-            id,
-            { $set: { location,status:'Available' } })
-            res.json({success:true, message:"Location Update Success"})
-        }else{
-         const worker = await WorkerModel.findByIdAndUpdate(
+        if (status == 'Offline') {
+            const worker = await WorkerModel.findByIdAndUpdate(
                 id,
-                { $set: { location,status:'Offline' } }).then(()=>{
-                    res.json({success:true, message:"Location Update Success"})
+                { $set: { location, status: 'Available' } })
+            res.json({ success: true, message: "Location Update Success" })
+        } else {
+            const worker = await WorkerModel.findByIdAndUpdate(
+                id,
+                { $set: { location, status: 'Offline' } }).then(() => {
+                    res.json({ success: true, message: "Location Update Success" })
                 })
         }
-              
+
     } catch (error) {
-        console.log(); 
+        console.log();
     }
+}
+
+export async function taskComplete(req, res) {
+    try {
+
+        const { garbageDetails,id } = req.body
+        const result =await BookingModel.findByIdAndUpdate(id, {
+            $set: { garbageCollected:garbageDetails , status:'Completed' }
+          })
+        res.json({ success: true, message: "Updated" })
+
+    } catch (error) {
+
+        console.log(error);
+    }
+
 }

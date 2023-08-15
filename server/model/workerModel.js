@@ -21,6 +21,10 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    place: {
+        type: String,
+        required: true
+    },
     image: {
         type: Object,
         required:true
@@ -40,6 +44,9 @@ const WorkerSchema = new mongoose.Schema({
     status:{
         type:String,
         default:'offline'
+    },
+    task:{
+        type:Object
     }
 })
 

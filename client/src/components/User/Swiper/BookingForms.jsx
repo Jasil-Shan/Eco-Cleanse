@@ -14,7 +14,7 @@ import Card from '../Card/Card';
 const BookingForms = () => {
   const swiper = useSwiper();
   const [cards, setcard] = useState(false)
-  const [formValues, setFormValues] = useState(null); // State to store form values
+  const [formValues, setFormValues] = useState(null)
 
 
   const formik = useFormik({
@@ -36,7 +36,6 @@ const BookingForms = () => {
           setFormValues(values);
           setcard(true);
         } else {
-          // If any of the fields are missing, show a toast message
           toast.error('Please fill in all the fields', { position: 'top-center' });
         }
       } catch (error) {

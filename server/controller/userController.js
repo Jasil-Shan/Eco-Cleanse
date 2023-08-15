@@ -54,21 +54,23 @@ export async function userBooking(req, res) {
       driver: nearDriver,
     })
 
-    Promise.all([
+     Promise.all([
       WorkerModel.findByIdAndUpdate(nearWorker, {
         $set: { task: booking._id }
       }),
       DriverModel.findByIdAndUpdate(nearDriver, {
         $set: { task: booking._id }
+      }),
+      BookingModel.findByIdAndUpdate(booking._id, {
+        $set: { assigned : true }
       })
     ]).then(() => {
       res.json({ success: true, message: 'Request Accepted', order_id })
     }).catch((error) => {
+      console.log(error)
       res.json({ success: false, message: "Try Again" });
 
     })
-
-
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Try Again" });

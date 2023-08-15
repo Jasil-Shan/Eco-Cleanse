@@ -25,3 +25,12 @@ export const getWorkers = ()=>{
   return axiosInstance("AdminJwtToken").get('/admin/workers')
 }
 
+
+export const getLocation = ()=>{
+  return axiosInstance("AdminJwtToken").get('/admin/getLocation')
+}
+
+
+export const assignWork = (driverId,workerId,bookingId)=>{
+  return axiosInstance("AdminJwtToken").post('/admin/assignWork',{driverId,workerId,bookingId})
+}

@@ -46,8 +46,11 @@ const bookingSchema = new mongoose.Schema(
       status:{
         type:String,
         default:"Pending"
-      }
-    },
+      },
+      garbageCollected:{
+        type:Object,
+      } 
+    }, 
     { timestamps: true }
   );
 

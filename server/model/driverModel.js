@@ -44,7 +44,11 @@ const DriverSchema = new mongoose.Schema({
     status:{
         type:String,
         default:'offline'
-    }
+    },
+    task :  {
+        type : mongoose.Schema.Types.ObjectId ,
+        ref : 'bookings' ,
+      },
 })
 
 const DriverModel = mongoose.model("drivers", DriverSchema)

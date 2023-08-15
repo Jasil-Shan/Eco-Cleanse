@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authUser } from "../../../services/userApi";
-import { setUserDetails } from "../../../redux/features/userSlice";
+import { setUserDetails, setUserSignout } from "../../../redux/features/userSlice";
 import { useEffect, useState } from "react";
 
 
@@ -11,8 +11,9 @@ const Navbar = () => {
   const navigate = useNavigate()
   const users = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const [refresh, setRefresh] = useState(false)
 
-  useEffect( () => {
+  useEffect(() => {
 
     if (!users.id) {
 
@@ -31,9 +32,9 @@ const Navbar = () => {
         }
       })
     }
-  }, [])
+  }, [refresh])
   return (
-    
+
 
     <div className="navbar glass text-green-950 z-50 bg-transparent mb-1 shadow-lg bg-base-100">
       <div className="flex-1">
@@ -41,8 +42,8 @@ const Navbar = () => {
       </div>
       <div className="flex-none ">
         <ul className="menu menu-horizontal mr-6 font-semibold px-1">
-        <Link to={'/'}><li><a>Home</a></li></Link>
-        <Link to={'/booking'}><li><a>Booking</a></li></Link>
+          <Link to={'/'}><li><a>Home</a></li></Link>
+          <Link to={'/booking'}><li><a>Booking</a></li></Link>
           <li><a>Blog</a></li>
         </ul>
         {/* <div className="dropdown dropdown-end">
@@ -73,16 +74,18 @@ const Navbar = () => {
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 <li>
                   <Link to={'/profile'}>
-                  <p className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </p></Link>
+                    <p className="justify-between">
+                      Profile
+                      <span className="badge">New</span>
+                    </p></Link>
                 </li>
                 <li><Link to={'/history'}><a>History</a></Link></li>
                 <li onClick={
                   () => {
                     localStorage.removeItem('UserJwtkey');
                     navigate('/')
+                    setRefresh(!refresh)
+                    dispatch(setUserSignout())
                   }}><a>Logout</a></li>
               </ul>
             </div>

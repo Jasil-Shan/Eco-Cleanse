@@ -73,7 +73,7 @@ export async function UpdateLocation(req,res){
         const id = req.driverId
         const Driver = await DriverModel.findByIdAndUpdate(
             id,
-            { $set: { location } }).then(()=>{
+            { $set: { location , status:true } }).then(()=>{
                 res.json({success:true, message:"Location Update Success"})
             })
     } catch (error) {
@@ -115,9 +115,7 @@ export async function updateStatus(req,res){
 export async function getTasks(req,res){
     try {
         const {taskId} = req.body
-        const _id = req.driverId
         const task = await BookingModel.findById(taskId).populate('user').populate('worker').populate('driver')
-        console.log(task,'jhj');
         return res.json({status:true, message:'Success', task})
     } catch (error) {
         console.log(error);

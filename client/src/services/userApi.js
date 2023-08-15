@@ -14,8 +14,8 @@ export const userLogin = (values) =>{
     return axiosInstance("UserJwtkey").post('/payment' )
 
   }
-  export const verifyPayment = (response,garbage,payment)=>{
-    return axiosInstance("UserJwtkey").post('/paymentVerify', {response, garbage,payment})
+  export const verifyPayment = (response)=>{
+    return axiosInstance("UserJwtkey").post('/paymentVerify', {response})
 
   }
 

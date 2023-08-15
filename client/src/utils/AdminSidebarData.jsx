@@ -6,7 +6,7 @@ const adminSidebarData = [
     {
         title: 'Dashboard',
         links: [
-            { link: "/admin/dashboard" },
+            { route: "/admin/dashboard" },
         ]
     },
     {

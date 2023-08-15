@@ -10,7 +10,6 @@ const [clicked , setClicked] = useState(true)
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     const { latitude, longitude } = position.coords;
-                    // Do something with the latitude and longitude values
                     let locations = { latitude, longitude }
                     const {data}= await getLocation(locations,role)
                     setClicked(false)

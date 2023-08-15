@@ -25,7 +25,6 @@ function UserRouter(){
             <Route path="history" element={<UserHistoryPage />} />
 
             </Route>
-
             <Route path="login" element={<UserLoginPage/>}/>
             <Route path="signup" element={<UserSignupPage/>}/>
             <Route path="verifyMail" element={<VerifyEmailPage />} />

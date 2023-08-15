@@ -36,16 +36,8 @@ export async function paymentVerification(req, res) {
     console.log(req.body,"sjdsghj");
 
     if (generated_signature === razorpay_signature) {
-        const id = req.userId;
 
-        await BookingModel.create({
-            garbage: garbage,
-            paymentMethod: payment,
-            user: id,
-            order_id
-        })
-
-        res.json({ success: true, message: "Added successfully" });
+        res.json({ success: true});
         console.log('payment success');
     }
 

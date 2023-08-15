@@ -11,19 +11,15 @@ import Banner from "./Banner/Banner";
 
 
 const UserHome = () => {
-    
-    
-
     return (
-        <> 
+        <>
             <Navbar />
             <Banner />
             <Stats />
-            <HeroLeft user = {user}/>
-            <HeroRight collect = {collect} />
-            <HeroLeft recycle = {recycle}/>
+            <HeroLeft user={user} />
+            <HeroRight collect={collect} />
+            <HeroLeft recycle={recycle} />
 
-            
         </>
     );
 }

@@ -16,8 +16,7 @@ const AssignModal = (props) => {
 
     useEffect(() => {
         try {
-            (
-                async function () {
+            ( async function () {
                     const { data } = await getLocation()
                     console.log(data);
                     if (data.status) {
@@ -76,7 +75,6 @@ const AssignModal = (props) => {
     }
 
     let booking = props.booking
-    console.log(booking._id);
 
     return (
         <>
