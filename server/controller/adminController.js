@@ -62,7 +62,7 @@ export async function adminLogin(req, res) {
                 },
                 process.env.ADMIN_SECRET_KEY
             )
-            
+
             res.status(200).json({ admin, token, login: true });
         }
 
@@ -139,39 +139,39 @@ export async function viewWorkers(req, res) {
 
 export async function viewDrivers(req, res) {
     try {
-        let page = parseInt(req.query.page) -1 || 0
+        let page = parseInt(req.query.page) - 1 || 0
         const limit = parseInt(req.query.limit) || 5
         const search = req.query.search || ""
-        let sort  = req.query.sort || "amount"
+        let sort = req.query.sort || "amount"
         let filter = req.query.filter || "All"
-        req.query.sort ? (sort = req.query.sort.split(",")):(sort = [sort])
+        req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort])
 
 
 
         console.log(page);
 
         let sortBy = {}
-        if(sort[1]){
-            sortBy[sort[0]]=sort[1] 
-        }else{
+        if (sort[1]) {
+            sortBy[sort[0]] = sort[1]
+        } else {
             sortBy[sort[0]] = 'asc'
         }
 
-        const drivers =  await DriverModel.find({name:{$regex:search, $options : 'i'}}).sort(sortBy).skip(page * limit).limit(limit)
+        const drivers = await DriverModel.find({ name: { $regex: search, $options: 'i' } }).sort(sortBy).skip(page * limit).limit(limit)
 
-		const total = await DriverModel.countDocuments({
-			name: { $regex: search, $options: "i" },
-		});
+        const total = await DriverModel.countDocuments({
+            name: { $regex: search, $options: "i" },
+        });
 
-		const response = {
-			status: true,
-			total,
-			page: page + 1,
-			limit,
-			drivers,
-		};
+        const response = {
+            status: true,
+            total,
+            page: page + 1,
+            limit,
+            drivers,
+        };
 
-		res.status(200).json(response);
+        res.status(200).json(response);
 
         // const drivers = await DriverModel.find({})
         // res.json({ status: true, drivers })
@@ -258,7 +258,7 @@ export async function addEmployee(req, res) {
                 email,
                 mobile,
                 password: hashedPassword,
-                dob:dob.slice(0,10),
+                dob: dob.slice(0, 10),
                 image: result.secure_url,
                 location,
                 place
@@ -317,32 +317,32 @@ export async function viewWorks(req, res) {
 }
 
 
-export async function getLocation(req,res){
+export async function getLocation(req, res) {
     try {
         const worker = await WorkerModel.find({})
         const driver = await DriverModel.find({})
         const user = await UserModel.findById()
-        if(worker && driver){
-            res.json({status:true , message: "success",worker,driver})
-        }else{
-            res.json({status:false , message: "failed"})
- 
+        if (worker && driver) {
+            res.json({ status: true, message: "success", worker, driver })
+        } else {
+            res.json({ status: false, message: "failed" })
+
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function assignWork(req,res){
+export async function assignWork(req, res) {
     try {
-console.log(req.body);
-        const {workerId,driverId,bookingId} = req.body
+        console.log(req.body);
+        const { workerId, driverId, bookingId } = req.body
         let id = bookingId
         const Driver = await BookingModel.findByIdAndUpdate(
             id,
-            { $set: { worker:workerId , driver:driverId , assigned:true} })
-                res.json({success:true, message:"Work Update Success"})
-        
+            { $set: { worker: workerId, driver: driverId, assigned: true } })
+        res.json({ success: true, message: "Work Update Success" })
+
 
     } catch (error) {
         console.log(error);
@@ -350,15 +350,49 @@ console.log(req.body);
 }
 
 
-export async function totalStats(req,res){
+export async function totalStats(req, res) {
     try {
 
-        const userCount = await UserModel.countDocuments({})
-        const driverCount = await DriverModel.countDocuments({})
-        const workerCount = await WorkerModel.countDocuments({})
-        const bookingCount = await BookingModel.countDocuments({})
+        const count = await Promise.all([
+            UserModel.countDocuments({}).exec(),
+            DriverModel.countDocuments({}).exec(),
+            WorkerModel.countDocuments({}).exec(),
+            BookingModel.countDocuments({}).exec()
+        ])
 
-        res.json({success:true , userCount,driverCount,workerCount,bookingCount})
+        const pipeline = [
+            {
+                $group: {
+                    _id: null,
+                    totalFoodWaste: { $sum: { $toInt: "$garbageCollected.foodWaste" } },
+                    totalEWaste: { $sum: { $toInt: "$garbageCollected.eWaste" } },
+                    totalPlasticWaste: { $sum: { $toInt: "$garbageCollected.plasticWaste" } },
+                    totalOthers: { $sum: { $toInt: "$garbageCollected.Others" } }
+                }
+            }
+        ];
+
+        const result = await BookingModel.aggregate(pipeline);
+
+        const totalSums = {
+            foodWaste: result[0].totalFoodWaste,
+            eWaste: result[0].totalEWaste,
+            plasticWaste: result[0].totalPlasticWaste,
+            Others: result[0].totalOthers
+        }
+
+
+        const count = await Promise.all([
+            UserModel.countDocuments({}).exec(),
+            DriverModel.countDocuments({}).exec(),
+            WorkerModel.countDocuments({}).exec(),
+            BookingModel.countDocuments({}).exec()
+        ])
+
+
+
+
+        res.json({ success: true, count, totalSums })
 
     } catch (error) {
         console.log(error);
