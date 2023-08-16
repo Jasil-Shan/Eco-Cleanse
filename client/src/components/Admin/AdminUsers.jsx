@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Sidebar from "../Sidebar/Sidebar"
+import Sidebar from "./Sidebar/Sidebar"
 import Header from "../Header/Header"
 import axios from "axios"
 import Swal from 'sweetalert2'

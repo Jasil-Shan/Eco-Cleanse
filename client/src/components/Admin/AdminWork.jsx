@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getWorks } from "../../services/adminApi"
 import Header from "../Header/Header"
-import Sidebar from "../Sidebar/Sidebar"
+import Sidebar from "./Sidebar/Sidebar"
 import AssignModal from "./Modal/AssignModal"
 import FormModal from "./Modal/FormModal"
 

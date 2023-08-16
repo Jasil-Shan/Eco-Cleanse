@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Sidebar from "../Sidebar/Sidebar"
+import Sidebar from "./Sidebar/Sidebar"
 import Header from "../Header/Header"
 import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
