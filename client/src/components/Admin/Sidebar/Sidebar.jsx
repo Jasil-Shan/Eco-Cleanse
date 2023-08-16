@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import adminSidebarData from "../../../utils/AdminSidebarData";
 
 
 const Sidebar = () => {
@@ -11,7 +12,7 @@ const Sidebar = () => {
 
     return (
         <div>
-            <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+            <nav className="fixed top-0 z-50 shadow-md py-2 w-full bg-white border-b border-gray-200">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center justify-start">
@@ -101,15 +102,15 @@ const Sidebar = () => {
                     } bg-white border-r border-gray-200 sm:translate-x-0`}
                 aria-label="Sidebar"
             >
-                <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
+                <div className="h-full px-3 pb-4 overflow-y-auto shadow-2xl bg-white ">
                     <ul className="space-y-2 font-medium">
                         {
                             adminSidebarData.map((obj, index) => {
 
                                 return (
+                                    <Link to={obj.links}>
                                     <li>
-                                        <a
-                                            href="#"
+                                        <h1
                                             className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
                                         >
                                             <svg
@@ -123,8 +124,9 @@ const Sidebar = () => {
                                                 <path d="M12.5 0c-.157 0-.313.035-.457.104l-4.086 1.49A2 2 0 0 0 7 3.628v13.744a2 2 0 0 0 1.957 1.935l4.085-1.488A1.999 1.999 0 0 0 14 16.372V2.628a2 2 0 0 0-1.957-1.935l-4.085 1.489A1.998 1.998 0 0 0 7.5 2h-4a2 2 0 0 0-1.997 1.859l-.5 7A2 2 0 0 0 2 13.629V18.5a2 2 0 0 0 1.859 1.997l.5.086a2 2 0 0 0 2.141-1.311l4-13a2 2 0 0 0-1.312-2.64l-.088-.027-.5-.086A2 2 0 0 0 5.5 1h4Z" />
                                             </svg>
                                             <span className="ml-2">{obj.title}</span>
-                                        </a>
+                                        </h1>
                                     </li>
+                                    </Link>
                                 )
                             })}
           

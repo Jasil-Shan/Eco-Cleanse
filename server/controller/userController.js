@@ -83,13 +83,11 @@ export async function getBookings(req, res) {
 
   try {
 
-    const bookings = await BookingModel.find({})
+    const bookings = await BookingModel.find({}).populate('driver').populate('worker')
     res.json({ status: true, bookings, message: "success" })
 
   } catch (error) {
-
-    console.log(error);
-
+    console.log(error)
   }
 }
 

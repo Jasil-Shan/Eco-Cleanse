@@ -1,38 +1,30 @@
 
 
-
-
 const adminSidebarData = [
     {
         title: 'Dashboard',
-        links: [
-            { route: "/admin/dashboard" },
-        ]
+        links:  "/admin/dashboard"
+        
     },
     {
-        title: 'Work',
-        links: [
-            { route: "/admin/work" },
-        ]
+        title: 'Requests',
+        links: "/admin/work"
+        
     },
-
     {
         title: 'Users',
-        links: [
-            { route: "/admin/users" },
-        ]
+        links: "/admin/users" 
+        
     },
     {
         title: 'Worker',
-        links: [
-            { route: "/admin/workers" },
-        ]
+        links: "/admin/workers"
+        
     },
     {
         title: 'Driver',
-        links: [
-            { route: "/admin/drivers" },
-        ]
+        links: "/admin/drivers"
+        
     },
     
    

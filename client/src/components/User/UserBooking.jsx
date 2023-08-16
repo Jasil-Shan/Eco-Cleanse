@@ -1,4 +1,3 @@
-import Sidebar from "../Sidebar/Sidebar"
 import Card from "./Card/Card"
 import Navbar from "./Navbar/Navbar"
 import BookingForms from "./Swiper/BookingForms"
