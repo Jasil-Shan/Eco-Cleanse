@@ -30,6 +30,10 @@ export const getLocation = ()=>{
   return axiosInstance("AdminJwtToken").get('/admin/getLocation')
 }
 
+export const getStats = ()=>{
+  return axiosInstance("AdminJwtToken").get('/admin/getStats')
+}
+
 
 export const assignWork = (driverId,workerId,bookingId)=>{
   return axiosInstance("AdminJwtToken").post('/admin/assignWork',{driverId,workerId,bookingId})
