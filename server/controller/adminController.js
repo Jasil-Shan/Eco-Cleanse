@@ -348,3 +348,19 @@ console.log(req.body);
         console.log(error);
     }
 }
+
+
+export async function totalStats(req,res){
+    try {
+
+        const userCount = await UserModel.countDocuments({})
+        const driverCount = await DriverModel.countDocuments({})
+        const workerCount = await WorkerModel.countDocuments({})
+        const bookingCount = await BookingModel.countDocuments({})
+
+        res.json({success:true , userCount,driverCount,workerCount,bookingCount})
+
+    } catch (error) {
+        console.log(error);
+    }
+}
