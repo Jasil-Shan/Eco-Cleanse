@@ -1,5 +1,5 @@
 import express from "express";
-import {  addEmployee, adminAuth, adminLogin, assignWork, block,  getLocation,  sendMail,  unBlock, viewDrivers, viewUsers, viewWorkers, viewWorks } from "../controller/adminController.js";
+import {  addEmployee, adminAuth, adminLogin, assignWork, block,  getLocation,  sendMail,  totalStats,  unBlock, viewDrivers, viewUsers, viewWorkers, viewWorks } from "../controller/adminController.js";
 
 
 
@@ -25,6 +25,7 @@ router.get('/workers',viewWorkers)
 router.get('/drivers',viewDrivers)
 router.get('/works',viewWorks)
 router.get('/getLocation',getLocation)
+router.get('/getStats',totalStats)
 
 
 
