@@ -12,6 +12,9 @@ const AdminDashboard = () => {
 
     const [totalSums, setTotal] = useState()
     const [count, setCount] = useState()
+    const [onlineEmployees, setOnlineEmployee] = useState()
+    const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
+
 
     useEffect(() => {
         try {
@@ -22,26 +25,28 @@ const AdminDashboard = () => {
                         console.log(data);
                         setTotal(data.totalSums)
                         setCount(data.count)
+                        setOnlineEmployee(data.onlineEmployee)
+                        setMonthlyRevenueData(data.monthlyRevenue)
                     }
                 })()
         } catch (error) {
             console.log(error);
         }
     }, [])
-
     return (
         <>
-
             <Sidebar />
             {count && <AdminStats count={count} />}
-            <div className="flex flex-row ml-64  gap-36 mt-10 justify-center  items-center ">
-                {totalSums &&
+            <div className="flex flex-row ml-64  gap-36 mt-10 justify-center items-center ">
+                {totalSums && onlineEmployees && (
+                    <>
                     <Pie data={totalSums} />
+                    <MixedPie online={onlineEmployees} />
+                    </>
+                )
                 }
-                <MixedPie />
-
             </div>
-            <Bar />
+          {monthlyRevenueData &&  <Bar monthlyRevenueData={monthlyRevenueData} />}
 
 
 
