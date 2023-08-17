@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
 import SearchBar from "./SearchBar/SearchBar"
-import Paginations from "./Pagination/Pagination"
-import { Button } from "@mui/material"
 import SelectBox from "./SelectBox/SelectBox"
 
 
@@ -90,7 +88,7 @@ const AdminDrivers = () => {
             <Sidebar />
             <Header />
             <section className="py-1 bg-blueGray-50">
-                <div className="ml-60 mt-2"><SelectBox sort={sort} setSort={(sort) => setSort(sort)}/></div>
+                <div className="ml-60 mt-2"><SelectBox sort={sort} setSort={(sort) => setSort(sort)} /></div>
                 <SearchBar setSearch={(search) => setSearch(search)} />
                 <div className="w-full flex flex-col  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
@@ -167,15 +165,27 @@ const AdminDrivers = () => {
                         </div>
                     </div>
                     <div className="mt-auto">
-                    <Paginations 
-                    page={page}
-                    limit={limit ? limit : 0}
-                    total={total ? total : 0}
-                    setPage={(page) => setPage(page)} />
+                        <div className="flex justify-center">
+                            <button
+                                className="px-4 py-2 mt-4 mb-8 font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 focus:outline-none"
+                                onClick={() => setPage(prevPage => Math.max(prevPage - 1, 1))}
+                            >
+                                Previous
+                            </button>
+                            <span className="px-4 py-2 mt-4 mb-8 font-semibold text-blue-600">
+                                Page {page} of {Math.ceil(total / limit)}
+                            </span>
+                            <button
+                                className="px-4 py-2 mt-4 mb-8 font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 focus:outline-none"
+                                onClick={() => setPage(prevPage => Math.min(prevPage + 1, Math.ceil(total / limit)))}
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
-                    
+
                 </div>
-               
+
 
             </section>
 
