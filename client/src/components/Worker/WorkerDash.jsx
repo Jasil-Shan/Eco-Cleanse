@@ -33,6 +33,7 @@ const WorkerDash = () => {
                 location: data.worker.location,
                 status: data.worker.status,
                 task: data.worker.task,
+                assigned: data?.worker?.assigned,
               })
             );
             setRole(data.worker.role)
@@ -46,7 +47,6 @@ const WorkerDash = () => {
 
   return (
     <>
-      <SidebarEmp />
       <Dashboard role={role} setRefresh={setRefresh} refresh={refresh} />
 
     </>
