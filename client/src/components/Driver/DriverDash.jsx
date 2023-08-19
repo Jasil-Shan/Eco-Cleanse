@@ -7,11 +7,13 @@ import Status from "../Employees/Status/Status";
 import Dashboard from "../Employees/Dashboard/Dashboard";
 import { useDispatch } from "react-redux";
 import { setDriverDetails } from "../../redux/features/driverSlice";
+import Navbar from "../User/Navbar/Navbar";
+import EmployeeNavbar from "../Employees/EmployeeNavbar/EmployeeNavbar";
 
 const DriverDash = () => {
   const [showModal, setShowModal] = useState(false);
   const [role, setRole] = useState()
-  const [refresh ,setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -33,9 +35,9 @@ const DriverDash = () => {
                 status: data.driver.status,
                 task: data.driver.task,
               })
-          );
-          setRole(data.driver.role)  
-        }
+            );
+            setRole(data.driver.role)
+          }
         })()
     } catch (error) {
       console.log(error);
@@ -44,9 +46,7 @@ const DriverDash = () => {
 
   return (
     <>
-        <SidebarEmp />
-       
-          <Dashboard role={role} setRefresh = {setRefresh} refresh = {refresh}/>
+      <Dashboard role={role} setRefresh={setRefresh} refresh={refresh} />
 
     </>
   );
