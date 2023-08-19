@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const MixedPie = ()=> {
-  const series = [44, 55];
+const MixedPie = ({online})=> {
+    console.log(online);
+  const series = [online[0],online[1]];
   const options = {
     chart: {
       height: 350,
@@ -21,18 +22,17 @@ const MixedPie = ()=> {
             show: true,
             label: 'Total',
             formatter: function (w) {
-              // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-              return 249;
+              return 2
             },
           },
         },
       },
     },
-    labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
+    labels: ['Drivers', 'Workers'],
   };
 
   return (
-    <div id="chart" className=' card shadow-md p-12 '>
+    <div id="chart" className=' card shadow-md p-5 '>
       <ReactApexChart options={options} series={series} type="radialBar" height={350} />
     </div>
   );
