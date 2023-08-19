@@ -10,12 +10,14 @@ import { getUsers } from "../../services/adminApi"
 const AdminUsers = () => {
     const [users, setUsers] = useState([])
     const [refresh, setRefresh] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [perPage, setPerPage] = useState(10)
 
     useEffect(() => {
         try {
             (
                 async function () {
-                    const { data } = await getUsers()
+                    const { data } = await getUsers(currentPage, perPage);
                     if (data.success) {
                         setUsers(data.users)
                     }
@@ -23,7 +25,7 @@ const AdminUsers = () => {
         } catch (error) {
             console.log(error);
         }
-    }, [refresh])
+    }, [refresh, currentPage])
 
 
 
@@ -56,7 +58,7 @@ const AdminUsers = () => {
             confirmButtonText: 'Yes, Unblock!'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const { data } = await axios.patch("/admin/unblock", {...values });
+                const { data } = await axios.patch("/admin/unblock", { ...values });
                 setRefresh(!refresh)
             }
         })
@@ -142,6 +144,22 @@ const AdminUsers = () => {
                                     })}
                                 </tbody>
                             </table>
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="px-3 py-2 mr-2 bg-blue-500 text-white rounded"
+                                >
+                                    Previous Page
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    className="px-3 py-2 ml-2 bg-blue-500 text-white rounded"
+                                >
+                                    Next Page
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
