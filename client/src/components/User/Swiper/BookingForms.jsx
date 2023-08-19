@@ -9,12 +9,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { userBooking } from '../../../services/userApi';
 import Card from '../Card/Card';
+import Chart from '../Chart/Chart';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const BookingForms = () => {
   const swiper = useSwiper();
   const [cards, setcard] = useState(false)
   const [formValues, setFormValues] = useState(null)
+  const navigate = useNavigate()
 
 
   const formik = useFormik({
@@ -34,7 +37,11 @@ const BookingForms = () => {
           values.others
         ) {
           setFormValues(values);
-          setcard(true);
+          for (const key in values) {
+            values[key] = Number(values[key].replace('%', ''));
+          }
+          console.log(values)
+          navigate('/ConfirmChart', {state:{values}})
         } else {
           toast.error('Please fill in all the fields', { position: 'top-center' });
         }
@@ -49,7 +56,6 @@ const BookingForms = () => {
 
   return (
     <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
-      {cards ? formValues && <Card formValues={formValues} /> :
         <Swiper
           effect={'cards'}
           grabCursor={true}
@@ -103,7 +109,7 @@ const BookingForms = () => {
           </SwiperSlide> */}
 
         </Swiper >
-      }
+      
     </form>
   );
 }
