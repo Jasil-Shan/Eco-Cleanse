@@ -14,6 +14,7 @@ const Paginations = ({page, total, limit, setPage }) => {
         <Stack spacing={2}>
 
             <Pagination count={totalPages} page={page}  onChange={handleChange} /> 
+            
 
         </Stack>
     )

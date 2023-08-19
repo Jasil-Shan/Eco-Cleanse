@@ -109,20 +109,11 @@ const Sidebar = () => {
 
                                 return (
                                     <Link to={obj.links}>
-                                    <li>
+                                    <li className="mt-2">
                                         <h1
                                             className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
                                         >
-                                            <svg
-                                                className="w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor"
-                                                viewBox="0 0 22 21"
-                                            >
-                                                <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                                                <path d="M12.5 0c-.157 0-.313.035-.457.104l-4.086 1.49A2 2 0 0 0 7 3.628v13.744a2 2 0 0 0 1.957 1.935l4.085-1.488A1.999 1.999 0 0 0 14 16.372V2.628a2 2 0 0 0-1.957-1.935l-4.085 1.489A1.998 1.998 0 0 0 7.5 2h-4a2 2 0 0 0-1.997 1.859l-.5 7A2 2 0 0 0 2 13.629V18.5a2 2 0 0 0 1.859 1.997l.5.086a2 2 0 0 0 2.141-1.311l4-13a2 2 0 0 0-1.312-2.64l-.088-.027-.5-.086A2 2 0 0 0 5.5 1h4Z" />
-                                            </svg>
+                                            <span>{obj.icon}</span>
                                             <span className="ml-2">{obj.title}</span>
                                         </h1>
                                     </li>

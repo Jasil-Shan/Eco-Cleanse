@@ -74,7 +74,12 @@ export async function adminLogin(req, res) {
 
 export async function viewUsers(req, res) {
     try {
+        const page = req.query.currentPage || 1;
+        const perPage = req.query.perPage || 10;
         const users = await UserModel.find({})
+            .skip((page - 1) * perPage)
+            .limit(perPage);
+            console.log(req.query)
         res.json({ success: true, users })
     } catch (error) {
         res.json({ message: "something went wrong", error: true });
@@ -382,17 +387,28 @@ export async function totalStats(req, res) {
         }
 
 
-        const count = await Promise.all([
-            UserModel.countDocuments({}).exec(),
-            DriverModel.countDocuments({}).exec(),
-            WorkerModel.countDocuments({}).exec(),
-            BookingModel.countDocuments({}).exec()
+        const onlineEmployee = await Promise.all([
+            DriverModel.countDocuments({status:'Available'}).exec(),
+            WorkerModel.countDocuments({status:'Available'}).exec(),
         ])
 
+        const monthlyRevenuePipeline = [
+            {
+              $group: {
+                _id: { $month: "$createdAt" }, // Group by month
+                totalRevenue: { $sum: "$amount" }, // Sum the revenue
+              }
+            }
+          ];
+      
+          const monthlyRevenueResult = await BookingModel.aggregate(monthlyRevenuePipeline);
+      
+          const monthlyRevenue = Array(12).fill(0); // Initialize an array for 12 months
+          monthlyRevenueResult.forEach(item => {
+            monthlyRevenue[item._id - 1] = item.totalRevenue; // Populate the monthly revenue array
+          });
 
-
-
-        res.json({ success: true, count, totalSums })
+        res.json({ success: true, count, totalSums,onlineEmployee,monthlyRevenue })
 
     } catch (error) {
         console.log(error);

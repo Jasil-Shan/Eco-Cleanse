@@ -13,9 +13,14 @@ export const authAdmin = ()=>{
 
 
 
-export const getUsers = ()=>{
-    return axiosInstance("AdminJwtToken").get('/admin/users')
-}
+export const getUsers = (currentPage, perPage) => {
+  return axiosInstance("AdminJwtToken").get('/admin/users', {
+      params: {
+          currentPage: currentPage,
+          perPage: perPage
+      }
+  });
+};
 
 export const getWorks = ()=>{
   return axiosInstance("AdminJwtToken").get('/admin/works')

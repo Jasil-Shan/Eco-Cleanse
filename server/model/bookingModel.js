@@ -39,6 +39,10 @@ const bookingSchema = new mongoose.Schema(
         type: String,
         required:true
       },
+      amount:{
+        type:Number,
+        default:250
+      },
       assigned:{
         type:Boolean,
         default:false
