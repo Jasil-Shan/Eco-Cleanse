@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { setGarbageDetails } from '../../../../redux/features/workerSlice';
 import { useFormik } from 'formik';
+import { setGarbageDetails } from '../../../redux/features/workerSlice';
 
 const Step1 = ({ onNextStep }) => {
     

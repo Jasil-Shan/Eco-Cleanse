@@ -10,7 +10,6 @@ import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
 
 const Dashboard = ({ role, setRefresh, refresh }) => {
 
-    // const role = profile.role
     let profile
     if (role == 'worker') {
         profile = useSelector((state) => state.worker)
