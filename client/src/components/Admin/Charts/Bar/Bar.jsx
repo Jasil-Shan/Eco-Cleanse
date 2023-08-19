@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const Bar = () => {
+const Bar = ({monthlyRevenueData}) => {
+  
   const options = {
     chart: {
       height: 350,
@@ -18,7 +19,7 @@ const Bar = () => {
     dataLabels: {
       enabled: true,
       formatter: function (val) {
-        return val + '%';
+        return val + ' Rs';
       },
       offsetY: -20,
       style: {
@@ -64,12 +65,12 @@ const Bar = () => {
       labels: {
         show: false,
         formatter: function (val) {
-          return val + '%';
+          return val + ' Rs';
         },
       },
     },
     title: {
-      text: 'Monthly Inflation in Argentina, 2002',
+      text: 'Monthly Revenue',
       floating: true,
       offsetY: 330,
       align: 'center',
@@ -80,12 +81,12 @@ const Bar = () => {
   };
 
   const series = [{
-    name: 'Inflation',
-    data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
+    name: 'Revenue',
+    data: monthlyRevenueData,
   }];
 
   return (
-    <div id="chart" className='w-3/4 ml-80 mt-10' >
+    <div id="chart" className='w-3/4 ml-80 mt-28' >
       <ReactApexChart options={options} series={series} type="bar" height={350} />
     </div>
   );
