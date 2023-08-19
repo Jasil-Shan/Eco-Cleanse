@@ -9,28 +9,28 @@ import BookingModel from "../model/bookingModel.js";
 export async function driverLogin(req, res) {
     try {
 
-        const {email,password} = req.body
+        const { email, password } = req.body
 
-        const driver = await DriverModel.findOne({email})
-        if(!driver)
-           return res.json({ error: true, message: 'User not registered' })
+        const driver = await DriverModel.findOne({ email })
+        if (!driver)
+            return res.json({ error: true, message: 'User not registered' })
 
-           if(driver.blocked) {
-            return res.json({ blocked : true , message :"Sorry You are banned"})
-          }
-           const driverValid = bcrypt.compareSync(password, driver.password);
+        if (driver.blocked) {
+            return res.json({ blocked: true, message: "Sorry You are banned" })
+        }
+        const driverValid = bcrypt.compareSync(password, driver.password);
 
-           if (!driverValid) {
-               return res.json({ error: true, message: "wrong Password" })
-           } else {
-               const token = jwt.sign(
-                   {
-                       id: driver._id
-                   },
-                   'DriverJwtkey'
-               )
-               res.json({ error: false, token })
-           }
+        if (!driverValid) {
+            return res.json({ error: true, message: "wrong Password" })
+        } else {
+            const token = jwt.sign(
+                {
+                    id: driver._id
+                },
+                'DriverJwtkey'
+            )
+            res.json({ error: false, token })
+        }
     } catch (error) {
         console.log(error);
     }
@@ -47,16 +47,16 @@ export async function driverAuth(req, res) {
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
-                    const driver = await DriverModel.findById({_id:decoded.id})
-                    if(driver){
-                       return res.json({status:true ,driver,message:"Authorised"})
-                    }else{
-                       return res.json({status:false, message:"Driver not found"})
+                    const driver = await DriverModel.findById({ _id: decoded.id })
+                    if (driver) {
+                        return res.json({ status: true, driver, message: "Authorised" })
+                    } else {
+                        return res.json({ status: false, message: "Driver not found" })
                     }
                 }
             })
-        }else{
-            res.json({status:false , message:"Driver not exists"})
+        } else {
+            res.json({ status: false, message: "Driver not exists" })
         }
     } catch (error) {
         console.log(error);
@@ -67,14 +67,14 @@ export async function driverAuth(req, res) {
 
 
 
-export async function UpdateLocation(req,res){
+export async function UpdateLocation(req, res) {
     try {
-        const {location} = req.body
+        const { location } = req.body
         const id = req.driverId
         const Driver = await DriverModel.findByIdAndUpdate(
             id,
-            { $set: { location , status:true } }).then(()=>{
-                res.json({success:true, message:"Location Update Success"})
+            { $set: { location, status: true } }).then(() => {
+                res.json({ success: true, message: "Location Update Success" })
             })
     } catch (error) {
         console.log(error);
@@ -82,44 +82,73 @@ export async function UpdateLocation(req,res){
 }
 
 
-export async function updateStatus(req,res){
+export async function updateStatus(req, res) {
 
     try {
 
-        const {location,status} = req.body
+        const { location, status } = req.body
         const id = req.driverId
         console.log(req.body);
-        if(status == 'Offline'){
-        const driver = await DriverModel.findByIdAndUpdate(
-            id,
-            { $set: { location,status:'Available' } }).then(()=>{
-                res.json({success:true, message:"Location Update Success"})
-            })
-            console.log(driver,"jjdbsj");
-
-        }else{
-        const driver = await DriverModel.findByIdAndUpdate(
+        if (status == 'Offline') {
+            const driver = await DriverModel.findByIdAndUpdate(
                 id,
-                { $set: { location,status:'Offline' } }).then(()=>{
-                    res.json({success:true, message:"Location Update Success"})
+                { $set: { location, status: 'Available' } }).then(() => {
+                    res.json({ success: true, message: "Location Update Success" })
                 })
-                console.log(driver,"jjdbsj");
+            console.log(driver, "jjdbsj");
+
+        } else {
+            const driver = await DriverModel.findByIdAndUpdate(
+                id,
+                { $set: { location, status: 'Offline' } }).then(() => {
+                    res.json({ success: true, message: "Location Update Success" })
+                })
+            console.log(driver, "jjdbsj");
         }
-        
+
     } catch (error) {
-        console.log(error); 
+        console.log(error);
     }
 }
 
 
-export async function getTasks(req,res){
+export async function getTasks(req, res) {
     try {
-        const {taskId} = req.body
+        const { taskId } = req.body
         const task = await BookingModel.findById(taskId).populate('user').populate('worker').populate('driver')
-        return res.json({status:true, message:'Success', task})
+        return res.json({ status: true, message: 'Success', task })
     } catch (error) {
         console.log(error);
 
     }
 }
+
+
+export async function acceptTask(req, res) {
+    try {
+        
+        const driverId = req.driverId
+        const { taskId } = req.body
+
+        const otherUserModel = DriverModel
+
+        Promise.all([
+            DriverModel.findByIdAndUpdate(driverId, { assigned: true }),
+            otherUserModel.updateMany(
+                { _id: { $ne: driverId } },
+                { $set: { task: null } }),
+            BookingModel.findByIdAndUpdate(taskId, { driver: driverId })
+        ]).then(() => {
+            res.json({ success: true, message: 'Task Accepted' })
+        }).catch((error) => {
+            res.json({ success: false, message: 'Try Again Sometime' })
+            console.log(error)
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 

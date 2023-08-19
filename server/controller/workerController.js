@@ -90,18 +90,16 @@ export async function updateStatus(req, res) {
 
         const { location, status } = req.body
         const id = req.workerId
-        console.log(req.body);
         if (status == 'Offline') {
             const worker = await WorkerModel.findByIdAndUpdate(
                 id,
                 { $set: { location, status: 'Available' } })
-            res.json({ success: true, message: "Location Update Success" })
+            if (worker) return res.json({ success: true, message: "Location Update Success" })
         } else {
             const worker = await WorkerModel.findByIdAndUpdate(
                 id,
-                { $set: { location, status: 'Offline' } }).then(() => {
-                    res.json({ success: true, message: "Location Update Success" })
-                })
+                { $set: { location, status: 'Offline' } })
+            if (worker) return res.json({ success: true, message: "Location Update Success" })
         }
 
     } catch (error) {
@@ -109,13 +107,48 @@ export async function updateStatus(req, res) {
     }
 }
 
+export async function getWorkerTasks(req, res) {
+    try {
+        const { taskId } = req.body
+        const task = await BookingModel.findById(taskId).populate('user').populate('worker').populate('driver')
+        return res.json({ status: true, message: 'Success', task })
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
+export async function acceptTask(req, res) {
+    try {
+        const workerId = req.workerId
+        const {taskId} = req.body
+
+        const otherUserModel = WorkerModel
+        Promise.all([
+            WorkerModel.findByIdAndUpdate(workerId, { assigned: true }),
+            otherUserModel.updateMany(
+                { _id: { $ne: workerId } },
+                { $set: { task: null } }),
+                BookingModel.findByIdAndUpdate(taskId,{worker:workerId})
+            ]).then(()=>{
+                res.json({success:true, message:'Task Accepted'})
+            }).catch((error)=>{
+                res.json({success:false, message:'Try Again Sometime'})
+                console.log(error)
+            })
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 export async function taskComplete(req, res) {
     try {
 
-        const { garbageDetails,id } = req.body
-        const result =await BookingModel.findByIdAndUpdate(id, {
-            $set: { garbageCollected:garbageDetails , status:'Completed' }
-          })
+        const { garbageDetails, id } = req.body
+        const result = await BookingModel.findByIdAndUpdate(id, {
+            $set: { garbageCollected: garbageDetails, status: 'Completed' }
+        })
         res.json({ success: true, message: "Updated" })
 
     } catch (error) {
