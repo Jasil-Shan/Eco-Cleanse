@@ -28,7 +28,7 @@ const Tasks = (props) => {
     return (
         <>
             {
-                task.user &&
+                task?.user &&
                 <div className="mt-12 ">
                     <div className="card w-auto h-auto lg:card-side mt-2 ml-4 bg-base-100 shadow-xl">
                         {/* <figure><img className="w-72 h-full" src="https://source.unsplash.com/rEn-AdBr3Ig" alt="Album" /></figure> */}

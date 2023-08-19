@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Navbar from '../Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
-import { userOnlinePay } from '../../../services/userApi';
+import { userBooking, userOnlinePay, verifyPayment } from '../../../services/userApi';
+import { toast } from 'react-toastify';
+import Success from '../Success Card/Success';
 
 const Chart = () => {
   const [selectedOption, setSelectedOption] = useState('Cash')
+  const [orderId, setOrder] = useState()
+  const [succesful, setSuccess] = useState(false)
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -20,7 +24,7 @@ const Chart = () => {
     values.others,
   ];
 
- const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
 
@@ -78,8 +82,11 @@ const Chart = () => {
       const payment = async (response) => {
         try {
           const { data } = await verifyPayment(response)
+
           if (data.success) {
             const { data } = await userBooking({ payment: selectedOption }, values);
+
+            setOrder(data.order_id)
             setSuccess(true)
             toast.success(data.message, {
               position: "top-center",
@@ -165,26 +172,31 @@ const Chart = () => {
   return (
     <>
       <Navbar />
-      <div id="chart" className='flex flex-col'>
-        <ReactApexChart options={options} series={series} type="radialBar" height={390} />
-        <div className="self-center flex gap-8 mb-8">
-          <div
-            className={`card border-2 drop-shadow-lg p-6 bg-white ${selectedOption === 'Cash' ? ' border-blue-700' : ''
-              }`}
-            onClick={() => handleOptionSelect('Cash')}
-          >
-            Cash
-          </div>
-          <div
-            className={`card border-2 drop-shadow-lg p-6 bg-white ${selectedOption === 'Online' ? 'border-blue-700' : ''
-              }`}
-            onClick={() => handleOptionSelect('Online')}
-          >
-            Online
-          </div>
-        </div>
-        <button className='btn btn-sm drop-shadow-lg w-fit self-center btn-success text-white'>Confirm</button>
-      </div>
+      {
+        succesful ? <Success orderId={orderId} />
+          : (
+            <div id="chart" className='flex flex-col overflow-hidden '>
+              <ReactApexChart options={options} series={series} type="radialBar" height={390} />
+              <div className="self-center flex flex-row gap-8 mb-8">
+                <div
+                  className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Cash' ? ' border-blue-700' : ''
+                    }`}
+                  onClick={() => handleOptionSelect('Cash')}
+                >
+                  Cash
+                </div>
+                <div
+                  className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Online' ? 'border-blue-700' : ''
+                    }`}
+                  onClick={() => handleOptionSelect('Online')}
+                >
+                  Online
+                </div>
+              </div>
+              <button onClick={handleSubmit} className='btn btn-sm drop-shadow-lg w-fit self-center btn-success text-white'>Confirm</button>
+            </div>
+          )
+      }
     </>
   );
 }
