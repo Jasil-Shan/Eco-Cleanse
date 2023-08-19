@@ -27,28 +27,32 @@ const DriverSchema = new mongoose.Schema({
     },
     image: {
         type: Object,
-        required:true
+        required: true
     },
     blocked: {
         type: Boolean,
-        default:false
+        default: false
     },
-    role:{
-        type:String,
+    role: {
+        type: String,
         default: 'driver'
     },
     location: {
         type: Object,
+        default: false
+    },
+    status: {
+        type: String,
+        default: 'offline'
+    },
+    task: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'bookings',
+    },
+    assigned :{
+        type:Boolean,
         default:false
-    },
-    status:{
-        type:String,
-        default:'offline'
-    },
-    task :  {
-        type : mongoose.Schema.Types.ObjectId ,
-        ref : 'bookings' ,
-      },
+    }
 })
 
 const DriverModel = mongoose.model("drivers", DriverSchema)

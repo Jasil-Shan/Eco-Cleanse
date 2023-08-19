@@ -47,6 +47,10 @@ const WorkerSchema = new mongoose.Schema({
     },
     task:{
         type:Object
+    },
+    assigned :{
+        type:Boolean,
+        default:false
     }
 })
 

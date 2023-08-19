@@ -11,7 +11,8 @@ const initialState = {
     role : "",
     location: [],
     status:'',
-    task:''
+    task:'',
+    assigned:''
 }
 
 
@@ -30,6 +31,7 @@ const driverSlice = createSlice({
             state.location = action.payload.location
             state.status = action.payload.status
             state.task = action.payload.task
+            state.assigned = action.payload.assigned
         },
         setDriverSignout: (state, action) => {
             state.id = null;

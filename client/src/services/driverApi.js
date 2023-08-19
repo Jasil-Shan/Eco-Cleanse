@@ -29,8 +29,21 @@ export const updateStatus = (location, role, status) => {
   }
 }
 
-export const getTasks = (taskId) => {
+export const getTasks = (taskId,role) => {
+  if (role == 'driver') {
+    return axiosInstance("DriverJwtkey").post('/driver/getTask', { taskId })
+  } else {
+    return axiosInstance("WorkerJwtkey").post('/worker/getTask', { taskId })
 
-  return axiosInstance("DriverJwtkey").post('/driver/getTask', { taskId })
+  }
+}
 
+
+export const TaskAccept = (taskId,role) =>{
+  if (role == 'driver') {
+    return axiosInstance("DriverJwtkey").patch('/driver/acceptTask',{taskId})
+  } else {
+  return axiosInstance("WorkerJwtkey").patch('/worker/acceptTask',{taskId})
+
+  }
 }
