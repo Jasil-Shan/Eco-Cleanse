@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SidebarEmp from "../SidebarEmployee/SidebarEmp";
-import ModalEmp from "../ModalEmployee/ModalEmp";
+
 import { authDriver } from "../../services/driverApi";
 import ProfileCard from "../Employees/ProfileCard/ProfileCard";
-import Status from "../Employees/Status/Status";
 import Dashboard from "../Employees/Dashboard/Dashboard";
 import { useDispatch } from "react-redux";
 import { setDriverDetails } from "../../redux/features/driverSlice";
