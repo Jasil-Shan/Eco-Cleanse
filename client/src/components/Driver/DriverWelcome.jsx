@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SidebarEmp from "../SidebarEmployee/SidebarEmp";
-import ModalEmp from "../ModalEmployee/ModalEmp";
+
   
 const DriverWelcome = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,8 +10,7 @@ const DriverWelcome = () => {
 
   return (
     <>
-        <SidebarEmp />
-        <ModalEmp />
+       
     </>
 
   );
