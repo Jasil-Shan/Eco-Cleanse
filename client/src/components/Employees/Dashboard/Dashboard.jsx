@@ -1,14 +1,15 @@
 import { toast } from "react-toastify";
 import { getCurrentLocation } from "../../../helpers/currentLocation";
-import { updateStatus } from "../../../services/driverApi";
+import { updateLocation, updateStatus } from "../../../services/driverApi";
 import Tasks from "../Tasks/Tasks";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
-
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 
 
 const Dashboard = ({ role, setRefresh, refresh }) => {
+
 
     let profile
     if (role == 'worker') {
@@ -17,15 +18,14 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
         profile = useSelector((state) => state.driver)
     }
 
-    const status = profile.status
 
     const handleSubmit = async () => {
         try {
-            const data = await getCurrentLocation(role, status)
+            const locations = await getCurrentLocation()
+            const { data } = await updateLocation(locations, role);
+            console.log(data);
             if (data.success) {
-
                 setRefresh(!refresh)
-
                 toast.success(data.message, {
                     position: "top-center",
 
@@ -35,6 +35,23 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
             console.log(error);
         }
 
+    }
+
+    const handleStatus = async (status) => {
+        try {
+            const locations = await getCurrentLocation()
+            const { data } = await updateStatus(locations, role, status);
+            console.log(data);
+            if (data.success) {
+                setRefresh(!refresh)
+                toast.success(data.message, {
+                    position: "top-center",
+
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -64,11 +81,17 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 <li className="flex items-center py-3">
                                     <span>Status</span>
                                     <span className="ml-auto">
-                                        <span className={profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase" : "bg-red-600 py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</span>
-                                    </span>
-                                </li>
-                                <li className="flex items-center justify-center mt-2">
-                                    <button className='btn bg-green-500 w-full text-base-100 btn-sm' onClick={handleSubmit}>Update Status</button>
+                                        <details className="dropdown">
+                                            <summary className={profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase cursor-pointer" : "bg-red-600 cursor-pointer py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</summary>
+                                            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                                                {profile.status == 'Available' ?
+                                                    <li onClick={()=>handleStatus('Offline')}><a>Go Offline</a></li>
+                                                    :
+                                                    <li onClick={()=>handleStatus('Available')}><a>Go Online </a></li>
+                                                }
+                                            </ul>
+                                        </details>
+                                        </span>
                                 </li>
                             </ul>
                         </div>
@@ -95,47 +118,8 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 </span>
                                 <span>Location Info</span>
                             </div>
-                            <div className="grid grid-cols-3">
-                                <div className="text-center my-2">
-                                    <img
-                                        className="h-16 w-16 rounded-full mx-auto"
-                                        src="https://cdn.australianageingagenda.com.au/wp-content/uploads/2015/06/28085920/Phil-Beckett-2-e1435107243361.jpg"
-                                        alt=""
-                                    />
-                                    <a href="#" className="text-main-color">
-                                        Kojstantin
-                                    </a>
-                                </div>
-                                <div className="text-center my-2">
-                                    <img
-                                        className="h-16 w-16 rounded-full mx-auto"
-                                        src="https://avatars2.githubusercontent.com/u/24622175?s=60&amp;v=4"
-                                        alt=""
-                                    />
-                                    <a href="#" className="text-main-color">
-                                        James
-                                    </a>
-                                </div>
-                                <div className="text-center my-2">
-                                    <img
-                                        className="h-16 w-16 rounded-full mx-auto"
-                                        src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                                        alt=""
-                                    />
-                                    <a href="#" className="text-main-color">
-                                        Natie
-                                    </a>
-                                </div>
-                                <div className="text-center my-2">
-                                    <img
-                                        className="h-16 w-16 rounded-full mx-auto"
-                                        src="https://bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/f04b52da-12f2-449f-b90c-5e4d5e2b1469_361x361.png"
-                                        alt=""
-                                    />
-                                    <a href="#" className="text-main-color">
-                                        Casey
-                                    </a>
-                                </div>
+                            <div className="w-45 h-55">
+
                             </div>
                             <button className='btn bg-green-500 btn-sm text-white mt-6' onClick={handleSubmit}>Update</button>
 
@@ -146,7 +130,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
 
                     {/* Right Side */}
                     <div className="w-full md:w-9/12 mx-2 h-64 shadow-xl card  my-5  ">
-                        <div className="bg-white p-3 rounded-sm">
+                        <div className="bg-white p-3  rounded-sm">
                             <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                                 <span className="text-green-500">
                                     <svg
@@ -209,15 +193,13 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                         </div>
                         {/* End of about section */}
 
-                        <div className="my-4"></div>
+                        <div className="order-1">
+                            {profile.task ?
 
-                        {/* Experience and education */}
-                        {profile.task ?
-
-                            <Tasks id={profile.task} role={profile.role} />
-                            : <h1>No Tasks</h1>
-                        }
-                        {/* End of experience and education */}
+                           <Tasks id={profile.task} role={profile.role} />
+                                : <h1>No Tasks</h1>
+                            }
+                        </div>
                     </div>
 
                     {/* End of right side */}

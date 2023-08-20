@@ -1,6 +1,5 @@
-import { getLocation, updateStatus } from "../services/driverApi";
 
-export const getCurrentLocation = async (role,status) => {
+export const getCurrentLocation = async () => {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -9,8 +8,7 @@ export const getCurrentLocation = async (role,status) => {
                     let locations = [longitude, latitude]
                     console.log(locations);
                     try {
-                        const { data } = await updateStatus(locations, role,status);
-                        resolve(data);
+                        resolve(locations);
                     } catch (error) {
                         reject(error);
                     }

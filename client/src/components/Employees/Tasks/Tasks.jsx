@@ -33,7 +33,6 @@ const Tasks = (props) => {
             console.log(error);
         }
     }, [])
-    console.log(profile);
     return (
         <>
             {profile.assigned ? 

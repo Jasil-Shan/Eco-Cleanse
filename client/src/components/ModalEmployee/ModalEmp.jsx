@@ -1,30 +1,10 @@
 import React, { useState, useEffect } from "react";
 import welcome from '../Driver/assets/arrived.png'
-import { getLocation } from "../../services/driverApi";
 
 const ModalEmp = (props) => {
     let role = props.role
 const [clicked , setClicked] = useState(true)
-    const handleClick = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const { latitude, longitude } = position.coords;
-                    let locations = { latitude, longitude }
-                    const {data}= await getLocation(locations,role)
-                    setClicked(false)
-
-                },
-                (error) => {
-                    console.log('Error:', error);
-                    // Handle any errors that occur while getting the location
-                }
-            );
-        } else {
-            console.log('Geolocation is not supported by this browser.');
-            // Handle the case where geolocation is not supported
-        }
-    };
+ 
     return (
         clicked && (
         <div className=" flex justify-center items-center h-screen">

@@ -3,7 +3,6 @@ import SidebarEmp from "../SidebarEmployee/SidebarEmp";
 import ModalEmp from "../ModalEmployee/ModalEmp";
 import ProfileCard from "../Employees/ProfileCard/ProfileCard";
 import { authWorker } from "../../services/workerApi";
-import Status from "../Employees/Status/Status";
 import Dashboard from "../Employees/Dashboard/Dashboard";
 import { useDispatch } from "react-redux";
 import { setWorkerDetails } from "../../redux/features/workerSlice";
