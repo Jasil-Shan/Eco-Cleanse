@@ -9,15 +9,14 @@ export const authDriver = () => {
 
 
 
-export const getLocation = (location, role) => {
-
+export const updateLocation = (location, role) => {
   if (role == 'driver') {
     return axiosInstance("DriverJwtkey").patch('/driver/UpdateLocation', { location })
   } else {
     return axiosInstance("WorkerJwtkey").patch('/worker/UpdateLocation', { location })
 
   }
-  
+
 }
 
 export const updateStatus = (location, role, status) => {
@@ -29,7 +28,7 @@ export const updateStatus = (location, role, status) => {
   }
 }
 
-export const getTasks = (taskId,role) => {
+export const getTasks = (taskId, role) => {
   if (role == 'driver') {
     return axiosInstance("DriverJwtkey").post('/driver/getTask', { taskId })
   } else {
@@ -39,11 +38,20 @@ export const getTasks = (taskId,role) => {
 }
 
 
-export const TaskAccept = (taskId,role) =>{
+export const TaskAccept = (taskId, role) => {
   if (role == 'driver') {
-    return axiosInstance("DriverJwtkey").patch('/driver/acceptTask',{taskId})
+    return axiosInstance("DriverJwtkey").patch('/driver/acceptTask', { taskId })
   } else {
-  return axiosInstance("WorkerJwtkey").patch('/worker/acceptTask',{taskId})
+    return axiosInstance("WorkerJwtkey").patch('/worker/acceptTask', { taskId })
+
+  }
+}
+
+export const profileUpdate = (role, values) => {
+  if (role == 'driver') {
+    return axiosInstance("DriverJwtkey").patch('/driver/updateProfile', { ...values })
+  } else {
+    return axiosInstance("WorkerJwtkey").patch('/worker/updateProfile', { ...values })
 
   }
 }

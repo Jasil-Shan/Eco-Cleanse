@@ -124,3 +124,14 @@ export async function getBookings(req, res) {
   }
 }
 
+export async function profileUpdate (req,res){
+  try {
+      const _id = req.userId
+      const {mobile , name} = req.body
+      await UserModel.findByIdAndUpdate(_id,{$set:{mobile,name}})
+      res.json({success : true , message : "profile updated"})
+  } catch (error) {
+      console.log(error);
+      res.json({success : false , message : "Try Again"})
+  }
+}

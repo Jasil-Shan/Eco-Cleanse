@@ -88,14 +88,12 @@ export async function updateStatus(req, res) {
 
         const { location, status } = req.body
         const id = req.driverId
-        console.log(req.body);
-        if (status == 'Offline') {
+        if (status == 'Available') {
             const driver = await DriverModel.findByIdAndUpdate(
                 id,
                 { $set: { location, status: 'Available' } }).then(() => {
                     res.json({ success: true, message: "Location Update Success" })
                 })
-            console.log(driver, "jjdbsj");
 
         } else {
             const driver = await DriverModel.findByIdAndUpdate(
@@ -103,7 +101,6 @@ export async function updateStatus(req, res) {
                 { $set: { location, status: 'Offline' } }).then(() => {
                     res.json({ success: true, message: "Location Update Success" })
                 })
-            console.log(driver, "jjdbsj");
         }
 
     } catch (error) {
@@ -133,7 +130,7 @@ export async function acceptTask(req, res) {
         const otherUserModel = DriverModel
 
         Promise.all([
-            DriverModel.findByIdAndUpdate(driverId, { assigned: true }),
+            DriverModel.findByIdAndUpdate(driverId, { assigned: true ,status:'On Route' }),
             otherUserModel.updateMany(
                 { _id: { $ne: driverId } },
                 { $set: { task: null } }),
@@ -151,4 +148,14 @@ export async function acceptTask(req, res) {
 
 }
 
+export async function profileUpdate (req,res){
+    try {
+        const _id = req.driverId
+        const {mobile , name} = req.body
+        await DriverModel.findByIdAndUpdate(_id,{$set:{mobile,name}})
+        res.json({success : true , message : "profile updated"})
+    } catch (error) {
+        console.log(error);
+    }
+}
 

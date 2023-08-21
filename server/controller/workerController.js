@@ -72,6 +72,7 @@ export async function UpdateLocation(req, res) {
 
         const { location } = req.body
         const id = req.workerId
+
         const worker = await WorkerModel.findByIdAndUpdate(
             id,
             { $set: { location } }).then(() => {
@@ -90,7 +91,8 @@ export async function updateStatus(req, res) {
 
         const { location, status } = req.body
         const id = req.workerId
-        if (status == 'Offline') {
+        console.log(req.body,'jhdjh')
+        if (status == 'Available') {
             const worker = await WorkerModel.findByIdAndUpdate(
                 id,
                 { $set: { location, status: 'Available' } })
@@ -103,7 +105,7 @@ export async function updateStatus(req, res) {
         }
 
     } catch (error) {
-        console.log();
+        console.log(error);
     }
 }
 
@@ -125,7 +127,7 @@ export async function acceptTask(req, res) {
 
         const otherUserModel = WorkerModel
         Promise.all([
-            WorkerModel.findByIdAndUpdate(workerId, { assigned: true }),
+            WorkerModel.findByIdAndUpdate(workerId, { assigned: true , status:'On Route' }),
             otherUserModel.updateMany(
                 { _id: { $ne: workerId } },
                 { $set: { task: null } }),
@@ -145,15 +147,33 @@ export async function acceptTask(req, res) {
 export async function taskComplete(req, res) {
     try {
 
+        const _id = req.workerId
+
         const { garbageDetails, id } = req.body
-        const result = await BookingModel.findByIdAndUpdate(id, {
-            $set: { garbageCollected: garbageDetails, status: 'Completed' }
-        })
+        
+        await Promise.all([
+        BookingModel.findByIdAndUpdate(id, {
+                $set: { garbageCollected: garbageDetails, status: 'Completed' }
+            }),
+         WorkerModel.findByIdAndUpdate(_id,{$set:{assigned:false , task:null}})
+        ])
+
         res.json({ success: true, message: "Updated" })
 
     } catch (error) {
 
         console.log(error);
     }
+}
 
+export async function profileUpdate (req,res){
+    try {
+        console.log(req.body);
+        const _id = req.workerId
+        const {mobile , name} = req.body
+        await WorkerModel.findByIdAndUpdate(_id,{$set:{mobile,name}})
+        res.json({success : true , message : "profile updated"})
+    } catch (error) {
+        console.log(error);
+    }
 }

@@ -31,3 +31,6 @@ export const userLogin = (values) =>{
 
   }
 
+  export const UserProfileUpdate = ( values) => {
+      return axiosInstance("UserJwtkey").patch('/updateProfile', { ...values })
+  }
