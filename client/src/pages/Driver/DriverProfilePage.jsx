@@ -1,11 +1,11 @@
-import ProfileCard from "../../components/Employees/ProfileCard/ProfileCard"
+import Profile from "../../components/Employees/Profile/Profile"
 
 
 
 const DriverProfilePage = () => {
 
     return(
-        <ProfileCard/>
+        <Profile />
     )
 
 }
