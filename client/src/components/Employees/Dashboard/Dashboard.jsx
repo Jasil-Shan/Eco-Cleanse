@@ -18,6 +18,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
         profile = useSelector((state) => state.driver)
     }
 
+ 
 
     const handleSubmit = async () => {
         try {
@@ -53,7 +54,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
             console.log(error);
         }
     }
-
+    console.log(profile.location[0]);
     return (
         <>
             <EmployeeNavbar role={profile.role} />
@@ -85,20 +86,20 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                             <summary className={profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase cursor-pointer" : "bg-red-600 cursor-pointer py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</summary>
                                             <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                                                 {profile.status == 'Available' ?
-                                                    <li onClick={()=>handleStatus('Offline')}><a>Go Offline</a></li>
+                                                    <li onClick={() => handleStatus('Offline')}><a>Go Offline</a></li>
                                                     :
-                                                    <li onClick={()=>handleStatus('Available')}><a>Go Online </a></li>
+                                                    <li onClick={() => handleStatus('Available')}><a>Go Online </a></li>
                                                 }
                                             </ul>
                                         </details>
-                                        </span>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
                         {/* End of profile card */}
 
                         {/* Friends card */}
-                        <div className="bg-white card mt-8 shadow-lg p-3 hover:shadow">
+                        <div className="bg-white card mt-1 overflow-hidden shadow-lg p-3 hover:shadow">
                             <div className="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
                                 <span className="text-green-500">
                                     <svg
@@ -119,10 +120,22 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 <span>Location Info</span>
                             </div>
                             <div className="w-45 h-55">
+                                {profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
+                                    <MapContainer center={[profile.location[1], profile.location[0]]} zoom={13} style={{ height: '260px' }}>
+                                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                        <Marker position={[profile.location[1], profile.location[0]]}>
+                                            <Popup>
+                                                A popup message on the marker.
+                                            </Popup>
+                                        </Marker>
+                                    </MapContainer>
+                                ) : (
+                                    <div>Loading map...</div>
+                                )}
+
 
                             </div>
-                            <button className='btn bg-green-500 btn-sm text-white mt-6' onClick={handleSubmit}>Update</button>
-
+                            <button className='btn mt-1 bg-green-500 btn-sm text-white' onClick={handleSubmit}>Update</button>
                         </div>
                         {/* End of friends card */}
                     </div>
@@ -196,7 +209,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                         <div className="order-1">
                             {profile.task ?
 
-                           <Tasks id={profile.task} role={profile.role} />
+                                <Tasks id={profile.task} role={profile.role} />
                                 : <h1>No Tasks</h1>
                             }
                         </div>

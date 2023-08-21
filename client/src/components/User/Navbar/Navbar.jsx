@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 
 
-const Navbar = () => {
+const Navbar = ({ProfileRefresh}) => {
 
   const navigate = useNavigate()
   const users = useSelector((state) => state.user)
@@ -15,7 +15,7 @@ const Navbar = () => {
 
   useEffect(() => {
 
-    if (!users.id) {
+    if (!users.id || ProfileRefresh || !ProfileRefresh) {
 
       authUser().then((response) => {
 
@@ -32,7 +32,7 @@ const Navbar = () => {
         }
       })
     }
-  }, [refresh])
+  }, [refresh,ProfileRefresh])
   return (
 
 
