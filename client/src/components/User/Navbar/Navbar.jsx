@@ -36,7 +36,7 @@ const Navbar = () => {
   return (
 
 
-    <div className="navbar glass text-green-950 z-50 bg-transparent mb-1 shadow-lg bg-base-100">
+    <div className="navbar glass  text-green-950 z-50 bg-transparent mb-1 shadow-lg ">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case font-semibold text-xl">Eco cleanse</a>
       </div>
@@ -76,7 +76,6 @@ const Navbar = () => {
                   <Link to={'/profile'}>
                     <p className="justify-between">
                       Profile
-                      <span className="badge">New</span>
                     </p></Link>
                 </li>
                 <li><Link to={'/history'}><a>History</a></Link></li>
