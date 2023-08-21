@@ -1,10 +1,69 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { authWorker } from '../../../services/workerApi';
+import { setWorkerDetails } from '../../../redux/features/workerSlice';
+import { authDriver } from '../../../services/driverApi';
+import { setDriverDetails } from '../../../redux/features/driverSlice';
 
-const EmployeeNavbar = ({profile}) => {
+const EmployeeNavbar = ({ role,refresh }) => {
   const navigate = useNavigate()
-  
-    return (
+  const dispatch = useDispatch()
+  let profile 
+  if (role == 'worker') {
+    profile = useSelector((state) => state.worker)
+  } else {
+    profile = useSelector((state) => state.driver)
+  }
+
+  useEffect(() => {
+    if (!profile.name || refresh || !refresh) {
+      role == 'worker' ?
+      (async function () {
+        const { data } = await authWorker()
+        if (data.status) {
+          dispatch(
+            setWorkerDetails({
+              id: data.worker._id,
+              name: data.worker.name,
+              email: data.worker.email,
+              mobile: data.worker.mobile,
+              place: data.worker.place,
+              image: data.worker.image,
+              role: data.worker.role,
+              location: data.worker.location,
+              status: data.worker.status,
+              task: data.worker.task,
+              assigned: data?.worker?.assigned,
+            })
+          );
+        }
+      })()
+      :
+      (async function () {
+        const { data } = await authDriver()
+        if (data.status) {
+          dispatch(
+            setDriverDetails({
+              id: data.driver._id,
+              name: data.driver.name,
+              email: data.driver.email,
+              mobile: data.driver.mobile,
+              place: data.driver.place,
+              image: data.driver.image,
+              role: data.driver.role,
+              location: data.driver.location,
+              status: data.driver.status,
+              task: data.driver.task,
+              assigned: data?.driver?.assigned,
+            })
+          );
+        }
+      })()
+    }
+  }, [refresh])
+
+  return (
     <div className="navbar shadow-lg rounded-sm bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
@@ -25,7 +84,6 @@ const EmployeeNavbar = ({profile}) => {
         </div>
         <a className="btn btn-ghost normal-case text-xl">Eco Cleanse</a>
       </div>
-      
       <div className="navbar-end">
         <div className="dropdown dropdown-end mr-4">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -38,7 +96,7 @@ const EmployeeNavbar = ({profile}) => {
               profile.role == 'driver' ?
                 <>
                   <li>
-                  <Link to={'/driver/profile'} state={profile}>
+                    <Link to={'/driver/profile'} state={'driver'}>
                       <p className="justify-between">
                         Profile
                         <span className="badge">New</span>
@@ -54,7 +112,7 @@ const EmployeeNavbar = ({profile}) => {
                 :
                 <>
                   <li>
-                    <Link to={'/worker/profile'} state={profile}>
+                    <Link to={'/worker/profile'}  state={'worker'}>
                       <p className="justify-between">
                         Profile
                         <span className="badge">New</span>

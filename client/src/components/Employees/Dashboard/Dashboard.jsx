@@ -56,7 +56,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
 
     return (
         <>
-            <EmployeeNavbar profile={profile} />
+            <EmployeeNavbar role={profile.role} />
             <div className="container mx-auto  p-5">
                 <div className="md:flex no-wrap md:-mx-2 ">
                     {/* Left Side */}
