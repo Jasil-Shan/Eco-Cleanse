@@ -105,18 +105,18 @@ const FormModal = (props) => {
             email: '',
             mobile: '',
             dob: '',
-            gender:'',
+            gender: '',
             password: '',
-            confirmpassword: ''
+            confirmpassword: '',
         },
 
         validationSchema: validate,
 
         onSubmit: async (values) => {
             try {
-        
-                    const {data} = await axios.post('/admin/addEmployee', { ...values, image, location, place,role });
-                
+
+                const { data } = await axios.post('/admin/addEmployee', { ...values, image, location, place, role });
+
                 if (data?.status && props.role == 'worker') {
                     toast.success(data.message, {
                         position: "top-center"
@@ -124,7 +124,7 @@ const FormModal = (props) => {
                     props.setRefresh(!refresh)
                     toggleModal()
                     axios.post('/admin/sendMail', { ...values })
-                    navigate("/admin/workers",{state:{data:'added' }})
+                    navigate("/admin/workers", { state: { data: 'added' } })
                 } else if (data.status && props.role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
@@ -153,7 +153,7 @@ const FormModal = (props) => {
             <button
                 data-modal-target="authentication-modal"
                 data-modal-toggle="authentication-modal"
-                className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ml-12 mb-8 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="btn btn-neutral btn-sm"
                 type="button"
                 onClick={toggleModal}
             >
@@ -166,7 +166,7 @@ const FormModal = (props) => {
                     tabIndex="-1"
                     aria-hidden="true"
                     className="fixed card top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
-                > 
+                >
                     <div className="relative bg-white rounded-lg shadow">
                         <button
                             type="button"
@@ -251,7 +251,7 @@ const FormModal = (props) => {
                                     />
                                     <ul className=" absolute  w-45 py-4  ">
                                         {!place &&
-                                            suggestions.map((item,index) => {
+                                            suggestions.map((item, index) => {
                                                 return <li key={index} onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
                                                     <svg
                                                         className="stroke-current absolute w-4 h-4 left-2 top-2"
@@ -295,9 +295,34 @@ const FormModal = (props) => {
                                     ) : null}
                                 </div>
                                 <div className="join">
-                                    <input className="join-item btn btn-sm" value={'male'}  id="gender" type="radio" name="gender" aria-label="Male" />
-                                    <input className="join-item btn btn-sm" type="radio" value={'female'} id="gender" name="gender" aria-label="Female" />
+                                    <input
+                                        className="join-item btn btn-sm"
+                                        value="male"
+                                        id="gender-male"
+                                        type="radio"
+                                        name="gender"
+                                        aria-label="Male"
+                                        onChange={formik.handleChange}
+                                        checked={formik.values.gender === 'male'}
+                                    />
+                                    <label htmlFor="gender-male">Male</label>
+
+                                    <input
+                                        className="join-item btn btn-sm"
+                                        value="female"
+                                        id="gender-female"
+                                        type="radio"
+                                        name="gender"
+                                        aria-label="Female"
+                                        onChange={formik.handleChange}
+                                        checked={formik.values.gender === 'female'}
+                                    />
+                                    <label htmlFor="gender-female">Female</label>
                                 </div>
+                                {formik.touched.gender && formik.errors.gender ? (
+                                    <div className="text-red-500">{formik.errors.gender}</div>
+                                ) : null}
+
                                 <div>
                                     <input
                                         type="password"

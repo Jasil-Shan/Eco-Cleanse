@@ -74,7 +74,7 @@ const AdminWork = () => {
                                 </thead>
 
                                 <tbody>
-                                    {
+                                    {works &&
                                         works.map((item, index) => {
                                             return <tr key={index}>
                                                 <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
@@ -93,10 +93,10 @@ const AdminWork = () => {
                                                     {item.paymentMethod}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {item.worker.name}
+                                                    {item.worker?.name}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {item.driver.name}
+                                                    {item.driver?.name}
                                                 </td>
                                                 <td>
                                                     {
