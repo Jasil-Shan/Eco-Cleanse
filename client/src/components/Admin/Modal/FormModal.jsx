@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
 
-const FormModal = (props) => {
+const FormModal = ({role,setRefresh,refresh}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [image, setSelectedImages] = useState([]);
@@ -13,8 +13,7 @@ const FormModal = (props) => {
     const [suggestions, setSuggest] = useState([]);
     const [value, setValue] = useState("");
     const [place, setPlace] = useState("");
-    const role = props.role
-    const refresh = props.refresh
+   
 
     const handleRetrieve = (itemLocation, place) => {
         setLocation(itemLocation);
@@ -91,6 +90,8 @@ const FormModal = (props) => {
             .max(10, 'Mobile number not valid')
             .min(10, 'Mobile number not valid')
             .required("Mobile is required"),
+        gender: Yup.string()
+            .required("gender is required"),
         password: Yup.string()
             .min(8, 'password must be at least 8 charecters')
             .required("Password is required"),
@@ -117,21 +118,22 @@ const FormModal = (props) => {
 
                 const { data } = await axios.post('/admin/addEmployee', { ...values, image, location, place, role });
 
-                if (data?.status && props.role == 'worker') {
+                if (data?.status && role == 'worker') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    props.setRefresh(!refresh)
+                    setRefresh(!refresh)
                     toggleModal()
                     axios.post('/admin/sendMail', { ...values })
-                    navigate("/admin/workers", { state: { data: 'added' } })
-                } else if (data.status && props.role == 'driver') {
+                    navigate("/admin/details", { state: 'worker' })
+                } else if (data.status && role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
+                    setRefresh(!refresh)
                     axios.post('/admin/sendMail', { ...values })
                     toggleModal()
-                    navigate("/admin/drivers")
+                    navigate("/admin/details", { state: 'driver' })
                 } else {
                     toast.error(data.message, {
                         position: "top-center"
@@ -165,9 +167,9 @@ const FormModal = (props) => {
                     id="authentication-modal"
                     tabIndex="-1"
                     aria-hidden="true"
-                    className="fixed card top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
+                    className="fixed  top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
                 >
-                    <div className="relative bg-white rounded-lg shadow">
+                    <div className="relative  bg-white rounded-lg shadow">
                         <button
                             type="button"
                             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -290,9 +292,7 @@ const FormModal = (props) => {
                                         onChange={formik.handleChange}
                                         required
                                     />
-                                    {formik.touched.mobile && formik.errors.mobile ? (
-                                        <div className="text-red-500"> {formik.errors.mobile} </div>
-                                    ) : null}
+                                 
                                 </div>
                                 <div className="join">
                                     <input
@@ -360,11 +360,12 @@ const FormModal = (props) => {
                                         onChange={handleFileChange}
                                         required
                                     />
-                                    {formik.touched.mobile && formik.errors.mobile ? (
-                                        <div className="text-red-500"> {formik.errors.mobile} </div>
-                                    ) : null}
                                 </div>
-
+                                {image && (
+                                    <div>
+                                        <img src={image} alt="Selected" className="mt-3 max-w-full h-auto" />
+                                    </div>
+                                )}
 
                                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                     <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
