@@ -6,7 +6,6 @@ export const getCurrentLocation = async () => {
                 async (position) => {
                     const { latitude, longitude } = position.coords;
                     let locations = [longitude, latitude]
-                    console.log(locations);
                     try {
                         resolve(locations);
                     } catch (error) {

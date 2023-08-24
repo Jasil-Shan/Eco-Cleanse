@@ -49,8 +49,8 @@ const Table = () => {
                         </div>
                       </td>
                       <td className="px-4 py-3 border text-ms font-semibold">{item.createdAt}</td>
-                      <td className="px-4 py-3 border text-ms font-semibold">{item.driver.name}</td>
-                      <td className="px-4 py-3 border text-ms font-semibold">{item.worker.name}</td>
+                      <td className="px-4 py-3 border text-ms font-semibold">{item?.driver?.name}</td>
+                      <td className="px-4 py-3 border text-ms font-semibold">{item?.worker?.name}</td>
                       <td className="px-4 py-3 border text-xs">
                         <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{item.status}</span>
                       </td>

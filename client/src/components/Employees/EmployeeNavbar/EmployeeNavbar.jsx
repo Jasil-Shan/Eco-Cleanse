@@ -22,6 +22,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
       (async function () {
         const { data } = await authWorker()
         if (data.status) {
+          console.log(data,'jdhjf');
           dispatch(
             setWorkerDetails({
               id: data.worker._id,
@@ -35,6 +36,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
               status: data.worker.status,
               task: data.worker.task,
               assigned: data?.worker?.assigned,
+              dob: data?.worker.dob,
             })
           );
         }
@@ -56,6 +58,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
               status: data.driver.status,
               task: data.driver.task,
               assigned: data?.driver?.assigned,
+              dob: data?.driver?.dob,
             })
           );
         }
@@ -82,7 +85,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
             <li><a>Item 3</a></li>
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">Eco Cleanse</a>
+       <Link to={'/driver/dashboard'}> <a className="btn btn-ghost normal-case text-xl">Eco Cleanse</a></Link>
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end mr-4">
@@ -102,7 +105,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
                         <span className="badge">New</span>
                       </p></Link>
                   </li>
-                  <li><Link to={'/driver/history'}><a>History</a></Link></li>
+                  <li><Link to={'/driver/history'} state={'driver'}><a>History</a></Link></li>
                   <li onClick={
                     () => {
                       localStorage.removeItem('DriverJwtkey')
@@ -118,7 +121,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
                         <span className="badge">New</span>
                       </p></Link>
                   </li>
-                  <li><Link to={'worker/history'}><a>History</a></Link></li>
+                  <li><Link to={'worker/history'} state={'worker'}><a>History</a></Link></li>
                   <li onClick={
                     () => {
                       localStorage.removeItem('WorkerJwtkey');
