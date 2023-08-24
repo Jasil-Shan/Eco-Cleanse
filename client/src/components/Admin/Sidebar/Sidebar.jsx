@@ -98,7 +98,7 @@ const Sidebar = () => {
 
             <aside
                 id="logo-sidebar"
-                className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${isSidebarOpen ? "" : "-translate-x-full"
+                className={`fixed top-0 left-0 z-40 w-56 h-screen pt-20 transition-transform ${isSidebarOpen ? "" : "-translate-x-full"
                     } bg-white border-r border-gray-200 sm:translate-x-0`}
                 aria-label="Sidebar"
             >
@@ -108,7 +108,7 @@ const Sidebar = () => {
                             adminSidebarData.map((obj, index) => {
 
                                 return (
-                                    <Link to={obj.links}>
+                                    <Link to={obj.links} state={obj.role}>
                                     <li className="mt-2">
                                         <h1
                                             className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"

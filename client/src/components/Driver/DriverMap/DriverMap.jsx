@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import EmployeeNavbar from '../../Employees/EmployeeNavbar/EmployeeNavbar';
@@ -6,30 +6,36 @@ import { useLocation } from 'react-router-dom';
 
 const DriverMap = () => {
     const location = useLocation();
+    const [instructions, setInstructions] = useState()
+    const [distance, setDistance] = useState()
     const task = location?.state;
     const mapContainerRef = useRef(null);
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2hhanBhcmFkaXNlLTEyMyIsImEiOiJjbGt3djVieXExYWRyM3BwcDB1eTQ5NjF2In0.qO4fld59j3Og7WhdT6gzHw';
-    const start = task.driver.location;
-    const user = task.user.location;
-    const worker = task.worker.location;
+    const start = task?.driver?.location;
+    const user = task?.user?.location;
+    const worker = task?.worker?.location;
 
     useEffect(() => {
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [...start], // Set the initial center coordinates
-            zoom: 15 // Adjust the initial zoom level
+            center: [...start],
+            zoom: 10 // Adjust the initial zoom level
         });
 
         (async function () {
-            const response = await fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${worker[0]},${worker[1]};${user[0]},${user[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`);
+            const response = await fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${worker[0]},${worker[1]};${user[0]},${user[1]}?geometries=geojson&steps=true&banner_instructions=true&access_token=${mapboxgl.accessToken}`);
 
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
                 const routeCoordinates = data.routes[0].geometry.coordinates;
+                const routeInstructions = data.routes[0].legs[0].steps;
+                setDistance( Math.floor(data.routes[0].distance/1000))
+                const duration = Math.floor(data.routes[0].duration / 60)
 
-                // Add the route to the map as a line layer
+                setInstructions(routeInstructions);
+
                 map.on('load', () => {
                     map.addLayer({
                         id: 'route',
@@ -71,7 +77,23 @@ const DriverMap = () => {
     return (
         <div>
             <EmployeeNavbar />
-            <div className="map-container" ref={mapContainerRef} style={{ width: '100%', height: '100vh' }} />
+                <div className="map-container" ref={mapContainerRef} style={{ width: '100%', height: '100vh' }} >
+                <div className=" absolute z-50">
+                    <details className="dropdown ml-6 mb-32">
+                        <summary className="m-1 mt-8 ml-6 font-bold">Directions</summary>
+                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                            <h1 className='font-bold mb-3 mt-3  '>Distance : {distance} km</h1>
+                            {instructions?.map((item, index) => {
+                                return (
+                                    <h1 className='font-bold mb-2 '>{index + 1}. {item.maneuver.instruction}</h1>
+                                )
+                            })
+                            }
+                        </ul>
+                    </details>
+
+                </div>
+                </div>
         </div>
     );
 };

@@ -5,7 +5,8 @@ import Tasks from "../Tasks/Tasks";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import 'leaflet/dist/leaflet.css';
 
 
 const Dashboard = ({ role, setRefresh, refresh }) => {
@@ -17,8 +18,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
     } else {
         profile = useSelector((state) => state.driver)
     }
-
- 
+    
 
     const handleSubmit = async () => {
         try {
@@ -120,18 +120,16 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 <span>Location Info</span>
                             </div>
                             <div className="w-45 h-55">
-                                {profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
-                                    <MapContainer center={[profile.location[1], profile.location[0]]} zoom={13} style={{ height: '260px' }}>
-                                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                        <Marker position={[profile.location[1], profile.location[0]]}>
-                                            <Popup>
-                                                A popup message on the marker.
-                                            </Popup>
-                                        </Marker>
-                                    </MapContainer>
-                                ) : (
-                                    <div>Loading map...</div>
-                                )}
+                                {
+                                    profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
+                                        <MapContainer center={[profile?.location[1], profile?.location[0]]} zoom={8} style={{ height: '250px' }}>
+                                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                            <Marker position={[profile.location[1], profile.location[0]]}>
+                                            </Marker>
+                                        </MapContainer>
+                                    ) : (
+                                        <div>Loading map...</div>
+                                    )}
 
 
                             </div>
@@ -208,9 +206,11 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
 
                         <div className="order-1">
                             {profile.task ?
-
                                 <Tasks id={profile.task} role={profile.role} />
-                                : <h1>No Tasks</h1>
+                                :
+                                <div className="flex justify-center items-center mt-44">
+                                    <h1 className="font-bold text-xl">No Tasks</h1>
+                                </div>     
                             }
                         </div>
                     </div>

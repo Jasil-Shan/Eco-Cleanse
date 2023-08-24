@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getTasks } from "../../../services/driverApi"
 import { FaUserLarge } from "react-icons/fa6";
 import { FcBusinessman, FcHome, FcPhoneAndroid, FcReadingEbook } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TaskModal from "../../Worker/TaskModal/TaskModal";
 import TaskAlert from "./TaskAlert/TaskAlert";
 import { useSelector } from "react-redux";
@@ -11,8 +11,10 @@ const Tasks = (props) => {
 
     const [task, setTask] = useState({})
     const TaskId = props.id
-    const role = props.role
+    const role = props?.role
     const navigate = useNavigate()
+    const [refresh ,setRefresh] = useState(false)
+    
     let profile
     if (role == 'worker') {
         profile = useSelector((state) => state.worker)
@@ -23,23 +25,22 @@ const Tasks = (props) => {
     useEffect(() => {
         try {
             (async function () {
-                const { data } = await getTasks(TaskId,role)
+                const { data } = await getTasks(TaskId, role)
                 if (data.status) {
                     setTask(data.task)
                 }
-
             })()
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, [refresh])
     return (
         <>
-            {profile.assigned ? 
-                <div className="mt-12 ">
-                    <div className="card w-auto h-auto lg:card-side mt-2 ml-4 bg-base-100 shadow-xl">
+            {profile.assigned ?
+                <div className="mt-14 ">
+                    <div className="card w-auto lg:card-side mt-2 ml-4 bg-base-100 shadow-xl">
                         {/* <figure><img className="w-72 h-full" src="https://source.unsplash.com/rEn-AdBr3Ig" alt="Album" /></figure> */}
-                        <div className="card-body  ">
+                        <div className="card-body ">
                             <span className="antialiased tracking-wider text-xl font-bold">Task</span>
                             <div className="flex justify-evenly">
                                 <div className=" flex flex-col  border-t-4 border-green-400 card shadow-xl w-fit p-6">
@@ -65,13 +66,17 @@ const Tasks = (props) => {
                                 }
                             </div>
                             <div className="card-actions justify-center mt-4 ">
-                                <TaskModal />
+                                {(props.role == 'driver') ?
+                                 <Link to={'/driver/map'} state = {task}><button className="btn btn-accent btn-sm text-white">Start </button></Link>   
+                                    :
+                                    <TaskModal />
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 :
-                <TaskAlert task ={task} role = {role}/>
+               role && <TaskAlert task={task} role={role} setRefresh ={setRefresh}/>
             }
         </>
     )
