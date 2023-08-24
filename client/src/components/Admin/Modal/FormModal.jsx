@@ -305,7 +305,6 @@ const FormModal = (props) => {
                                         onChange={formik.handleChange}
                                         checked={formik.values.gender === 'male'}
                                     />
-                                    <label htmlFor="gender-male">Male</label>
 
                                     <input
                                         className="join-item btn btn-sm"
@@ -317,7 +316,7 @@ const FormModal = (props) => {
                                         onChange={formik.handleChange}
                                         checked={formik.values.gender === 'female'}
                                     />
-                                    <label htmlFor="gender-female">Female</label>
+
                                 </div>
                                 {formik.touched.gender && formik.errors.gender ? (
                                     <div className="text-red-500">{formik.errors.gender}</div>
