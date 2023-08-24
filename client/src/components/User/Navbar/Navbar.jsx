@@ -36,7 +36,7 @@ const Navbar = ({ProfileRefresh}) => {
   return (
 
 
-    <div className="navbar glass  text-green-950 z-50 bg-transparent mb-1 shadow-lg ">
+    <div className="navbar  text-green-950 z-50 bg-transparent mb-1 shadow-lg ">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case font-semibold text-xl">Eco cleanse</a>
       </div>
@@ -44,7 +44,7 @@ const Navbar = ({ProfileRefresh}) => {
         <ul className="menu menu-horizontal mr-6 font-semibold px-1">
           <Link to={'/'}><li><a>Home</a></li></Link>
           <Link to={'/booking'}><li><a>Booking</a></li></Link>
-          <li><a>Blog</a></li>
+          {/* <li><a>Blog</a></li> */}
         </ul>
         {/* <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">

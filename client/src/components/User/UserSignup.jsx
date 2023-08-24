@@ -37,7 +37,7 @@ const UserSignup = () => {
             setSuggest(features);
             console.log(features);
         }
-    };
+    }
 
 
     const validate = Yup.object({

@@ -171,34 +171,37 @@ const Chart = () => {
 
   return (
     <>
-      <Navbar />
-      {
-        succesful ? <Success orderId={orderId} />
-          : (
-            <div id="chart" className='flex flex-col overflow-hidden '>
-              <ReactApexChart options={options} series={series} type="radialBar" height={390} />
-              <div className="self-center flex flex-row gap-8 mb-8">
-                <div
-                  className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Cash' ? ' border-blue-700' : ''
-                    }`}
-                  onClick={() => handleOptionSelect('Cash')}
-                >
-                  Cash
+      <div className="h-screen bg-[url(https://res.cloudinary.com/dlhldjuis/image/upload/v1690101413/Eco%20cleanse/Untitled_6_l4znzl.png)] bg-cover backdrop-blur-3xl">
+
+        <Navbar />
+        {
+          succesful ? <Success orderId={orderId} />
+            : (
+              <div id="chart" className='flex card pb-8 glass flex-col overflow-hidden '>
+                <ReactApexChart options={options} series={series} type="radialBar" height={390} />
+                <div className="self-center flex flex-row gap-8 mb-8">
+                  <div
+                    className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Cash' ? ' border-blue-700' : ''
+                      }`}
+                    onClick={() => handleOptionSelect('Cash')}
+                  >
+                    Cash
+                  </div>
+                  <div
+                    className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Online' ? 'border-blue-700' : ''
+                      }`}
+                    onClick={() => handleOptionSelect('Online')}
+                  >
+                    Online
+                  </div>
                 </div>
-                <div
-                  className={`card border-2 cursor-pointer drop-shadow-lg p-6 bg-white ${selectedOption === 'Online' ? 'border-blue-700' : ''
-                    }`}
-                  onClick={() => handleOptionSelect('Online')}
-                >
-                  Online
-                </div>
+                <button onClick={handleSubmit} className='btn btn-sm drop-shadow-lg w-fit self-center btn-success text-white'>Confirm</button>
               </div>
-              <button onClick={handleSubmit} className='btn btn-sm drop-shadow-lg w-fit self-center btn-success text-white'>Confirm</button>
-            </div>
-          )
-      }
-    </>
-  );
+            )
+        }
+        </div>
+      </>
+      );
 }
 
-export default Chart
+      export default Chart

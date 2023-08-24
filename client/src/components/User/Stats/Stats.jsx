@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import { getStats } from "../../../services/adminApi";
 
 const Stats = () => {
+  const [totalSums, setTotal] = useState()
+  const [count, setCount] = useState()
+  const [onlineEmployees, setOnlineEmployee] = useState()
+  const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
+
+
+  useEffect(() => {
+      try {
+          (
+              async function () {
+                  const { data } = await getStats()
+                  if (data.success) {
+                      console.log(data);
+                      setTotal(data.totalSums)
+                      setCount(data.count)
+                  }
+              })()
+      } catch (error) {
+          console.log(error);
+      }
+  }, [])
+
   return (
     <div className="flex items-center justify-center mt-12">
       <div className="stats shadow justify-center">
@@ -46,7 +69,7 @@ const Stats = () => {
           </div>
           <div className="stat-title">E-Waste</div>
           <div className="stat-value">
-            <CountUp start={0} end={4200} duration={4.5} separator="," />
+            <CountUp start={0} end={totalSums?.eWaste} duration={4.5} separator="," />
           </div>
           <div className="stat-desc">↗︎ 400 (22%)</div>
         </div>
@@ -69,7 +92,7 @@ const Stats = () => {
           </div>
           <div className="stat-title">Plastic</div>
           <div className="stat-value">
-            <CountUp start={0} end={1200} duration={4.5} separator="," />
+            <CountUp start={0} end={totalSums?.plasticWaste} duration={4.5} separator="," />
           </div>
           <div className="stat-desc">↘︎ 90 (14%)</div>
         </div>
@@ -91,7 +114,7 @@ const Stats = () => {
           </div>
           <div className="stat-title">Food Waste</div>
           <div className="stat-value">
-            <CountUp start={0} end={1200} duration={4.5} separator="," />
+            <CountUp start={0} end={totalSums?.foodWaste} duration={4.5} separator="," />
           </div>
           <div className="stat-desc">↘︎ 90 (14%)</div>
         </div>

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Step1 from '../Step1/Step1';
 import Step2 from '../Step2/Step2';
 import Step3 from '../Step 3/Step3';
+import { taskComplete } from '../../../services/workerApi';
 
 
 
@@ -33,7 +34,7 @@ const TaskModal = () => {
 
     const handleSubmit = async () => {
 
-        const { data } = await axios.post('/worker/taskComplete', { garbageDetails, id })
+        const { data } = await taskComplete(garbageDetails,id)
         console.log(data)
         if (data.success) {
             toast.success(data.message, {

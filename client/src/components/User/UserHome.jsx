@@ -18,7 +18,7 @@ const UserHome = () => {
             <Stats />
             <HeroLeft user={user} />
             <HeroRight collect={collect} />
-            <HeroLeft recycle={recycle} />
+            <HeroLeft recycle={recycle} last = {true} />
 
         </>
     );

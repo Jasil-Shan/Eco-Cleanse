@@ -53,7 +53,6 @@ const BookingForms = () => {
   });
 
 
-
   return (
     <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
         <Swiper
@@ -90,15 +89,15 @@ const BookingForms = () => {
             </select>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex flex-col items-center">
-              <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='others' id='others'>
+            <div className="flex flex-col h-fit items-center">
+              <select onChange={formik.handleChange} className="select font-semibold text-black select-ghost w-full max-w-xs" name='others' id='others'>
                 <option disabled selected>Pick Garbage Status</option>
                 <option>25%</option>
                 <option>50%</option>
                 <option>75%</option>
                 <option>100%</option>
               </select>
-              <button type='submit' className="btn glass number-center">Submit</button>
+              <button type='submit' className="btn glass number-center mt-8">Submit</button>
             </div>
 
           </SwiperSlide>

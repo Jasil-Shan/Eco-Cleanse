@@ -3,11 +3,10 @@ import { FcBusinessman, FcHome, FcPhoneAndroid } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { TaskAccept } from '../../../../services/driverApi';
 
-const TaskAlert = ({ task,role }) => {
+const TaskAlert = ({ task,role,setRefresh }) => {
 
   const [isOpen, setIsOpen] = useState(true);
   const taskId = task._id
-
   const toggleModal = () => {
     setIsOpen(false);
   };
@@ -16,6 +15,7 @@ const TaskAlert = ({ task,role }) => {
     const {data} = await TaskAccept(taskId ,role)
     if(data.success){
         toggleModal()
+        setRefresh(true)
         toast.success(data.message, {
             position: "top-center"
         })
@@ -47,9 +47,9 @@ const TaskAlert = ({ task,role }) => {
                 </div>
               </div>
               <div className="mt-4 flex justify-center space-x-4">
-                <button className="btn btn-sm bg-red-500 text-white" onClick={toggleModal}>
+                {/* <button className="btn btn-sm bg-red-500 text-white" onClick={toggleModal}>
                   Deny
-                </button>
+                </button> */}
                 <button className="btn btn-sm btn-primary" onClick={handleSubmit}>
                   Accept
                 </button>
