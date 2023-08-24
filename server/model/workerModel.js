@@ -21,6 +21,10 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    gender: {
+        type: String,
+        
+    },
     place: {
         type: String,
         required: true

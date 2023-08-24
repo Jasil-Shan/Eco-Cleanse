@@ -37,6 +37,10 @@ const DriverSchema = new mongoose.Schema({
         type: String,
         default: 'driver'
     },
+    gender: {
+        type: String,
+        
+    },
     location: {
         type: Object,
         default: false

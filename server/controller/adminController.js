@@ -255,7 +255,7 @@ export async function addEmployee(req, res) {
     try {
 
         console.log(req.body);
-        const { name, email, dob, password, mobile, image, location, place, role } = req.body
+        const { name, email, dob, password, mobile, image,gender, location, place, role } = req.body
 
         if (role == 'driver') {
             const Driver = await DriverModel.findOne({ email })
@@ -291,6 +291,7 @@ export async function addEmployee(req, res) {
                 mobile,
                 password: hashedPassword,
                 dob,
+                gender,
                 image: result.secure_url,
                 location,
                 place
@@ -311,6 +312,7 @@ export async function addEmployee(req, res) {
                 mobile,
                 password: hashedPassword,
                 dob,
+                gender,
                 image: result.secure_url,
                 location,
                 place
