@@ -122,7 +122,7 @@ const AdminDataTable = () => {
                                     <h3 className=" text-base text-blueGray-700 uppercase py-2 font-bold">{role}</h3>
                                 </div>
                                 <div className="relative mr-2 w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                   {role&& <FormModal role={role} />}
+                                   {role&& <FormModal refresh ={refresh} setRefresh ={setRefresh} role={role} />}
                                 </div>
                             </div>
                         </div>
