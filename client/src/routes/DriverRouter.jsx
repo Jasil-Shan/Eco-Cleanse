@@ -5,6 +5,7 @@ import DriverWelcomePage from "../pages/Driver/DriverWelcomePage";
 import PrivateRoutes from "../utils/PrivateRoutes";
 import DriverProfilePage from "../pages/Driver/DriverProfilePage";
 import DriverMapPage from "../pages/Driver/DriverMapPage";
+import DriverHistoryPage from "../pages/Driver/DriverHistoryPage";
 
 
 
@@ -20,6 +21,7 @@ function DriverRouter() {
                 <Route path="welcome" element={<DriverWelcomePage />} />
                 <Route path="profile" element={<DriverProfilePage />} />
                 <Route path="map" element={<DriverMapPage />} />
+                <Route path="history" element={<DriverHistoryPage />} />
 
             </Route>
 

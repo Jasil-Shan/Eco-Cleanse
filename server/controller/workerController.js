@@ -72,6 +72,7 @@ export async function UpdateLocation(req, res) {
 
         const { location } = req.body
         const id = req.workerId
+        console.log(location);
 
         const worker = await WorkerModel.findByIdAndUpdate(
             id,
@@ -149,15 +150,15 @@ export async function taskComplete(req, res) {
 
         const _id = req.workerId
 
-        const { garbageDetails, id } = req.body
+        const { garbageDetails, taskId } = req.body
         
         await Promise.all([
-        BookingModel.findByIdAndUpdate(id, {
-                $set: { garbageCollected: garbageDetails, status: 'Completed' }
+        BookingModel.findByIdAndUpdate(taskId, {
+                $set: { garbageCollected: garbageDetails, status: 'Completed',assigned:false }
             }),
-         WorkerModel.findByIdAndUpdate(_id,{$set:{assigned:false , task:null}})
+         WorkerModel.findByIdAndUpdate(_id,{$set:{task:null}})
         ])
-
+ 
         res.json({ success: true, message: "Updated" })
 
     } catch (error) {
@@ -175,5 +176,17 @@ export async function profileUpdate (req,res){
         res.json({success : true , message : "profile updated"})
     } catch (error) {
         console.log(error);
+    }
+}
+
+
+export async function getHistory (req,res){
+    try {
+        const _id = req.workerId
+        const history = await BookingModel.find({worker:_id}).populate('user').populate('worker').populate('driver')
+        res.json({success:true , message:'history reached' , history})
+    } catch (error) {
+        console.log(error);
+        res.json({success:fals , message:'failed '})
     }
 }

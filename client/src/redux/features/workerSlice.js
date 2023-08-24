@@ -13,7 +13,8 @@ const initialState = {
     status:'',
     task:'',
     garbageDetails:{},
-    assigned:''
+    assigned:'',
+    dob:''
 }
 
 
@@ -33,6 +34,7 @@ const workerSlice = createSlice({
             state.status = action.payload.status
             state.task = action.payload.task
             state.assigned = action.payload.assigned
+            state.dob = action.payload.dob
 
         },
         setGarbageDetails: (state, action) => {

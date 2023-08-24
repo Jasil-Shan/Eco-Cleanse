@@ -12,7 +12,8 @@ const initialState = {
     location: [],
     status:'',
     task:'',
-    assigned:''
+    assigned:'',
+    dob:''
 }
 
 
@@ -32,6 +33,10 @@ const driverSlice = createSlice({
             state.status = action.payload.status
             state.task = action.payload.task
             state.assigned = action.payload.assigned
+            state.dob = action.payload.dob
+        },
+        setDriverTask: (state, action) => {
+            state.task = action.payload.task
         },
         setDriverSignout: (state, action) => {
             state.id = null;
@@ -43,6 +48,6 @@ const driverSlice = createSlice({
     }
 })
 
-export const {setDriverDetails , setDriverSignout} = driverSlice.actions
+export const {setDriverDetails , setDriverSignout,setDriverTask} = driverSlice.actions
 
 export default driverSlice.reducer

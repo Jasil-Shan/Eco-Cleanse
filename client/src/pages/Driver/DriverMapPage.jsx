@@ -1,9 +1,9 @@
 import React from 'react'
-import Map from '../../components/Driver/Map/Map'
+import DriverMap from '../../components/Driver/DriverMap/DriverMap'
 
 const DriverMapPage = () => {
   return (
-    <Map />
+    <DriverMap />
   )
 }
 

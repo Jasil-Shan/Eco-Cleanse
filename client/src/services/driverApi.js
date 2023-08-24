@@ -55,3 +55,11 @@ export const profileUpdate = (role, values) => {
 
   }
 }
+
+export const getHistory = (role) => {
+  if (role == 'driver') {
+    return axiosInstance("DriverJwtkey").get('/driver/history')
+  } else {
+    return axiosInstance("WorkerJwtkey").get('/worker/history')
+  }
+}

@@ -74,13 +74,30 @@ export async function adminLogin(req, res) {
 
 export async function viewUsers(req, res) {
     try {
-        const page = req.query.currentPage || 1;
-        const perPage = req.query.perPage || 10;
-        const users = await UserModel.find({})
-            .skip((page - 1) * perPage)
-            .limit(perPage);
-            console.log(req.query)
-        res.json({ success: true, users })
+        const page = parseInt(req.query.page) - 1 || 0
+        const limit = parseInt(req.query.limit) || 5
+        const search = req.query.search || ""
+        let sort = req.query.sort 
+
+
+
+      
+
+        const users = await UserModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
+
+        const total = await UserModel.countDocuments({
+            name: { $regex: search, $options: "i" },
+        });
+
+        const response = {
+            status: true,
+            total,
+            page: page + 1,
+            limit,
+            users,
+        };
+
+        res.status(200).json(response)
     } catch (error) {
         res.json({ message: "something went wrong", error: true });
     }
@@ -135,8 +152,27 @@ export async function unBlock(req, res) {
 
 export async function viewWorkers(req, res) {
     try {
-        const workers = await WorkerModel.find({})
-        res.json({ status: true, workers })
+        const page = parseInt(req.query.page) - 1 || 0
+        const limit = parseInt(req.query.limit) || 5
+        const search = req.query.search || ""
+        let sort = req.query.sort 
+
+
+        const workers = await WorkerModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
+
+        const total = await WorkerModel.countDocuments({
+            name: { $regex: search, $options: "i" },
+        });
+
+        const response = {
+            status: true,
+            total,
+            page: page + 1,
+            limit,
+            workers,
+        };
+
+        res.status(200).json(response)
     } catch (error) {
         res.json({ message: "something went wrong", error: true });
     }
@@ -144,25 +180,17 @@ export async function viewWorkers(req, res) {
 
 export async function viewDrivers(req, res) {
     try {
-        let page = parseInt(req.query.page) - 1 || 0
+        const page = parseInt(req.query.page) - 1 || 0
         const limit = parseInt(req.query.limit) || 5
         const search = req.query.search || ""
-        let sort = req.query.sort || "amount"
-        let filter = req.query.filter || "All"
-        req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort])
+        let sort = req.query.sort 
 
 
+        console.log(req.query);
 
-        console.log(page);
+      
 
-        let sortBy = {}
-        if (sort[1]) {
-            sortBy[sort[0]] = sort[1]
-        } else {
-            sortBy[sort[0]] = 'asc'
-        }
-
-        const drivers = await DriverModel.find({ name: { $regex: search, $options: 'i' } }).sort(sortBy).skip(page * limit).limit(limit)
+        const drivers = await DriverModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
 
         const total = await DriverModel.countDocuments({
             name: { $regex: search, $options: "i" },
@@ -178,8 +206,7 @@ export async function viewDrivers(req, res) {
 
         res.status(200).json(response);
 
-        // const drivers = await DriverModel.find({})
-        // res.json({ status: true, drivers })
+        
     } catch (error) {
         console.log(error);
         res.json({ message: "something went wrong", error: true });
@@ -263,7 +290,7 @@ export async function addEmployee(req, res) {
                 email,
                 mobile,
                 password: hashedPassword,
-                dob: dob.slice(0, 10),
+                dob,
                 image: result.secure_url,
                 location,
                 place

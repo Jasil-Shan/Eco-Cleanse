@@ -1,11 +1,12 @@
 import express from "express";
-import { UpdateLocation, acceptTask, driverAuth, driverLogin, getTasks, profileUpdate, updateStatus } from "../controller/driverController.js";
+import { UpdateLocation, acceptTask, driverAuth, driverLogin, getHistory, getTasks, profileUpdate, updateStatus } from "../controller/driverController.js";
 import { verifyDriver } from "../middlewares/verifyDriver.js";
 
 
 
 
 const router = express.Router()
+router.get('/history',verifyDriver,getHistory)
 
 router.post('/auth',driverAuth)
 router.post('/login',driverLogin)

@@ -71,9 +71,10 @@ export async function UpdateLocation(req, res) {
     try {
         const { location } = req.body
         const id = req.driverId
+        console.log(location);
         const Driver = await DriverModel.findByIdAndUpdate(
             id,
-            { $set: { location, status: true } }).then(() => {
+            { $set: { location} }).then(() => {
                 res.json({ success: true, message: "Location Update Success" })
             })
     } catch (error) {
@@ -159,3 +160,14 @@ export async function profileUpdate (req,res){
     }
 }
 
+
+export async function getHistory (req,res){
+    try {
+        const _id = req.driverId
+        const history = await BookingModel.find({driver:_id}).populate('user').populate('worker').populate('driver')
+        res.json({success:true , message:'history reached' , history})
+    } catch (error) {
+        console.log(error);
+        res.json({success:fals , message:'failed '})
+    }
+}
