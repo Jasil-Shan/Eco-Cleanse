@@ -77,7 +77,6 @@ export async function generateOTP(req, res) {
         const user = await UserModel.findOne({ email })
 
         if (user) {
-
             return res.json({
                 error: true,
                 message: " User already registered here"
@@ -121,7 +120,7 @@ export async function signUp(req, res) {
                 location: locations,
             });
             res.status(201)
-                .json({ status: true, message: "Otp verified successfully" });
+                .json({ status: true, message: "Otp verified successfully"  });
         } else {
             res.json({ status: false, message: "Otp does not match " });
         }

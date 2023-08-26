@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-function dbConnect(){
+export default function dbConnect(){
     mongoose.connect("mongodb://127.0.0.1/Eco-Cleanse").then(result=>{
         console.log("Database connected")
     }).catch((err)=>{
@@ -9,4 +9,5 @@ function dbConnect(){
     })
 }
 
-export default dbConnect
+
+

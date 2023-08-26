@@ -3,6 +3,7 @@ import { getBookings } from '../../../services/userApi';
 
 const Table = () => {
   const [bookings, setBookings] = useState([])
+  console.log(bookings);
   useEffect(() => {
     try {
       (

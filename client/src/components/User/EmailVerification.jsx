@@ -1,7 +1,8 @@
 import { Formik, useFormik } from "formik";
-import { useNavigate, Link } from "react-router-dom";
-import React, { useEffect } from 'react';
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import { toast } from "react-toastify";
 
 
 
@@ -9,9 +10,11 @@ import axios from "axios";
 
 const EmailVerification = () => {
 
+  const location = useLocation()
+  const { email } = location?.state
+  const [btnDisabled, setBtnDisabled] = useState(true)
   const navigate = useNavigate()
 
-  // useEffect(() => {
   //   function OTPInput() {
   //     const inputs = document.querySelectorAll('#otp > *[id]');
   //     for (let i = 0; i < inputs.length; i++) {
@@ -39,6 +42,20 @@ const EmailVerification = () => {
   //   OTPInput();
   // }, []);
 
+  const [timer, setTimer] = useState(60);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    } else {
+      setBtnDisabled(false)
+    }
+  }, [timer]);
+
   const formik = useFormik({
     initialValues: {
       otp: ''
@@ -49,45 +66,55 @@ const EmailVerification = () => {
     onSubmit: async (values) => {
       console.log("onsubmit");
       try {
-        console.log(values, 'nsdksdk');
         const { data } = await axios.post('/user/signup', { ...values })
-        console.log(data);
         if (data.status) {
           navigate("/login")
+          toast.success(data.message, {
+            position: "top-center",
+
+          })
         } else {
-          setErrorMessage(data.message);
+          toast.error(data.message, {
+            position: "top-center",
+
+          })
         }
 
       } catch (error) {
-        // toast.error(error.message, {
-        //     position: "top-center",
 
-        // })
         console.log(error);
       }
     }
   })
 
-  const handleChange = (event) => {
-    const fieldName = event.target.name;
-    const fieldValue = event.target.value;
+  const handleResend = async () => {
 
-    formik.setFieldValue(fieldName, fieldValue);
-  };
+    const { data } = await axios.post('/user/verify', { email })
+    if (data.status) {
+      toast.success(data.message, {
+        position: "top-center",
+      });
+    } else {
+      toast.error(data.message, {
+        position: "top-center",
+      });
+    }
+  }
+
   return (
-    <div className="h-screen bg-blue-500 py-20 px-3">
+    <div className="h-screen mt-8 bg-base-100 py-20 px-3">
       <div className="container mx-auto">
         <div className="max-w-sm mx-auto md:max-w-lg">
           <div className="w-full">
-            <div className="bg-white h-64 py-3 rounded text-center">
+            <div className="bg-white h-64 card  drop-shadow-xl py-3 rounded text-center">
               <h1 className="text-2xl font-bold">OTP Verification</h1>
               <div className="flex flex-col mt-4">
                 <span>Enter the OTP you received</span>
-                {/* <span className="font-bold">+91 ******876</span> */}
+                <span className="font-light">Otp has been sent to : {email}</span>
               </div>
               <form onSubmit={formik.handleSubmit}>
                 <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
-                  <input className="m-2 border text-center form-control " type="text" name="otp" id="first" onChange={handleChange} />
+                  <input className="m-2 border text-center form-control " type="text" name="otp" id="first" onChange={formik.handleChange} />
                   {/* <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="second" maxLength="1" onChange={handleChange} />
                   <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="third" maxLength="1" onChange={handleChange} />
                   <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" name="otp" id="fourth" maxLength="1" onChange={handleChange} /> */}
@@ -95,9 +122,15 @@ const EmailVerification = () => {
                 </div>
 
                 <div className="flex justify-center text-center mt-5">
-                  <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer">
-                    <button type="submit" className="font-bold">Submit OTP</button>
-                    <i className="bx bx-caret-right ml-1"></i>
+                  <a className="flex flex-col w-full hover:text-blue-900 cursor-pointer">
+                    <div className=" flex w-full justify-around">
+                      <span className="countdown">
+                        Time Remaining: <span style={{ "--value": timer }}></span>
+                      </span>
+                      <button type="button" onClick={handleResend} className={btnDisabled ? "mr-3 mb-3 text-gray-300 underline" : "mr-3 mb-3 underline"} disabled={btnDisabled}>Resend OTP</button>
+                    </div>
+
+                    <button type="submit" className="font-bold btn btn-neutral py-4">Submit OTP</button>  
                   </a>
                 </div>
               </form>

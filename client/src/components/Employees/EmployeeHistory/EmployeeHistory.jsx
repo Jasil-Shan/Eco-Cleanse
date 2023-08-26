@@ -44,17 +44,21 @@ const EmployeeHistory = () => {
                       <td className="px-4 py-3 border">
                         <div className="flex items-center text-sm">
                           <div>
-                            <p className="font-semibold text-black">{item.order_id}</p>
+                            <p className="font-semibold text-black">{item?.order_id}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-4 py-3 border text-ms font-semibold">{new Date(item.createdAt).toDateString()}</td>
                       <td className="px-4 py-3 border text-ms font-semibold">{item.user.name}</td>
-                      <td className="px-4 py-3 border text-ms font-semibold">{role == 'worker' ? item.driver.name : item.worker.name}</td>
+                     { role == 'driver' ?
+                      <td className="px-4 py-3 border text-ms font-semibold">{  item.worker?.name ? item?.worker?.name : 'Not Assigned'}</td>
+                      :
+                      <td className="px-4 py-3 border text-ms font-semibold">{  item.driver?.name ? item?.driver?.name : 'Not Assigned'}</td>
+                }
                       <td className="px-4 py-3 border text-xs">
-                        <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{item.status}</span>
+                        <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{item?.status}</span>
                       </td>
-                      <td className="px-4 py-3 border text-sm">{item.paymentMethod}</td>
+                      <td className="px-4 py-3 border text-sm">{item?.paymentMethod}</td>
                     </tr>
                   })
                 }
