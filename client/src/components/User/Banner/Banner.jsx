@@ -7,10 +7,8 @@ const Banner = () => {
   return (
 
 
-    <section className=" h-screen flex flex-col items-center justify-center text-center text-white py-0 px-3">
-      {/* <div className="video-docker absolute z-0 top-0 left-0 w-full h-full overflow-hidden">
-      <video className="min-w-full min-h-full absolute z-0 object-cover" src="https://res.cloudinary.com/dlhldjuis/video/upload/v1690046887/Eco%20cleanse/garbage_v6hxui.mp4" type="video/mp4" autoPlay muted loop />
-    </div> */}
+    <section className=" h-screen  bg-[url(https://res.cloudinary.com/dlhldjuis/image/upload/v1693137268/garbage_qh2hri.jpg)] bg-cover flex flex-col items-center justify-center text-center text-white py-0 px-3">
+       
       <div className="video-content space-y-2">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
@@ -26,7 +24,7 @@ const Banner = () => {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link to={'/booking'}>
               <h1
-                className="block w-full rounded bg-red-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
+                className="block w-full rounded-xl bg-red-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
               >
                 Get Started
               </h1>
