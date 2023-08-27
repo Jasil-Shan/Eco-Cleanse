@@ -19,22 +19,22 @@
 }
 
 .swiper-slide:nth-child(1n) {
-  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690108810/Eco%20cleanse/ewaste_csr2pi.png');
+  background-image: url('../assets/ewaste.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .swiper-slide:nth-child(2n) {
-  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109157/Eco%20cleanse/Untitled_4_b3wjya.png');
+  background-image: url('../assets/plastic.png');
   background-size: cover;
 }
 
 .swiper-slide:nth-child(3n) {
-  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109166/Eco%20cleanse/Untitled_2_sjwkk1.png');
+  background-image: url('../assets/food.png');
 }
 
 .swiper-slide:nth-child(4n) {
-  background-image: url('https://res.cloudinary.com/dlhldjuis/image/upload/v1690109385/Eco%20cleanse/Untitled_5_c7odz0.png');
+  background-image: url('../assets/others.png');
 }
 
 

@@ -54,7 +54,7 @@ const BookingForms = () => {
 
 
   return (
-    <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
+    <form onSubmit={formik.handleSubmit} className=" space-y-6" >
         <Swiper
           effect={'cards'}
           grabCursor={true}

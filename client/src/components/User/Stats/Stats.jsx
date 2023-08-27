@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { getStats } from "../../../services/adminApi";
+import ewasteIcon from '../assets/ewaste-icon.png'
+import foodIcon from '../assets/foodWaste-icon.png'
+import plasticIcon from '../assets/plastic-Icon.png'
+import paperIcon from '../assets/paper-icon.png'
+import pieChart from '../assets/pie-chart.png'
 
 const Stats = () => {
   const [totalSums, setTotal] = useState()
@@ -10,115 +15,81 @@ const Stats = () => {
 
 
   useEffect(() => {
-      try {
-          (
-              async function () {
-                  const { data } = await getStats()
-                  if (data.success) {
-                      console.log(data);
-                      setTotal(data.totalSums)
-                      setCount(data.count)
-                  }
-              })()
-      } catch (error) {
-          console.log(error);
-      }
+    try {
+      (
+        async function () {
+          const { data } = await getStats()
+          if (data.success) {
+            console.log(data);
+            setTotal(data.totalSums)
+            setCount(data.count)
+          }
+        })()
+    } catch (error) {
+      console.log(error);
+    }
   }, [])
 
   return (
-    <div className="flex items-center justify-center mt-12">
-      <div className="stats shadow justify-center">
-        <div className="stat place-items-center mr-10">
-          <div className="stat-figure text-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block w-8 h-8 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-          </div>
-          <div className="stat-title">Garbage Collected</div>
-          <div className="stat-value">
-            <CountUp start={0} end={31000} duration={4.5} separator="," />
-          </div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
-        </div>
 
-        <div className="stat place-items-center mr-10">
-          <div className="stat-figure text-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block w-8 h-8 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-              ></path>
-            </svg>
+    <div className=" grid justify-items-stretch md:justify-items-center gap-4 stats-vertical mt-28 md:grid-cols-5 ">
+      <div className="card bg-base-100 drop-shadow-xl">
+        <div className="stats shadow">
+          <div className="stat">
+          <div className="stat-figure text-secondary ">
+            <img src={pieChart} alt="" />
           </div>
-          <div className="stat-title">E-Waste</div>
-          <div className="stat-value">
-            <CountUp start={0} end={totalSums?.eWaste} duration={4.5} separator="," />
+            <div className="stat-title">Total Garbage</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.eWaste} duration={4.5} separator="," />kg</div>
           </div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
-        </div>
-
-        <div className="stat place-items-center mr-10">
-          <div className="stat-figure text-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block w-8 h-8 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-              ></path>
-            </svg>
-          </div>
-          <div className="stat-title">Plastic</div>
-          <div className="stat-value">
-            <CountUp start={0} end={totalSums?.plasticWaste} duration={4.5} separator="," />
-          </div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
-        </div>
-        <div className="stat place-items-center mr-10">
-          <div className="stat-figure text-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block w-8 h-8 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-              ></path>
-            </svg>
-          </div>
-          <div className="stat-title">Food Waste</div>
-          <div className="stat-value">
-            <CountUp start={0} end={totalSums?.foodWaste} duration={4.5} separator="," />
-          </div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
         </div>
       </div>
+      <div className="card bg-base-100 drop-shadow-xl">
+        <div className="stats shadow">
+          <div className="stat">
+            <div className="stat-figure text-secondary">
+              <img src={foodIcon} alt="" />
+            </div>
+            <div className="stat-title">Food Waste</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.foodWaste} duration={4.5} separator="," />kg</div>
+          </div>
+        </div>
+      </div>
+      <div className="card bg-base-100 drop-shadow-xl">
+        <div className="stats shadow">
+          <div className="stat">
+          <div className="stat-figure text-secondary">
+              <img src={plasticIcon} alt="" />
+            </div>
+            <div className="stat-title">Plastic Waste</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.plasticWaste} duration={4.5} separator="," />kg</div>
+          </div>
+        </div>
+      </div>
+      <div className="card bg-base-100 drop-shadow-xl">
+        <div className="stats shadow">
+          <div className="stat">
+          <div className="stat-figure text-secondary">
+              <img src={ewasteIcon} alt="" />
+            </div>
+            <div className="stat-title">E waste</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.eWaste} duration={4.5} separator="," />kg</div>
+          </div>
+        </div>
+      </div>
+      <div className="card bg-base-100 drop-shadow-xl">
+        <div className="stats shadow">
+          <div className="stat">
+          <div className="stat-figure text-secondary">
+              <img src={paperIcon} alt="" />
+            </div>
+            <div className="stat-title">Other Waste</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.others} duration={4.5} separator="," />kg</div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   );
 };
