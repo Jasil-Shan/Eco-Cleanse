@@ -5,9 +5,9 @@ import Stats from "./Stats/Stats";
 import HeroLeft from "./Hero/HeroLeft";
 import HeroRight from "./Hero/HeroRight";
 import user from "./assets/user.jpeg";
-import collect from './assets/collect.jpeg'
 import recycle from './assets/recycle.jpeg'
 import Banner from "./Banner/Banner";
+import Footer from "./Footer/Footer";
 
 
 const UserHome = () => {
@@ -15,10 +15,11 @@ const UserHome = () => {
         <>
             <Navbar />
             <Banner />
-            <Stats />
             <HeroLeft user={user} />
-            <HeroRight collect={collect} />
+            <HeroRight />
             <HeroLeft recycle={recycle} last = {true} />
+            <Stats />
+            <Footer />
 
         </>
     );
