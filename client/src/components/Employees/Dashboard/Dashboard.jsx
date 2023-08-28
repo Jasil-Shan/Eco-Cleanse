@@ -18,7 +18,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
     } else {
         profile = useSelector((state) => state.driver)
     }
-    
+
 
     const handleSubmit = async () => {
         try {
@@ -54,7 +54,6 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
             console.log(error);
         }
     }
-    console.log(profile.location[0]);
     return (
         <>
             <EmployeeNavbar role={profile.role} />
@@ -63,7 +62,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                     {/* Left Side */}
                     <div className="w-full md:w-3/12 md:mx-2">
                         {/* Profile Card */}
-                        <div className="bg-base-100 shadow-md card p-3 border-t-4 border-green-400">
+                        <div className="bg-base-100 shadow-md card p-3 border-t-4 border-neutral">
                             <div className="image overflow-hidden">
                                 <img
                                     className="h-auto w-full mx-auto"
@@ -84,13 +83,15 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                     <span className="ml-auto">
                                         <details className="dropdown">
                                             <summary className={profile.status == 'Available' ? "bg-green-500 py-1 px-2 rounded text-white font-semibold text-sm uppercase cursor-pointer" : "bg-red-600 cursor-pointer py-1 px-2 rounded text-white font-semibold text-sm uppercase"}>{profile.status}</summary>
-                                            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                                                {profile.status == 'Available' ?
-                                                    <li onClick={() => handleStatus('Offline')}><a>Go Offline</a></li>
-                                                    :
-                                                    <li onClick={() => handleStatus('Available')}><a>Go Online </a></li>
-                                                }
-                                            </ul>
+                                            {profile.status !== 'On Route' &&
+                                                <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                                                    {profile.status == 'Available'  ?
+                                                        <li onClick={() => handleStatus('Offline')}><a>Go Offline</a></li>
+                                                        :
+                                                        <li onClick={() => handleStatus('Available')}><a>Go Online </a></li>
+                                                    }
+                                                </ul>
+                                            }
                                         </details>
                                     </span>
                                 </li>
@@ -99,9 +100,9 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                         {/* End of profile card */}
 
                         {/* Friends card */}
-                        <div className="bg-white card mt-1 overflow-hidden shadow-lg p-3 hover:shadow">
+                        <div className="bg-white card mt-2 overflow-hidden  shadow-md  p-3 hover:shadow">
                             <div className="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
-                                <span className="text-green-500">
+                                <span className="text-nuetral-500">
                                     <svg
                                         className="h-5 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -117,9 +118,9 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                         />
                                     </svg>
                                 </span>
-                                <span>Location Info</span>
+                                <span className="tracking-wide">Location Info</span>
                             </div>
-                            <div className="w-45 h-55">
+                            <div className="w-45 mt-1 h-55 ">
                                 {
                                     profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
                                         <MapContainer center={[profile?.location[1], profile?.location[0]]} zoom={8} style={{ height: '250px' }}>
@@ -133,14 +134,14 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
 
 
                             </div>
-                            <button className='btn mt-1 bg-green-500 btn-sm text-white' onClick={handleSubmit}>Update</button>
+                            <button className='btn mt-1 btn-neutral btn-sm text-white' onClick={handleSubmit}>Update</button>
                         </div>
                         {/* End of friends card */}
                     </div>
                     {/* End of Left Side */}
 
                     {/* Right Side */}
-                    <div className="w-full md:w-9/12 mx-2 h-64 shadow-xl card  my-5  ">
+                    <div className="w-full md:w-9/12 mx-2 h-64 shadow-lg card  my-5  ">
                         <div className="bg-white p-3  rounded-sm">
                             <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                                 <span className="text-green-500">
@@ -210,7 +211,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 :
                                 <div className="flex justify-center items-center mt-44">
                                     <h1 className="font-bold text-xl">No Tasks</h1>
-                                </div>     
+                                </div>
                             }
                         </div>
                     </div>
