@@ -85,7 +85,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
             <li><a>Item 3</a></li>
           </ul>
         </div>
-       <Link to={'/driver/dashboard'}> <a className="btn btn-ghost normal-case text-xl">Eco Cleanse</a></Link>
+      {role && <Link to={`/${role}/dashboard`}><h1 className="btn btn-ghost normal-case w-fit text-lg">Eco Cleanse</h1></Link> }
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end mr-4">
@@ -121,7 +121,7 @@ const EmployeeNavbar = ({ role,refresh }) => {
                         <span className="badge">New</span>
                       </p></Link>
                   </li>
-                  <li><Link to={'worker/history'} state={'worker'}><a>History</a></Link></li>
+                  <li><Link to={'/worker/history'} state={'worker'}><a>History</a></Link></li>
                   <li onClick={
                     () => {
                       localStorage.removeItem('WorkerJwtkey');
