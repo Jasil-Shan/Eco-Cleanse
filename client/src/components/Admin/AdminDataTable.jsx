@@ -80,6 +80,11 @@ const AdminDataTable = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const { data } = await axios.patch("/admin/block", { ...values });
+                Swal.fire(
+                    'Blocked!',
+                    'Blocked Successfully',
+                    'success'
+                  )
                 setRefresh(!refresh)
             }
         })
@@ -97,6 +102,11 @@ const AdminDataTable = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const { data } = await axios.patch("/admin/unblock", { ...values });
+                    Swal.fire(
+                      'Unblocked!',
+                    'Unblocked Successfully',
+                      'success'
+                    )    
                 setRefresh(!refresh)
             }
         })
