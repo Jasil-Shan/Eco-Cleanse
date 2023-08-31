@@ -21,7 +21,7 @@ const Sidebar = () => {
                                 data-drawer-toggle="logo-sidebar"
                                 aria-controls="logo-sidebar"
                                 type="button"
-                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
                                 onClick={toggleSidebar}
                             >
                                 <span className="sr-only">Open sidebar</span>
@@ -45,7 +45,7 @@ const Sidebar = () => {
                             >
 
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
-                                    Shaj Paradise
+                                    Eco Cleanse
                                 </span>
                             </a>
                         </div>
@@ -54,7 +54,7 @@ const Sidebar = () => {
                                 <div>
                                     <button
                                         type="button"
-                                        className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 focus:ring-gray-600"
+                                        className="flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
                                         aria-expanded="false"
                                         data-dropdown-toggle="dropdown-user"
                                     >
@@ -66,27 +66,27 @@ const Sidebar = () => {
                                         />
                                     </button>
                                 </div>
-                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow bg-gray-700 divide-gray-600" id="dropdown-user">
+                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y  rounded shadow bg-gray-700 divide-gray-600" id="dropdown-user">
                                     <div className="px-4 py-3" role="none">
-                                        <p className="text-sm text-gray-900 text-white" role="none">
+                                        <p className="text-sm text-gray-900 " role="none">
                                             Neil Sims
                                         </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate text-gray-300" role="none">
+                                        <p className="text-sm font-medium text-gray-900 truncate " role="none">
                                             neil.sims@flowbite.com
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">
                                         <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Dashboard</a>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Settings</a>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Settings</a>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Earnings</a>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Earnings</a>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-gray-300 hover:bg-gray-600 hover:text-white" role="menuitem">Sign out</a>
+                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Sign out</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -109,19 +109,19 @@ const Sidebar = () => {
 
                                 return (
                                     <Link to={obj.links} state={obj.role}>
-                                    <li className="mt-2">
-                                        <h1
-                                            className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
-                                        >
-                                            <span>{obj.icon}</span>
-                                            <span className="ml-2">{obj.title}</span>
-                                        </h1>
-                                    </li>
+                                        <li className="mt-2">
+                                            <h1
+                                                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
+                                            >
+                                                <span>{obj.icon}</span>
+                                                <span className="ml-2">{obj.title}</span>
+                                            </h1>
+                                        </li>
                                     </Link>
                                 )
                             })}
-          
-          </ul>
+
+                    </ul>
                 </div>
             </aside>
         </div>
