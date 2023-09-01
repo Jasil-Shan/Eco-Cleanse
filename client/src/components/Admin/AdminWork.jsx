@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getWorks } from "../../services/adminApi"
+import { getBookings } from "../../services/adminApi"
 import Header from "../Header/Header"
 import Sidebar from "./Sidebar/Sidebar"
 import AssignModal from "./Modal/AssignModal"
@@ -17,9 +17,9 @@ const AdminWork = () => {
         try {
             (
                 async function () {
-                    const { data } = await getWorks()
+                    const { data } = await getBookings()
                     if (data.success) {
-                        setWorks(data.works)
+                        setWorks(data.bookings)
                         console.log(works); 
                     }
                 })()
