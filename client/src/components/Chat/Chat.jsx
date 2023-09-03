@@ -9,9 +9,9 @@ import { io } from "socket.io-client";
 
 
 const Chat = () => {
+
   const location = useLocation()
-  const profile = location?.state
-  console.log(profile);
+  const {senderId} = location?.state
   const [chats, setChats] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
@@ -19,52 +19,50 @@ const Chat = () => {
   const [recieveMessage, setRecieveMessage] = useState(null)
   const socket = useRef();
 
-
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await chatRoom(profile.id)
-        console.log(data);
+        const { data } = await chatRoom(senderId)
+        console.log(data,'sghh');
         setChats(data)
       })()
     } catch (error) {
       console.log(error);
     }
-  }, [profile.id])
+  }, [senderId])
 
-
+  // Connect to Socket.io
   useEffect(() => {
-    // Establish socket connection
-    socket.current = io("http://localhost:3000");  // Replace with your server URL
-    
-    socket.current.emit("new-user-add", profile.id);
+    socket.current = io("http://localhost:3000");
+    socket.current.emit("new-user-add", senderId);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
-      console.log(onlineUsers);
     });
-    // Cleanup socket connection when component unmounts
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-      }
-    };
-  }, [profile]);
-  //send message
+  }, [senderId]);
+
+  // Send Message to socket server
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
 
+  // Get the message from socket server
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
       setRecieveMessage(data);
     });
   }, []);
 
+  const checkOnlineStatus = (chat) => {
+    const chatMember = chat.members.find((member) => member !== user._id);
+    const online = onlineUsers.find((user) => user.userId === chatMember);
+    return online ? true : false;
+  };
+
   return (
     <>
-      <EmployeeNavbar role={profile.role} />
+      {/* <EmployeeNavbar role={profile.role} /> */}
 
       <div className="relative">
 
@@ -110,7 +108,7 @@ const Chat = () => {
                 {chats &&
                   chats.map((chat) => (
                     <div onClick={()=>setCurrentChat(chat)}>
-                      <Conversation data={chat} currentUser={profile.id} />
+                      <Conversation data={chat} currentUser={senderId} />
                     </div>
                   ))
 
@@ -126,7 +124,7 @@ const Chat = () => {
         
 
               {/* Messages */}
-          { currentChat ?  <ChatBox chat = {currentChat} currentUser={profile.id} setSendMessage = {setSendMessage} recievedMessage = {recieveMessage}/> : <span>asjhjsahjsd</span> }
+          { currentChat ?  <ChatBox chat = {currentChat} currentUser={senderId} setSendMessage = {setSendMessage} recieveMessage = {recieveMessage}/> : <span>asjhjsahjsd</span> }
 
 
               {/* Input */}
