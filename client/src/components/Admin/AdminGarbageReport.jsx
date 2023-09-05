@@ -185,7 +185,7 @@ const AdminGarbageReport = () => {
                           {item.garbageCollected?.Others}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          {item.amount}
+                          {item.totalAmount}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           {item.status}
