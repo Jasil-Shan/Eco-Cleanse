@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getUsers } from '../../../services/adminApi';
-import { getMessages, sendMessage } from '../../../services/chatApi';
+import { getMessages, getUser, getWorker, sendMessage } from '../../../services/chatApi';
 import EmojiInput from 'react-input-emoji';
 
-const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
+const ChatBox = ({ chat, currentUser, setSendMessage, recieveMessage, role }) => {
 
-    const [userData, setUserData] = useState();
+    const [profile, setProfile] = useState();
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const scroll = useRef();
 
     const handleChange = (newMessage) => {
         setNewMessage(newMessage);
@@ -18,8 +19,13 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
             const othersId = chat?.members.find((id) => id !== currentUser);
             if (chat !== null) {
                 (async function () {
-                    const { data } = await getUsers(othersId);
-                    setUserData(...data.users)
+                    if (role == 'user') {
+                        const { data } = await getWorker(othersId);
+                        setProfile(data)
+                    } else {
+                        const { data } = await getUser(othersId);
+                        setProfile(data)
+                    }
                 })()
             }
         } catch (error) {
@@ -39,34 +45,39 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
         } catch (error) {
             console.log(error);
         }
-    }, [chat,newMessage]);
+    }, [chat])
+
+    useEffect(() => {
+        scroll.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const handleSend = async (e) => {
         e.preventDefault();
         const message = {
-          senderId: currentUser,
-          text: newMessage,
-          chatId: chat._id,
+            senderId: currentUser,
+            text: newMessage,
+            chatId: chat._id,
         };
 
         const receiverId = chat.members.find((id) => id !== currentUser);
         // send message to socket server
         setSendMessage({ ...message, receiverId });
-
         try {
-            const { data } = await sendMessage( message);
-            setMessages([...messages, data.result]);
+            const { data } = await sendMessage(message);
+            setMessages([...messages, data.message]);
             setNewMessage("");
-          } catch {
+        } catch {
             console.log("error");
-          }
+        }
     }
 
     useEffect(() => {
-        if (receivedMessage !== null && receivedMessage?.chatId === chat._id) {
-          setMessages([...messages, receivedMessage]);
+        if (recieveMessage !== null && recieveMessage?.chatId == chat._id) {
+            console.log('sghsghj');
+            setMessages([...messages, recieveMessage]);
         }
-      }, [receivedMessage]);
+    }, [recieveMessage]);
+
 
     return (
         <>
@@ -76,11 +87,11 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
                     < div className="py-2 px-3 bg-gray-200 flex justify-between items-center">
                         <div className="flex items-center">
                             <div>
-                                <img className="w-10 h-10 rounded-full" src="https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg" alt="User" />
+                                <img className="w-10 h-10 rounded-full" src={profile?.image} alt="User" />
                             </div>
                             <div className="ml-4">
                                 <p className="text-gray-900">
-                                    {userData?.name}
+                                    {profile?.name}
                                 </p>
                                 {/* <p className="text-gray-700 text-xs mt-1">
                                     Andrés, Tom, Harrison, Arnold, Sylvester
@@ -126,8 +137,25 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
 
                             {messages &&
                                 messages.map((message) => (
+                                    <>
+                                {message.senderId === currentUser ? 
+                                    <div ref={scroll} className="message">
+                                        <div className="chat chat-end">
+                                            <div className="chat-bubble chat-bubble-success">{message?.text}<time className="text-xs ml-4 opacity-50 self-end">{new Date(message?.createdAt).toLocaleTimeString([], {
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })
+                                            }</time>
+                                            </div>
+                                            <div className="chat-footer opacity-50">
+                                                Delivered
+                                            </div>
+                                        </div>
+                                    </div>
+                                :
+                                    <div ref={scroll} className="message">
                                     <div className="chat chat-start">
-                                        <div className="chat-bubble">{message?.text}<time className="text-xs ml-4 opacity-50 self-end">{new Date(message?.createdAt).toLocaleTimeString([], {
+                                        <div className="chat-bubble ">{message?.text}<time className="text-xs ml-4 opacity-50 self-end">{new Date(message?.createdAt).toLocaleTimeString([], {
                                             hour: '2-digit',
                                             minute: '2-digit'
                                         })
@@ -137,11 +165,10 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
                                             Delivered
                                         </div>
                                     </div>
-                                ))
-
+                                </div>   
                             }
-
-
+                            </>
+                            ))}
                         </div>
                     </div>
                     <div className="bg-gray-200 px-4 py-4 flex items-center">
@@ -158,7 +185,7 @@ const ChatBox = ({ chat, currentUser,setSendMessage,receivedMessage }) => {
                                 Send
                             </button>
                         </div>
-                       
+
                     </div>
                 </>
             }
