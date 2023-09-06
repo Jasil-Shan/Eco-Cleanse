@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import Sidebar from "./Sidebar/Sidebar"
-import Header from "../Header/Header"
 import axios from "axios"
 import Swal from 'sweetalert2'
 import { getUsers } from "../../services/adminApi"
@@ -67,7 +66,6 @@ const AdminUsers = () => {
     return (
         <>
             <Sidebar />
-            <Header />
 
             <section className="py-1 bg-blueGray-50">
 

@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import Sidebar from "./Sidebar/Sidebar"
-import Header from "../Header/Header"
 import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
@@ -109,7 +108,7 @@ const AdminPayment = () => {
                                                     {item.paymentMethod}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {item.amount}
+                                                    {item.totalAmount}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                     {item.status}
