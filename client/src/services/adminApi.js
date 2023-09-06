@@ -13,17 +13,12 @@ export const authAdmin = ()=>{
 
 
 
-export const getUsers = (currentPage, perPage) => {
-  return axiosInstance("AdminJwtToken").get('/admin/users', {
-      params: {
-          currentPage: currentPage,
-          perPage: perPage
-      }
-  });
+export const getUsers = () => {
+  return axiosInstance("AdminJwtToken").get('/admin/users');
 };
 
-export const getWorks = ()=>{
-  return axiosInstance("AdminJwtToken").get('/admin/works')
+export const getBookings = (page,limit)=>{
+  return axiosInstance("AdminJwtToken").get(`/admin/bookings?page=${page}&limit=${limit}`)
 }
 
 export const getWorkers = ()=>{
@@ -31,8 +26,8 @@ export const getWorkers = ()=>{
 }
 
 
-export const getLocation = ()=>{
-  return axiosInstance("AdminJwtToken").get('/admin/getLocation')
+export const getEmployees = ()=>{
+  return axiosInstance("AdminJwtToken").get('/admin/getEmployees')
 }
 
 export const getStats = ()=>{
