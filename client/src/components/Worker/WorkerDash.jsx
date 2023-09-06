@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SidebarEmp from "../SidebarEmployee/SidebarEmp";
-import ModalEmp from "../ModalEmployee/ModalEmp";
-import ProfileCard from "../Employees/ProfileCard/ProfileCard";
 import { authWorker } from "../../services/workerApi";
 import Dashboard from "../Employees/Dashboard/Dashboard";
 import { useDispatch } from "react-redux";
@@ -33,6 +30,7 @@ const WorkerDash = () => {
                 status: data.worker.status,
                 task: data.worker.task,
                 assigned: data?.worker?.assigned,
+                dob: data?.worker?.dob,
               })
             );
             setRole(data.worker.role)
