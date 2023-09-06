@@ -7,6 +7,8 @@ import Step1 from '../Step1/Step1';
 import Step2 from '../Step2/Step2';
 import Step3 from '../Step 3/Step3';
 import { taskComplete } from '../../../services/workerApi';
+import { getCurrentLocation } from '../../../helpers/currentLocation';
+import Swal from 'sweetalert2';
 
 
 
@@ -33,18 +35,40 @@ const TaskModal = () => {
 
 
     const handleSubmit = async () => {
-
-        const { data } = await taskComplete(garbageDetails,id)
-        console.log(data)
-        if (data.success) {
-            toast.success(data.message, {
-                position: "top-center"
+        try {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Details updated ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#7e3af2',
+                cancelButtonColor: '##a8a8a8',
+                confirmButtonText: 'Yes'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const locations = await getCurrentLocation()
+                    const { data } = await taskComplete(garbageDetails,id,locations)
+                    if(data.success){
+                    Swal.fire(
+                          'Success!',
+                        'Task completed Successfully',
+                          'success'
+                        )
+                    toggleModal()
+                    navigate('/worker/dashboard')   
+                    }else{
+                        Swal.fire(
+                            'Failed!',
+                          'Try Again',
+                            'error'
+                          )    
+                    }
+                }
             })
-            toggleModal()
+        } catch (error) {
+            console.log(error);
         }
-
-        console.log('garba:', garbageDetails, id)
-    };
+    }
 
     const renderStep = () => {
         switch (step) {
@@ -60,7 +84,7 @@ const TaskModal = () => {
     };
     return (
         <>
-            <label htmlFor="my_modal_7" className="btn btn-sm bg-green-600 text-white">Start</label>
+            <label htmlFor="my_modal_7" className="btn btn-neutral btn-sm text-white">Start</label>
             {isOpen && (
                 <>
                     <input type="checkbox" id="my_modal_7" className="modal-toggle" />
