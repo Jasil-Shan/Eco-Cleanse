@@ -67,13 +67,12 @@ const ChatBox = ({ chat, currentUser, setSendMessage, recieveMessage, role }) =>
             setMessages([...messages, data.message]);
             setNewMessage("");
         } catch {
-            console.log("error");
+            console.log(error);
         }
     }
 
     useEffect(() => {
         if (recieveMessage !== null && recieveMessage?.chatId == chat._id) {
-            console.log('sghsghj');
             setMessages([...messages, recieveMessage]);
         }
     }, [recieveMessage]);

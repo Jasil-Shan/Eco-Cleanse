@@ -21,7 +21,6 @@ const Stats = () => {
         async function () {
           const { data } = await getStats()
           if (data.success) {
-            console.log(data);
             setTotal(data.totalSums)
             setTotalGarbage(data.totalSum)
             setCount(data.count)

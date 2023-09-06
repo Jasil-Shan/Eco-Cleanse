@@ -26,7 +26,6 @@ const WorkerLogin = () => {
         onSubmit:async (values) => {
             try {
                 const { data } = await axios.post('/worker/login', {...values})
-                console.log(data);
                 if(data.blocked){
                   return toast.error(data.message, {
                         position: "top-center",

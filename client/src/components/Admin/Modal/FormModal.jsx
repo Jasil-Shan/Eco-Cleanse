@@ -22,7 +22,6 @@ const FormModal = ({role,setRefresh,refresh}) => {
 
     const handleChange = async (e) => {
         setValue(e.target.value);
-        console.log(value);
 
         const response = await fetch(
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
@@ -32,7 +31,6 @@ const FormModal = ({role,setRefresh,refresh}) => {
         if (response.ok) {
             const { features } = await response.json();
             setSuggest(features);
-            console.log(features);
         }
     };
 

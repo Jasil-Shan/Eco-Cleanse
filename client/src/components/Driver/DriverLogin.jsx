@@ -25,9 +25,7 @@ const DriverLogin = () => {
         },
         onSubmit: async (values) => {
             try {
-                console.log(email);
                 const { data } = await axios.post('/driver/login', { ...values })
-                console.log(data);
                 if (data.blocked) {
                     return toast.error(data.message, {
                         position: "top-center",

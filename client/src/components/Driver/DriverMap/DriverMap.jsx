@@ -34,7 +34,6 @@ const DriverMap = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 const routeCoordinates = data.routes[0].geometry.coordinates;
                 const routeInstructions = data.routes[0].legs[0].steps;
                 setDistance(Math.floor(data.routes[0].distance / 1000))

@@ -22,7 +22,6 @@ const AdminDashboard = () => {
                 async function () {
                     const { data } = await getStats()
                     if (data.success) {
-                        console.log(data);
                         setTotal(data.totalSums)
                         setCount(data.count)
                         setOnlineEmployee(data.onlineEmployee)

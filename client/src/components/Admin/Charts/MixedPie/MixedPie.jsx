@@ -2,7 +2,6 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const MixedPie = ({ online }) => {
-  console.log(online);
   const series = [online[0], online[1]];
   const options = {
     chart: {

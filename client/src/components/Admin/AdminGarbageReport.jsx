@@ -30,7 +30,6 @@ const AdminGarbageReport = () => {
           const { data } = await axios.get(`/admin/bookings?page=${page}&sort=${sort}&search=${search}&limit=${limit}&fromDate=${fromDate}&toDate=${toDate}`);
           if (data.success) {
             setGarbageReport(data.bookings)
-            console.log(data)
             setLimit(data.limit);
             setTotal(data.total);
             setPage(data.page);

@@ -66,7 +66,7 @@ const Sidebar = () => {
                                         />
                                     </button>
                                 </div>
-                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y  rounded shadow bg-gray-700 divide-gray-600" id="dropdown-user">
+                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y  rounded shadow  divide-gray-600" id="dropdown-user">
                                     <div className="px-4 py-3" role="none">
                                         <p className="text-sm text-gray-900 " role="none">
                                             Neil Sims

@@ -43,7 +43,6 @@ const PrivateRoutes = ({ role, route }) => {
         else if(role == 'worker'){
             authWorker().then((response)=>{
                 setAuth(response.data.status)
-                console.log(response.data);
              }).catch((response) => {
                 toast.error(response.message , { position :"top-center" })
                 setAuth(response.data?.status)
