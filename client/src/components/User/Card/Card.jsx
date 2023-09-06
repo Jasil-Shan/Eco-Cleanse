@@ -31,7 +31,6 @@ const Card = (props) => {
           handler: async (response) => {
             try {
               await payment(response)
-              console.log(response);
             } catch (error) {
               console.error(error);
             }

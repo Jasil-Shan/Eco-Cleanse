@@ -18,7 +18,6 @@ const AssignModal = (props) => {
         try {
             ( async function () {
                     const { data } = await getEmployees()
-                    console.log(data);
                     if (data.status) {
                         const workerDistance = data.worker.map((worker) => {
                             const distance = calculateDistance(
@@ -48,7 +47,6 @@ const AssignModal = (props) => {
                         nearbyDriver.sort((a, b) => a.distance - b.distance)
                         setWorker(nearbyWorker)
                         setDriver(nearbyDriver)
-                        console.log(driver);
                     }
                 })()
         } catch (error) {
@@ -60,7 +58,6 @@ const AssignModal = (props) => {
     const handleSubmit = async (driverId, workerId,bookingId) => {
 
         const {data} = await assignWork(driverId,workerId,bookingId)
-        console.log(data);
         if(data.success){
             toast.success(data.message, {
                 position: "top-center"

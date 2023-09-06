@@ -15,7 +15,6 @@ const EmployeeHistory = () => {
       }
     })()
   }, [])
-  console.log(jobHistory);
   return (
     <>
       <EmployeeNavbar />

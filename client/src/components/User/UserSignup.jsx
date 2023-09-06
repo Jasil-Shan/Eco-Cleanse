@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import iland from './assets/iland.jpg'
 
-let locations = {}
+
 
 const UserSignup = () => {
     const [errorMessage, setErrorMessage] = useState(false)
@@ -108,29 +108,6 @@ const UserSignup = () => {
         })
     }
 
-    // const handleClick = () => {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(
-    //             (position) => {
-    //                 const { latitude, longitude } = position.coords;
-    //                 // Do something with the latitude and longitude values
-    //                 setLocation({ latitude, longitude });
-    //                 locations = { latitude, longitude }
-    //                 console.log(locations);
-
-    //             },
-    //             (error) => {
-    //                 console.log('Error:', error);
-    //                 // Handle any errors that occur while getting the location
-    //             }
-    //         );
-    //     } else {
-    //         console.log('Geolocation is not supported by this browser.');
-    //         // Handle the case where geolocation is not supported
-    //     }
-    // };
-
-
     return (
         <Formik>
             <section className="bg-gray-50 min-h-screen flex items-center justify-center">
@@ -197,8 +174,6 @@ const UserSignup = () => {
                                     })}
                             </ul>
                             </div>
-
-                            {/* <button className='bg-[#002D74] rounded-xl w-full py-2 mt-2 text-white hover:scale-105 duration-300' type="button" onClick={handleClick}>Share my location</button> */}
 
 
                             <div className="relative">

@@ -35,7 +35,6 @@ const AdminPayment = () => {
                     const { data } = await axios.get(`/admin/bookings?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
                     if (data.success) {
                         setPayment(data.bookings)
-                        console.log(data)
                         setLimit(data.limit);
                         setTotal(data.total);
                         setPage(data.page);

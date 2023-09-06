@@ -50,13 +50,11 @@ const Chat = () => {
   // Get the message from socket server
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
-      console.log('opopopo');
       setRecieveMessage(data);
     });
   }, []);
 
   const checkOnlineStatus = (chat) => {
-    console.log(chat);
     const chatMember = chat.members.find((member) => member !== senderId);
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;

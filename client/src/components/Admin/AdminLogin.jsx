@@ -21,9 +21,7 @@ const AdminLogin = () => {
         },
         onSubmit:async (values) => {
             try {
-                console.log(email);
                 const { data } = await adminLogin(values)
-                console.log(data);
                 if (data.error) {
                     toast.error(data.message, {
                         position: "top-center",

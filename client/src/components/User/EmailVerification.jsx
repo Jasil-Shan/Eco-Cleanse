@@ -64,7 +64,6 @@ const EmailVerification = () => {
     // validationSchema:validate,
 
     onSubmit: async (values) => {
-      console.log("onsubmit");
       try {
         const { data } = await axios.post('/user/signup', { ...values })
         if (data.status) {

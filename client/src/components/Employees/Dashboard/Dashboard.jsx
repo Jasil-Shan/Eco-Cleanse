@@ -24,7 +24,6 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
         try {
             const locations = await getCurrentLocation()
             const { data } = await updateLocation(locations, role);
-            console.log(data);
             if (data.success) {
                 setRefresh(!refresh)
                 toast.success(data.message, {
@@ -42,7 +41,6 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
         try {
             const locations = await getCurrentLocation()
             const { data } = await updateStatus(locations, role, status);
-            console.log(data);
             if (data.success) {
                 setRefresh(!refresh)
                 toast.success(data.message, {
