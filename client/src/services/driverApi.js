@@ -63,3 +63,8 @@ export const getHistory = (role) => {
     return axiosInstance("WorkerJwtkey").get('/worker/history')
   }
 }
+
+
+export const taskComplete = (location) =>{
+  return axiosInstance("DriverJwtkey").patch('/driver/taskComplete',{location})
+}
