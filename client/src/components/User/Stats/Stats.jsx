@@ -12,6 +12,7 @@ const Stats = () => {
   const [count, setCount] = useState()
   const [onlineEmployees, setOnlineEmployee] = useState()
   const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
+  const [totalGarbage, setTotalGarbage] = useState()
 
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const Stats = () => {
           if (data.success) {
             console.log(data);
             setTotal(data.totalSums)
+            setTotalGarbage(data.totalSum)
             setCount(data.count)
           }
         })()
@@ -40,7 +42,7 @@ const Stats = () => {
             <img src={pieChart} alt="" />
           </div>
             <div className="stat-title">Total Garbage</div>
-            <div className="stat-value"> <CountUp start={0} end={totalSums?.eWaste} duration={4.5} separator="," />kg</div>
+            <div className="stat-value"> <CountUp start={0} end={totalGarbage} duration={4.5} separator="," />kg</div>
           </div>
         </div>
       </div>
@@ -77,14 +79,14 @@ const Stats = () => {
           </div>
         </div>
       </div>
-      <div className="card bg-base-100 drop-shadow-xl">
+      <div className="card bg-base-100 drop-shadow-xl ">
         <div className="stats shadow">
           <div className="stat">
           <div className="stat-figure text-secondary">
               <img src={paperIcon} alt="" />
             </div>
             <div className="stat-title">Other Waste</div>
-            <div className="stat-value"> <CountUp start={0} end={totalSums?.others} duration={4.5} separator="," />kg</div>
+            <div className="stat-value"> <CountUp start={0} end={totalSums?.Others} duration={4.5} separator="," />kg</div>
           </div>
         </div>
       </div>
