@@ -13,11 +13,13 @@ const instance = new Razorpay({
 
 export async function createPayment(req, res) {
 
+
+    const {totalAmount} = req.body
+
     const options = {
-        amount: 25000,
+        amount: totalAmount * 100,
         currency: "INR",
     };
-
     const order = await instance.orders.create(options)
     res.status(200).json({ success: true, order })
 

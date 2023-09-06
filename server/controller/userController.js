@@ -8,13 +8,20 @@ import UserModel from "../model/userModel.js";
 
 export async function userBooking(req, res) {
   try {
-    const { garbage, payment } = req.body;
+    const { garbage, payment,totalAmount } = req.body;
     console.log(req.body);
     const _id = req.userId;
     const order_id = orderId('Eco').generate();
     const user = await UserModel.findById(_id)
     const driver = await DriverModel.find({status:'Available'})
     const worker = await WorkerModel.find({status:'Available'})
+
+    if (driver.length === 0 || worker.length === 0) {
+      return res.json({
+        success: false,
+        message: 'Service Unavailable at the moment, Try again later',
+      })
+    }
 
     const workerDistance = worker.map((worker) => {
       const distance = calculateDistance(
@@ -37,10 +44,10 @@ export async function userBooking(req, res) {
     })
 
     const nearbyWorkers = workerDistance.filter(
-      (worker) => worker.distance <= 10
+      (worker) => worker.distance <= 20
     )
     const nearbyDrivers = driverDistance.filter(
-      (driver) => driver.distance <= 10
+      (driver) => driver.distance <= 20
     )
     
     nearbyWorkers.sort((a, b) => a.distance - b.distance)
@@ -54,6 +61,7 @@ export async function userBooking(req, res) {
       paymentMethod: payment,
       user: _id,
       order_id,
+      totalAmount
     })
 
     const taskPromises = [];
@@ -133,5 +141,27 @@ export async function profileUpdate (req,res){
   } catch (error) {
       console.log(error);
       res.json({success : false , message : "Try Again"})
+  }
+}
+
+export async function checkAvailability(req, res) {
+  try {
+
+    const driver = await DriverModel.find({status:'Available'})
+    const worker = await WorkerModel.find({status:'Available'})
+
+    if (driver.length === 0 || worker.length === 0) {
+      return res.json({
+        error: true,
+        message: 'Service Unavailable at the moment, Try again later',
+      })
+    }else{
+      return res.json({
+        error: false,
+        message: 'Employees Available',
+      })
+    }
+  }catch (err){
+    console.log(err);
   }
 }

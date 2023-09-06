@@ -171,3 +171,17 @@ export async function getHistory (req,res){
         res.json({success:fals , message:'failed '})
     }
 }
+
+
+export async function taskComplete(req, res) {
+    try {
+
+        const _id = req.driverId
+        const { location } = req.body
+        await DriverModel.findByIdAndUpdate(_id,{$set:{task:null,location,status:'Available',assigned: false}})
+        res.json({ success: true, message: "Updated" })
+    } catch (error) {
+        res.json({ success: false, message: "Try Again" })
+        console.log(error);
+    }
+}
