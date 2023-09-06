@@ -8,7 +8,7 @@ const router = express.Router()
 
 
 router.post('/booking',verifyUser,userBooking)
-router.post('/payment',createPayment)
+router.post('/payment',verifyUser,createPayment)
 router.post('/paymentVerify',verifyUser,paymentVerification)
 
 
