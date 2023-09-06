@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TaskModal from "../../Worker/TaskModal/TaskModal";
 import TaskAlert from "./TaskAlert/TaskAlert";
 import { useSelector } from "react-redux";
+import { createChat } from "../../../services/chatApi";
 
 const Tasks = (props) => {
 
@@ -14,13 +15,14 @@ const Tasks = (props) => {
     const role = props?.role
     const navigate = useNavigate()
     const [refresh ,setRefresh] = useState(false)
-    
     let profile
     if (role == 'worker') {
         profile = useSelector((state) => state.worker)
     } else {
         profile = useSelector((state) => state.driver)
     }
+    const senderId = profile.id
+    const receiverId = task?.user?._id
 
     useEffect(() => {
         try {
@@ -34,30 +36,46 @@ const Tasks = (props) => {
             console.log(error);
         }
     }, [refresh])
+
+    const handleChat = async()=>{
+        try {
+          const { data } = await createChat(
+            senderId,receiverId
+            )
+          if (!data.err) {
+            navigate('/chat', {state:{senderId,role}});
+          } else {
+            console.log(data.err);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     return (
         <>
             {profile.assigned ?
-                <div className="mt-14 ">
-                    <div className="card w-auto lg:card-side mt-2 ml-4 bg-base-100 shadow-xl">
+                <div className="mt-10 ">
+                    <div className="card w-auto lg:card-side ml-4 bg-base-100 shadow-lg">
                         {/* <figure><img className="w-72 h-full" src="https://source.unsplash.com/rEn-AdBr3Ig" alt="Album" /></figure> */}
+                            <span className="antialiased tracking-wide text-center m-4 font-semibold text-lg">Task</span>
                         <div className="card-body ">
-                            <span className="antialiased tracking-wider text-xl font-bold">Task</span>
                             <div className="flex justify-evenly">
-                                <div className=" flex flex-col  border-t-4 border-green-400 card shadow-xl w-fit p-6">
+                                <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
                                     <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Customer</h1>
                                     <span className="inline-flex mt-3"><FcBusinessman size={26} /><p className="uppercase font-medium   ml-8">{task?.user?.name}</p></span>
                                     <span className="inline-flex mt-3 "><FcHome size={26} /><p className="uppercase font-medium text ml-8">{task?.user?.address}</p></span>
                                     <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.user?.mobile}</p></span>
+                                 <div className="text-center"><button onClick={handleChat} className="btn btn-sm mt-4">Chat</button></div>
                                 </div>
                                 {(props.role == 'driver') ?
-                                    <div className=" flex flex-col  border-t-4 border-green-400 card shadow-xl w-fit p-6">
+                                    <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
                                         <h1 className="uppercase font-bold text-center tracking-wider mb-2 subpixel-antialiased">Worker</h1>
                                         <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.worker?.name}</p></span>
                                         <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.worker?.place}</p></span>
                                         <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.worker?.mobile}</p></span>
                                     </div>
                                     :
-                                    <div className=" flex flex-col  border-t-4 border-green-400 card shadow-xl w-fit p-6">
+                                    <div className=" flex flex-col border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
                                         <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Driver</h1>
                                         <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.driver?.name}</p></span>
                                         <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.driver?.place}</p></span>
@@ -65,9 +83,9 @@ const Tasks = (props) => {
                                     </div>
                                 }
                             </div>
-                            <div className="card-actions justify-center mt-4 ">
+                            <div className="card-actions justify-center mt-2 ">
                                 {(props.role == 'driver') ?
-                                 <Link to={'/driver/map'} state = {task}><button className="btn btn-accent btn-sm text-white">Start </button></Link>   
+                                 <Link to={'/driver/map'} state = {task}><button className="btn btn-neutral btn-sm text-white">Start </button></Link>   
                                     :
                                     <TaskModal />
                                 }
@@ -76,7 +94,7 @@ const Tasks = (props) => {
                     </div>
                 </div>
                 :
-               role && <TaskAlert task={task} role={role} setRefresh ={setRefresh}/>
+               role && <TaskAlert task={task} role={role} setRefresh ={setRefresh} refresh ={refresh}/>
             }
         </>
     )
