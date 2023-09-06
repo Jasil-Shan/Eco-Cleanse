@@ -7,7 +7,6 @@ const UserProfilePage = () => {
 
     return(
         <>
-            <Navbar />
 
         <UserProfile/>
         </>

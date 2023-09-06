@@ -39,6 +39,10 @@ const bookingSchema = new mongoose.Schema(
         type: String,
         required:true
       },
+      totalAmount:{
+        type:Number,
+        required:true
+      },
       assigned:{
         type:Boolean,
         default:false
@@ -46,8 +50,11 @@ const bookingSchema = new mongoose.Schema(
       status:{
         type:String,
         default:"Pending"
-      }
-    },
+      },
+      garbageCollected:{
+        type:Object,
+      } 
+    }, 
     { timestamps: true }
   );
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import SidebarEmp from "../SidebarEmployee/SidebarEmp";
-import ModalEmp from "../ModalEmployee/ModalEmp";
-import ProfileCard from "../Employees/ProfileCard/ProfileCard";
 import { authWorker } from "../../services/workerApi";
-import Status from "../Employees/Status/Status";
 import Dashboard from "../Employees/Dashboard/Dashboard";
+import { useDispatch } from "react-redux";
+import { setWorkerDetails } from "../../redux/features/workerSlice";
 
 const WorkerDash = () => {
   const [showModal, setShowModal] = useState(false);
-  const [worker, setWorker] = useState()
+  const [role, setRole] = useState()
+  const [refresh, setRefresh] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setShowModal(true);
@@ -17,34 +17,35 @@ const WorkerDash = () => {
         async function () {
           const { data } = await authWorker()
           if (data.status) {
-            setWorker(data.worker)
-            console.log(worker);
+            dispatch(
+              setWorkerDetails({
+                id: data.worker._id,
+                name: data.worker.name,
+                email: data.worker.email,
+                mobile: data.worker.mobile,
+                place: data.worker.place,
+                image: data.worker.image,
+                role: data.worker.role,
+                location: data.worker.location,
+                status: data.worker.status,
+                task: data.worker.task,
+                assigned: data?.worker?.assigned,
+                dob: data?.worker?.dob,
+              })
+            );
+            setRole(data.worker.role)
           }
         })()
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [refresh])
 
 
   return (
     <>
-      <SidebarEmp />
-      {/* {
+      <Dashboard role={role} setRefresh={setRefresh} refresh={refresh} />
 
-      worker && worker.location ?
-        <div className="h-screen w-screen flex justify-evenly space-x-12 align-middle items-center mt-0">
-          <Status status = {worker.status} role = {worker.role}/>
-          <ProfileCard profile ={worker} />
-        </div>
-        :
-        <ModalEmp role = {'worker'}/>
-      } */}
-
-{
-        worker &&
-      <Dashboard profile = {worker}/>
-}
     </>
   );
 };

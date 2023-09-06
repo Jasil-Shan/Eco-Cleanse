@@ -1,19 +1,22 @@
 import express from "express";
-import { UpdateLocation, updateStatus, workerAuth, workerLogin } from "../controller/workerController.js";
+import { UpdateLocation, acceptTask, getHistory, getWorkerTasks, profileUpdate, taskComplete, updateStatus, workerAuth, workerLogin } from "../controller/workerController.js";
 import { verifyWorker } from "../middlewares/verifyWorker.js";
 
 
 
 
 const router = express.Router()
-
+router.get('/history',verifyWorker,getHistory)
 
 router.post('/login',workerLogin)
 router.post('/auth',workerAuth)
-router.post('/UpdateLocation',verifyWorker,UpdateLocation)
+router.post('/taskComplete',verifyWorker,taskComplete)
+router.post('/getTask',verifyWorker,getWorkerTasks)
 
 router.patch('/statusUpdate',verifyWorker,updateStatus)
-
+router.patch('/acceptTask',verifyWorker,acceptTask)
+router.patch('/UpdateLocation',verifyWorker,UpdateLocation)
+router.patch('/updateProfile',verifyWorker,profileUpdate)
 
 
 

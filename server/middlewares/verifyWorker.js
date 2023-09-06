@@ -9,14 +9,12 @@ export async function verifyWorker(req, res, next) {
 
         if (authHeader) {
             const token = authHeader.split(' ')[1]
-            console.log(process.env.WORKER_SECRET_KEY);
             jwt.verify(token, process.env.WORKER_SECRET_KEY, async (err, decoded) => {
 
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
                     const worker = await WorkerModel.findById({ _id: decoded.id })
-                    console.log(worker);
                     if (worker) {
 
                         req.workerId = decoded.id

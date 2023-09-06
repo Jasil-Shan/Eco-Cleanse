@@ -10,18 +10,26 @@ export const userLogin = (values) =>{
 
   }
 
-  export const userOnlinePay = ()=>{
-    return axiosInstance("UserJwtkey").post('/payment' )
+  export const userOnlinePay = (totalAmount)=>{
+    return axiosInstance("UserJwtkey").post('/payment',{totalAmount} )
 
   }
-  export const verifyPayment = (response,garbage,payment)=>{
-    return axiosInstance("UserJwtkey").post('/paymentVerify', {response, garbage,payment})
+  export const verifyPayment = (response)=>{
+    
+    return axiosInstance("UserJwtkey").post('/paymentVerify', {response})
 
   }
 
-  export const userBooking = (payment,garbage)=>{
+  export const userBooking = (payment,garbage, totalAmount)=>{
 
-    return axiosInstance("UserJwtkey").post('/booking', {...payment,garbage} )
+    return axiosInstance("UserJwtkey").post('/booking', {...payment,garbage,totalAmount} )
+
+  }
+
+  
+  export const availabilityCheck = ()=>{
+
+    return axiosInstance("UserJwtkey").get('/check' )
 
   }
 
@@ -31,3 +39,6 @@ export const userLogin = (values) =>{
 
   }
 
+  export const UserProfileUpdate = ( values) => {
+      return axiosInstance("UserJwtkey").patch('/updateProfile', { ...values })
+  }

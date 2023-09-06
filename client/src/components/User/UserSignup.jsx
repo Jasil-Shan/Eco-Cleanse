@@ -35,9 +35,8 @@ const UserSignup = () => {
         if (response.ok) {
             const { features } = await response.json();
             setSuggest(features);
-            console.log(features);
         }
-    };
+    }
 
 
     const validate = Yup.object({
@@ -74,17 +73,16 @@ const UserSignup = () => {
         validationSchema: validate,
 
         onSubmit: async (values) => {
-            console.log("onsubmit");
             try {
                 console.log(values);
                 const { data } = await axios.post('/user/verify', { ...values, locations })
-                console.log(data);
+                const email = formik.values.email
 
                 if (data.status) {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    navigate("/verifyMail")
+                 navigate("/verifyMail", {state : {email}})
 
                 } else {
                     toast.error(data.message, {

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import earth from './assets/earth.jpg'
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { userLogin } from '../../services/userApi';
+import { authUser, userLogin } from '../../services/userApi';
 import { useFormik } from 'formik';
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux"
@@ -13,6 +13,15 @@ import { setUserDetails } from '../../redux/features/userSlice';
 const UserLogin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
+
+    useEffect(() => {
+        authUser().then((response) => {
+            if (response.data.status)
+             navigate('/')
+        })
+    }, [])
+
+
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     };
@@ -107,7 +116,7 @@ const UserLogin = () => {
 
                     <div className='mt-3 text-xs flex justify-between items-center'>
                         <p>Not a member yet !?</p>
-                        <a href='/signup' className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</a>
+                      <Link to={'/signup'}><p className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</p></Link>
                     </div>
 
                 </div>

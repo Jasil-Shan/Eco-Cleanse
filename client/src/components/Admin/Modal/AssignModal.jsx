@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { assignWork, getLocation } from "../../../services/adminApi";
+import { assignWork, getEmployees,  } from "../../../services/adminApi";
 import { calculateDistance } from "../../../helpers/calculateDistance";
 import { toast } from "react-toastify";
 
@@ -16,9 +16,8 @@ const AssignModal = (props) => {
 
     useEffect(() => {
         try {
-            (
-                async function () {
-                    const { data } = await getLocation()
+            ( async function () {
+                    const { data } = await getEmployees()
                     console.log(data);
                     if (data.status) {
                         const workerDistance = data.worker.map((worker) => {
@@ -76,7 +75,6 @@ const AssignModal = (props) => {
     }
 
     let booking = props.booking
-    console.log(booking._id);
 
     return (
         <>

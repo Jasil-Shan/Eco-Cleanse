@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Sidebar from "../Sidebar/Sidebar"
-import Header from "../Header/Header"
+import Sidebar from "./Sidebar/Sidebar"
 import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
@@ -73,7 +72,6 @@ const AdminWorkers = () => {
     return (
         <>
             <Sidebar />
-            <Header />
 
             <section className="py-1 bg-blueGray-50">
 

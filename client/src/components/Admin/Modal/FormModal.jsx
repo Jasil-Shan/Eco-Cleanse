@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
 
-const FormModal = (props) => {
+const FormModal = ({role,setRefresh,refresh}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [image, setSelectedImages] = useState([]);
@@ -13,8 +13,7 @@ const FormModal = (props) => {
     const [suggestions, setSuggest] = useState([]);
     const [value, setValue] = useState("");
     const [place, setPlace] = useState("");
-    const role = props.role
-    const refresh = props.refresh
+   
 
     const handleRetrieve = (itemLocation, place) => {
         setLocation(itemLocation);
@@ -91,6 +90,8 @@ const FormModal = (props) => {
             .max(10, 'Mobile number not valid')
             .min(10, 'Mobile number not valid')
             .required("Mobile is required"),
+        gender: Yup.string()
+            .required("gender is required"),
         password: Yup.string()
             .min(8, 'password must be at least 8 charecters')
             .required("Password is required"),
@@ -105,33 +106,34 @@ const FormModal = (props) => {
             email: '',
             mobile: '',
             dob: '',
-            gender:'',
+            gender: '',
             password: '',
-            confirmpassword: ''
+            confirmpassword: '',
         },
 
         validationSchema: validate,
 
         onSubmit: async (values) => {
             try {
-        
-                    const {data} = await axios.post('/admin/addEmployee', { ...values, image, location, place,role });
-                
-                if (data?.status && props.role == 'worker') {
+
+                const { data } = await axios.post('/admin/addEmployee', { ...values, image, location, place, role });
+
+                if (data?.status && role == 'worker') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    props.setRefresh(!refresh)
+                    setRefresh(!refresh)
                     toggleModal()
                     axios.post('/admin/sendMail', { ...values })
-                    navigate("/admin/workers",{state:{data:'added' }})
-                } else if (data.status && props.role == 'driver') {
+                    navigate("/admin/details", { state: 'worker' })
+                } else if (data.status && role == 'driver') {
                     toast.success(data.message, {
                         position: "top-center"
                     })
+                    setRefresh(!refresh)
                     axios.post('/admin/sendMail', { ...values })
                     toggleModal()
-                    navigate("/admin/drivers")
+                    navigate("/admin/details", { state: 'driver' })
                 } else {
                     toast.error(data.message, {
                         position: "top-center"
@@ -153,7 +155,7 @@ const FormModal = (props) => {
             <button
                 data-modal-target="authentication-modal"
                 data-modal-toggle="authentication-modal"
-                className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm ml-12 mb-8 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="btn btn-neutral btn-sm"
                 type="button"
                 onClick={toggleModal}
             >
@@ -165,9 +167,9 @@ const FormModal = (props) => {
                     id="authentication-modal"
                     tabIndex="-1"
                     aria-hidden="true"
-                    className="fixed card top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
-                > 
-                    <div className="relative bg-white rounded-lg shadow">
+                    className="fixed  top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
+                >
+                    <div className="relative  bg-white rounded-lg shadow">
                         <button
                             type="button"
                             className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -251,7 +253,7 @@ const FormModal = (props) => {
                                     />
                                     <ul className=" absolute  w-45 py-4  ">
                                         {!place &&
-                                            suggestions.map((item,index) => {
+                                            suggestions.map((item, index) => {
                                                 return <li key={index} onClick={() => handleRetrieve(item.geometry.coordinates, item.place_name)} className="text-start bg-white rounded-md pl-8 pr-2 py-1 border-b-2 border-gray-100 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900">
                                                     <svg
                                                         className="stroke-current absolute w-4 h-4 left-2 top-2"
@@ -290,14 +292,36 @@ const FormModal = (props) => {
                                         onChange={formik.handleChange}
                                         required
                                     />
-                                    {formik.touched.mobile && formik.errors.mobile ? (
-                                        <div className="text-red-500"> {formik.errors.mobile} </div>
-                                    ) : null}
+                                 
                                 </div>
                                 <div className="join">
-                                    <input className="join-item btn btn-sm" value={'male'}  id="gender" type="radio" name="gender" aria-label="Male" />
-                                    <input className="join-item btn btn-sm" type="radio" value={'female'} id="gender" name="gender" aria-label="Female" />
+                                    <input
+                                        className="join-item btn btn-sm"
+                                        value="male"
+                                        id="gender-male"
+                                        type="radio"
+                                        name="gender"
+                                        aria-label="Male"
+                                        onChange={formik.handleChange}
+                                        checked={formik.values.gender === 'male'}
+                                    />
+
+                                    <input
+                                        className="join-item btn btn-sm"
+                                        value="female"
+                                        id="gender-female"
+                                        type="radio"
+                                        name="gender"
+                                        aria-label="Female"
+                                        onChange={formik.handleChange}
+                                        checked={formik.values.gender === 'female'}
+                                    />
+
                                 </div>
+                                {formik.touched.gender && formik.errors.gender ? (
+                                    <div className="text-red-500">{formik.errors.gender}</div>
+                                ) : null}
+
                                 <div>
                                     <input
                                         type="password"
@@ -336,11 +360,12 @@ const FormModal = (props) => {
                                         onChange={handleFileChange}
                                         required
                                     />
-                                    {formik.touched.mobile && formik.errors.mobile ? (
-                                        <div className="text-red-500"> {formik.errors.mobile} </div>
-                                    ) : null}
                                 </div>
-
+                                {image && (
+                                    <div>
+                                        <img src={image} alt="Selected" className="mt-3 max-w-full h-auto" />
+                                    </div>
+                                )}
 
                                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                     <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">

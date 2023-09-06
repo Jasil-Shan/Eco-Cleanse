@@ -8,12 +8,20 @@ import UserModel from "../model/userModel.js";
 
 export async function userBooking(req, res) {
   try {
-    const { garbage, payment } = req.body;
+    const { garbage, payment,totalAmount } = req.body;
+    console.log(req.body);
     const _id = req.userId;
     const order_id = orderId('Eco').generate();
     const user = await UserModel.findById(_id)
-    const driver = await DriverModel.find({})
-    const worker = await WorkerModel.find({})
+    const driver = await DriverModel.find({status:'Available'})
+    const worker = await WorkerModel.find({status:'Available'})
+
+    if (driver.length === 0 || worker.length === 0) {
+      return res.json({
+        success: false,
+        message: 'Service Unavailable at the moment, Try again later',
+      })
+    }
 
     const workerDistance = worker.map((worker) => {
       const distance = calculateDistance(
@@ -23,7 +31,8 @@ export async function userBooking(req, res) {
         worker.location[0]
       );
       return { ...worker.toObject(), distance };
-    });
+    })
+
     const driverDistance = driver.map((driver) => {
       const distance = calculateDistance(
         user.location[1],
@@ -32,43 +41,77 @@ export async function userBooking(req, res) {
         driver.location[0]
       );
       return { ...driver.toObject(), distance };
-    });
-    const nearbyWorker = workerDistance.filter(
-      (worker) => worker.distance <= 10
-    )
-    const nearbyDriver = driverDistance.filter(
-      (driver) => driver.distance <= 10
-    )
-    nearbyWorker.sort((a, b) => a.distance - b.distance)
-    nearbyDriver.sort((a, b) => a.distance - b.distance)
+    })
 
-    const nearWorker = nearbyWorker[0]._id
-    const nearDriver = nearbyDriver[0]._id
+    const nearbyWorkers = workerDistance.filter(
+      (worker) => worker.distance <= 20
+    )
+    const nearbyDrivers = driverDistance.filter(
+      (driver) => driver.distance <= 20
+    )
+    
+    nearbyWorkers.sort((a, b) => a.distance - b.distance)
+    nearbyDrivers.sort((a, b) => a.distance - b.distance)
+
+    // const nearWorker = nearbyWorker[0]._id
+    // const nearDriver = nearbyDriver[0]._id
 
     const booking = await BookingModel.create({
       garbage: garbage,
       paymentMethod: payment,
       user: _id,
       order_id,
-      worker: nearWorker,
-      driver: nearDriver,
+      totalAmount
     })
 
-    Promise.all([
-      WorkerModel.findByIdAndUpdate(nearWorker, {
-        $set: { task: booking._id }
-      }),
-      DriverModel.findByIdAndUpdate(nearDriver, {
-        $set: { task: booking._id }
+    const taskPromises = [];
+
+    nearbyWorkers.forEach((worker) => {
+      const workerPromise = WorkerModel.findByIdAndUpdate(worker._id, {
+        $set: { task: booking._id },
+      });
+      taskPromises.push(workerPromise);
+    });
+
+    nearbyDrivers.forEach((driver) => {
+      const driverPromise = DriverModel.findByIdAndUpdate(driver._id, {
+        $set: { task: booking._id },
+      });
+      taskPromises.push(driverPromise);
+    });
+
+    taskPromises.push(
+      BookingModel.findByIdAndUpdate(booking._id, {
+        $set: { assigned: true },
       })
-    ]).then(() => {
-      res.json({ success: true, message: 'Request Accepted', order_id })
-    }).catch((error) => {
-      res.json({ success: false, message: "Try Again" });
+    );
 
-    })
+    Promise.all(taskPromises)
+      .then(() => {
+        res.json({ success: true, message: 'Request Accepted', order_id });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.json({ success: false, message: 'Try Again' });
+      });
 
+    //  Promise.all([
+    //   WorkerModel.findByIdAndUpdate(nearWorker, {
+    //     $set: { task: booking._id }
+    //   }),
+    //   DriverModel.findByIdAndUpdate(nearDriver, {
+    //     $set: { task: booking._id }
+    //   }),
+    //   BookingModel.findByIdAndUpdate(booking._id, {
+    //     $set: { assigned : true }
+    //   })
+    // ]).then(() => {
+    //   res.json({ success: true, message: 'Request Accepted', order_id })
+    // }).catch((error) => {
+    //   console.log(error)
+    //   res.json({ success: false, message: "Try Again" });
 
+    // })
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Try Again" });
@@ -81,13 +124,44 @@ export async function getBookings(req, res) {
 
   try {
 
-    const bookings = await BookingModel.find({})
+    const bookings = await BookingModel.find({}).populate('driver').populate('worker')
     res.json({ status: true, bookings, message: "success" })
 
   } catch (error) {
-
-    console.log(error);
-
+    console.log(error)
   }
 }
 
+export async function profileUpdate (req,res){
+  try {
+      const _id = req.userId
+      const {mobile , name} = req.body
+      await UserModel.findByIdAndUpdate(_id,{$set:{mobile,name}})
+      res.json({success : true , message : "profile updated"})
+  } catch (error) {
+      console.log(error);
+      res.json({success : false , message : "Try Again"})
+  }
+}
+
+export async function checkAvailability(req, res) {
+  try {
+
+    const driver = await DriverModel.find({status:'Available'})
+    const worker = await WorkerModel.find({status:'Available'})
+
+    if (driver.length === 0 || worker.length === 0) {
+      return res.json({
+        error: true,
+        message: 'Service Unavailable at the moment, Try again later',
+      })
+    }else{
+      return res.json({
+        error: false,
+        message: 'Employees Available',
+      })
+    }
+  }catch (err){
+    console.log(err);
+  }
+}

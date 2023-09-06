@@ -22,28 +22,40 @@ const DriverSchema = new mongoose.Schema({
         required: true
     },
     dob: {
-        type: Date,
+        type: String,
         required: true
     },
     image: {
         type: Object,
-        required:true
+        required: true
     },
     blocked: {
         type: Boolean,
-        default:false
+        default: false
     },
-    role:{
-        type:String,
+    role: {
+        type: String,
         default: 'driver'
+    },
+    gender: {
+        type: String,
+        
     },
     location: {
         type: Object,
-        default:false
+        default: false
     },
-    status:{
-        type:String,
-        default:'offline'
+    status: {
+        type: String,
+        default: 'offline'
+    },
+    task: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'bookings',
+    },
+    assigned :{
+        type:Boolean,
+        default:false
     }
 })
 

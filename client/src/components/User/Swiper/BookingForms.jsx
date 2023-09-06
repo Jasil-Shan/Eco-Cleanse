@@ -9,12 +9,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { userBooking } from '../../../services/userApi';
 import Card from '../Card/Card';
+import Chart from '../Chart/Chart';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const BookingForms = () => {
   const swiper = useSwiper();
   const [cards, setcard] = useState(false)
-  const [formValues, setFormValues] = useState(null); // State to store form values
+  const [formValues, setFormValues] = useState(null)
+  const navigate = useNavigate()
 
 
   const formik = useFormik({
@@ -34,9 +37,11 @@ const BookingForms = () => {
           values.others
         ) {
           setFormValues(values);
-          setcard(true);
+          for (const key in values) {
+            values[key] = Number(values[key].replace('%', ''));
+          }
+          navigate('/ConfirmChart', {state:{values}})
         } else {
-          // If any of the fields are missing, show a toast message
           toast.error('Please fill in all the fields', { position: 'top-center' });
         }
       } catch (error) {
@@ -47,10 +52,8 @@ const BookingForms = () => {
   });
 
 
-
   return (
-    <form onSubmit={formik.handleSubmit} className="px-8 space-y-6" >
-      {cards ? formValues && <Card formValues={formValues} /> :
+    <form onSubmit={formik.handleSubmit} className=" space-y-6" >
         <Swiper
           effect={'cards'}
           grabCursor={true}
@@ -58,42 +61,21 @@ const BookingForms = () => {
           className="swiper mt-20"
         >
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='eWaste' id='eWaste' required>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs" placeholder='Enter E waste weight' name='eWaste' id='eWaste' required />
+             
           </SwiperSlide>
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='plasticWaste' id='plasticWaste'>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs" placeholder='Enter Plastic waste weight' name='plasticWaste' id='plasticWaste' required />
+        
           </SwiperSlide>
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='foodWaste' id='foodWaste'>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs"  placeholder='Enter Food waste weight' name='foodWaste' id='foodWaste' required/>
+           
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex flex-col items-center">
-              <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='others' id='others'>
-                <option disabled selected>Pick Garbage Status</option>
-                <option>25%</option>
-                <option>50%</option>
-                <option>75%</option>
-                <option>100%</option>
-              </select>
-              <button type='submit' className="btn glass number-center">Submit</button>
+            <div className="flex flex-col h-fit w-full mt-14 items-center">
+              <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs"  placeholder='Enter Other waste weight' name='others' id='others' required/>
+              <button type='submit' className="btn glass number-center mt-8">Submit</button>
             </div>
 
           </SwiperSlide>
@@ -104,7 +86,7 @@ const BookingForms = () => {
           </SwiperSlide> */}
 
         </Swiper >
-      }
+      
     </form>
   );
 }

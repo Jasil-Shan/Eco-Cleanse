@@ -13,11 +13,13 @@ const instance = new Razorpay({
 
 export async function createPayment(req, res) {
 
+
+    const {totalAmount} = req.body
+
     const options = {
-        amount: 25000,
+        amount: totalAmount * 100,
         currency: "INR",
     };
-
     const order = await instance.orders.create(options)
     res.status(200).json({ success: true, order })
 
@@ -36,16 +38,8 @@ export async function paymentVerification(req, res) {
     console.log(req.body,"sjdsghj");
 
     if (generated_signature === razorpay_signature) {
-        const id = req.userId;
 
-        await BookingModel.create({
-            garbage: garbage,
-            paymentMethod: payment,
-            user: id,
-            order_id
-        })
-
-        res.json({ success: true, message: "Added successfully" });
+        res.json({ success: true});
         console.log('payment success');
     }
 
