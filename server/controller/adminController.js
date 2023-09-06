@@ -340,18 +340,36 @@ export async function sendMail(req, res) {
 }
 
 
-export async function viewWorks(req, res) {
+export async function viewBookings(req, res) {
     try {
-        const works = await BookingModel.find({}).populate('user').populate('worker').populate('driver')
-        console.log(works);
-        res.json({ success: true, works });
+        const page = parseInt(req.query.page) - 1 || 0
+        const limit = parseInt(req.query.limit) || 5
+        const search = req.query.search || ""
+        let sort = req.query.sort 
+        const {fromDate , toDate} = req.query
+        if (fromDate && toDate) {
+            let query = BookingModel.find({});
+            query = query.where('createdAt').gte(new Date(fromDate)).lte(new Date(toDate));
+            const bookings = await query.populate('user').populate('worker').populate('driver');
+            return res.json({ success: true, bookings });
+        }
+        const bookings = await BookingModel.find({}).populate('user').populate('worker').populate('driver').sort(sort).skip(page * limit).limit(limit)
+        const total = await BookingModel.countDocuments({});
+        const response = {
+            success: true,
+            total,
+            page: page + 1,
+            limit,
+            bookings,
+        };
+        res.status(200).json(response)
     } catch (error) {
         res.json({ message: "Something went wrong", error: true });
     }
 }
 
 
-export async function getLocation(req, res) {
+export async function getEmployees(req, res) {
     try {
         const worker = await WorkerModel.find({})
         const driver = await DriverModel.find({})
@@ -415,6 +433,7 @@ export async function totalStats(req, res) {
             Others: result[0].totalOthers
         }
 
+        const totalSum = Object.values(totalSums).reduce((acc, curr) => acc + curr, 0);
 
         const onlineEmployee = await Promise.all([
             DriverModel.countDocuments({status:'Available'}).exec(),
@@ -437,7 +456,7 @@ export async function totalStats(req, res) {
             monthlyRevenue[item._id - 1] = item.totalRevenue; // Populate the monthly revenue array
           });
 
-        res.json({ success: true, count, totalSums,onlineEmployee,monthlyRevenue })
+        res.json({ success: true, count, totalSums,onlineEmployee,monthlyRevenue, totalSum })
 
     } catch (error) {
         console.log(error);
