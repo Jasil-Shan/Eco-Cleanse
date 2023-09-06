@@ -6,12 +6,13 @@ import { useSelector } from 'react-redux'
 import Conversation from './Conversation/Conversation'
 import ChatBox from './ChatBox/ChatBox'
 import { io } from "socket.io-client";
+import chatTemp from './assets/chatTemp.svg'
 
 
 const Chat = () => {
 
   const location = useLocation()
-  const {senderId} = location?.state
+  const { senderId, role } = location?.state
   const [chats, setChats] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
@@ -23,7 +24,6 @@ const Chat = () => {
     try {
       (async function () {
         const { data } = await chatRoom(senderId)
-        console.log(data,'sghh');
         setChats(data)
       })()
     } catch (error) {
@@ -50,22 +50,21 @@ const Chat = () => {
   // Get the message from socket server
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
+      console.log('opopopo');
       setRecieveMessage(data);
     });
   }, []);
 
   const checkOnlineStatus = (chat) => {
-    const chatMember = chat.members.find((member) => member !== user._id);
+    console.log(chat);
+    const chatMember = chat.members.find((member) => member !== senderId);
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
 
   return (
     <>
-      {/* <EmployeeNavbar role={profile.role} /> */}
-
       <div className="relative">
-
         <div className="container mx-auto mt-px">
           <div className="py-6 h-screen overflow-hidden flex">
 
@@ -75,7 +74,7 @@ const Chat = () => {
               {/* Header */}
               <div className="py-2 px-3 bg-gray-200 flex justify-between items-center">
                 <div>
-                  <img className="w-10 h-10 rounded-full" src="http://andressantibanez.com/res/avatar.png" alt="User" />
+                  {/* <img className="w-10 h-10 rounded-full" src="http://andressantibanez.com/res/avatar.png" alt="User" /> */}
                 </div>
 
                 <div className="flex">
@@ -107,8 +106,8 @@ const Chat = () => {
                 {/* Contacts items */}
                 {chats &&
                   chats.map((chat) => (
-                    <div onClick={()=>setCurrentChat(chat)}>
-                      <Conversation data={chat} currentUser={senderId} />
+                    <div onClick={() => setCurrentChat(chat)}>
+                      <Conversation data={chat} currentUser={senderId} role={role} online={checkOnlineStatus(chat)} />
                     </div>
                   ))
 
@@ -121,14 +120,14 @@ const Chat = () => {
             <div className="w-2/3 border flex flex-col">
 
               {/* Header */}
-        
+
 
               {/* Messages */}
-          { currentChat ?  <ChatBox chat = {currentChat} currentUser={senderId} setSendMessage = {setSendMessage} recieveMessage = {recieveMessage}/> : <span>asjhjsahjsd</span> }
+              {currentChat ? <ChatBox chat={currentChat} currentUser={senderId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} role={role} /> : <img className='mt-20' src={chatTemp} alt="" />}
 
 
               {/* Input */}
-             
+
             </div>
           </div>
         </div>
