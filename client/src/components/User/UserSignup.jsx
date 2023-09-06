@@ -82,7 +82,7 @@ const UserSignup = () => {
                     toast.success(data.message, {
                         position: "top-center"
                     })
-                    navigate("/verifyMail", {state : {email}})
+                 navigate("/verifyMail", {state : {email}})
 
                 } else {
                     toast.error(data.message, {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Navbar from '../Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
-import { userBooking, userOnlinePay, verifyPayment } from '../../../services/userApi';
+import { availabilityCheck, userBooking, userOnlinePay, verifyPayment } from '../../../services/userApi';
 import { toast } from 'react-toastify';
 import Success from '../Success Card/Success';
 
@@ -15,6 +15,7 @@ const Chart = () => {
     setSelectedOption(option);
   };
   const getLocation = useLocation()
+  
   const { values } = getLocation?.state
 
   const valuesArray = [
@@ -27,13 +28,20 @@ const Chart = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const {data} = await availabilityCheck()
+      if(data.error){
+       return toast.error(data.message, {
+          position: "top-center",
+        });
+      }
+      const totalKg = valuesArray.reduce((acc, curr) => acc + curr, 0);
+      const totalAmount = totalKg * 10
 
       if (selectedOption == 'Online') {
-
-        const { data: { order } } = await userOnlinePay()
+        const { data: { order } } = await userOnlinePay(totalAmount)
         var options = {
           key: "rzp_test_X2EWEu9JQG1E2R",
-          amount: "250000",
+          amount: order.amount,
           currency: "INR",
           name: "Eco Cleanse",
           description: "Service Charge",
@@ -42,7 +50,6 @@ const Chart = () => {
           handler: async (response) => {
             try {
               await payment(response)
-              console.log(response);
             } catch (error) {
               console.error(error);
             }
@@ -64,7 +71,7 @@ const Chart = () => {
 
       } else {
 
-        const { data } = await userBooking({ payment: selectedOption }, values);
+        const { data } = await userBooking({ payment: selectedOption }, values , totalAmount);
 
         if (data.success) {
           setOrder(data.order_id)
@@ -84,7 +91,7 @@ const Chart = () => {
           const { data } = await verifyPayment(response)
 
           if (data.success) {
-            const { data } = await userBooking({ payment: selectedOption }, values);
+            const { data } = await userBooking({ payment: selectedOption }, values , totalAmount);
 
             setOrder(data.order_id)
             setSuccess(true)
@@ -151,7 +158,7 @@ const Chart = () => {
         size: 0,
       },
       formatter: function (seriesName, opts) {
-        return seriesName + ':  ' + opts.w.globals.series[opts.seriesIndex] + ' %';
+        return seriesName + ':  ' + opts.w.globals.series[opts.seriesIndex] + ' kg';
       },
       itemMargin: {
         vertical: 3,
@@ -171,13 +178,12 @@ const Chart = () => {
 
   return (
     <>
-      <div className="h-screen bg-[url(https://res.cloudinary.com/dlhldjuis/image/upload/v1690101413/Eco%20cleanse/Untitled_6_l4znzl.png)] bg-cover backdrop-blur-3xl">
-
         <Navbar />
         {
           succesful ? <Success orderId={orderId} />
-            : (
-              <div id="chart" className='flex card pb-8 glass flex-col overflow-hidden '>
+          : (
+            <div>
+              <div id="chart" className='flex card pb-8 flex-col mt-20 overflow-hidden '>
                 <ReactApexChart options={options} series={series} type="radialBar" height={390} />
                 <div className="self-center flex flex-row gap-8 mb-8">
                   <div
@@ -197,9 +203,9 @@ const Chart = () => {
                 </div>
                 <button onClick={handleSubmit} className='btn btn-sm drop-shadow-lg w-fit self-center btn-success text-white'>Confirm</button>
               </div>
+        </div>
             )
         }
-        </div>
       </>
       );
 }

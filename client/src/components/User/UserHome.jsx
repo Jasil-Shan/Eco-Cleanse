@@ -20,7 +20,6 @@ const UserHome = () => {
             <HeroLeft recycle={recycle} last = {true} />
             <Stats />
             <Footer />
-
         </>
     );
 }
