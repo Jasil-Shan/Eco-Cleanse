@@ -27,11 +27,9 @@ const Pie = ({ data }) => {
     });
 
     return (
-        <div className='card shadow-md py-12'>
+        <div id="chart"  className='card shadow-md '>
             <h1 className='text-center font-bold mb-8'>Garbage Details</h1>
-            <div id="chart" >
                 <ReactApexChart options={options} series={series} type="pie" width={380} />
-            </div>
         </div>
     );
 };

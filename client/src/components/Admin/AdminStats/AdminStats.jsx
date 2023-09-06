@@ -5,7 +5,7 @@ const AdminStats = ({ count }) => {
     console.log(count);
     return (
         <>
-            <div className='grid grid-cols-2 ml-40  md:flex justify-center gap-4'>
+            <div className='grid grid-cols-2 xl:ml-40 lg:flex justify-center gap-4'>
                 <div className="stats  shadow-xl mt-28 ">
                     <div className="stat ">
                         <div className="stat-figure text-secondary">

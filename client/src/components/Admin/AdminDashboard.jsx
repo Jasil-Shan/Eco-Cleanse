@@ -37,12 +37,12 @@ const AdminDashboard = () => {
         <>
             <Sidebar />
             {count && <AdminStats count={count} />}
-            <div className="flex flex-row ml-64  gap-36 mt-10 justify-center items-center ">
+            <div className="flex flex-row xl:ml-64 md:gap-36 mt-10 justify-center items-center ">
                 {totalSums && onlineEmployees && (
-                    <>
+                    <div className="flex flex-col gap-12 lg:flex-row">
                     <Pie data={totalSums} />
                     <MixedPie online={onlineEmployees} />
-                    </>
+                    </div>
                 )
                 }
             </div>
