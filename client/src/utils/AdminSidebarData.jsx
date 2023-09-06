@@ -36,6 +36,18 @@ const adminSidebarData = [
         icon: <FaTruckMoving size={22} />
 
     },
+    {
+        title: 'Payment',
+        links: "/admin/payment",
+        icon: <FaTruckMoving size={22} />
+
+    },
+    {
+        title: 'Garbage Report',
+        links: "/admin/garbageReport",
+        icon: <FaTruckMoving size={22} />
+
+    },
     
    
 
