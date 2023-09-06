@@ -21,7 +21,7 @@ const Sidebar = () => {
                                 data-drawer-toggle="logo-sidebar"
                                 aria-controls="logo-sidebar"
                                 type="button"
-                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+                                className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg xl:hidden  focus:outline-none focus:ring-2  focus:ring-gray-600"
                                 onClick={toggleSidebar}
                             >
                                 <span className="sr-only">Open sidebar</span>
@@ -61,7 +61,7 @@ const Sidebar = () => {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             className="w-8 h-8 rounded-full"
-                                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                            src=""
                                             alt="user photo"
                                         />
                                     </button>
@@ -99,11 +99,11 @@ const Sidebar = () => {
             <aside
                 id="logo-sidebar"
                 className={`fixed top-0 left-0 z-40 w-56 h-screen pt-20 transition-transform ${isSidebarOpen ? "" : "-translate-x-full"
-                    } bg-white border-r border-gray-200 sm:translate-x-0`}
+                    } bg-white border-r border-gray-200 xl:translate-x-0`}  
                 aria-label="Sidebar"
             >
                 <div className="h-full px-3 pb-4 overflow-y-auto shadow-2xl bg-white ">
-                    <ul className="space-y-2 font-medium">
+                    <ul className="space-y-2 font-medium"> 
                         {
                             adminSidebarData.map((obj, index) => {
 

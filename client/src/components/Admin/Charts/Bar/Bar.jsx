@@ -86,7 +86,7 @@ const Bar = ({monthlyRevenueData}) => {
   }];
 
   return (
-    <div id="chart" className='w-3/4 ml-80 mt-28' >
+    <div id="chart" className='xl:w-3/4 w-full xl:ml-80 mt-28' >
       <ReactApexChart options={options} series={series} type="bar" height={350} />
     </div>
   );
