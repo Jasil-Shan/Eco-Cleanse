@@ -40,7 +40,6 @@ const BookingForms = () => {
           for (const key in values) {
             values[key] = Number(values[key].replace('%', ''));
           }
-          console.log(values)
           navigate('/ConfirmChart', {state:{values}})
         } else {
           toast.error('Please fill in all the fields', { position: 'top-center' });
@@ -62,41 +61,20 @@ const BookingForms = () => {
           className="swiper mt-20"
         >
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='eWaste' id='eWaste' required>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs" placeholder='Enter E waste weight' name='eWaste' id='eWaste' required />
+             
           </SwiperSlide>
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='plasticWaste' id='plasticWaste'>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs" placeholder='Enter Plastic waste weight' name='plasticWaste' id='plasticWaste' required />
+        
           </SwiperSlide>
           <SwiperSlide>
-            <select onChange={formik.handleChange} className="select select-ghost w-full max-w-xs" name='foodWaste' id='foodWaste'>
-              <option disabled selected>Pick Garbage Status</option>
-              <option>25%</option>
-              <option>50%</option>
-              <option>75%</option>
-              <option>100%</option>
-            </select>
+          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs"  placeholder='Enter Food waste weight' name='foodWaste' id='foodWaste' required/>
+           
           </SwiperSlide>
           <SwiperSlide>
-            <div className="flex flex-col h-fit items-center">
-              <select onChange={formik.handleChange} className="select font-semibold text-black select-ghost w-full max-w-xs" name='others' id='others'>
-                <option disabled selected>Pick Garbage Status</option>
-                <option>25%</option>
-                <option>50%</option>
-                <option>75%</option>
-                <option>100%</option>
-              </select>
+            <div className="flex flex-col h-fit w-full mt-14 items-center">
+              <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-black w-full max-w-xs"  placeholder='Enter Other waste weight' name='others' id='others' required/>
               <button type='submit' className="btn glass number-center mt-8">Submit</button>
             </div>
 
