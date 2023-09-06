@@ -33,6 +33,7 @@ const DriverDash = () => {
                 status: data.driver.status,
                 task: data.driver.task,
                 assigned: data?.driver?.assigned,
+                dob: data?.driver?.dob,
               })
             );
             setRole(data.driver.role)

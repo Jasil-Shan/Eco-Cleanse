@@ -50,10 +50,14 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
 
                 })
             }
+
         } catch (error) {
             console.log(error);
         }
     }
+
+  
+      
     return (
         <>
             <EmployeeNavbar role={profile.role} />
