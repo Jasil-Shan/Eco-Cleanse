@@ -2,24 +2,32 @@ import React, { useState } from 'react';
 import { FcBusinessman, FcHome, FcPhoneAndroid } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { TaskAccept } from '../../../../services/driverApi';
+import { useNavigate } from 'react-router-dom';
 
-const TaskAlert = ({ task,role,setRefresh }) => {
+const TaskAlert = ({ task,role,setRefresh,refresh }) => {
 
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate()
   const taskId = task._id
   const toggleModal = () => {
     setIsOpen(false);
   };
 
   const handleSubmit = async ()=>{
+    try {
+      
+    
     const {data} = await TaskAccept(taskId ,role)
     if(data.success){
         toggleModal()
-        setRefresh(true)
+        setRefresh(!refresh)
         toast.success(data.message, {
             position: "top-center"
         })
     }
+  } catch (error) {
+      console.log(error);
+  }
   }
 
   return (
