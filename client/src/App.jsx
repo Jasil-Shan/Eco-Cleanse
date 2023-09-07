@@ -11,7 +11,7 @@ import AdminRouter from './routes/AdminRouter';
 
 
 function App() {
-  axios.defaults.baseURL =["http://localhost:3000","https://ecocleanse.comicworld.store"]
+  axios.defaults.baseURL ="https://ecocleanse.comicworld.store"
   axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>
