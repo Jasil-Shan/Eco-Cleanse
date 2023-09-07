@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
 import SearchBar from "./SearchBar/SearchBar"
+import { getBookings } from "../../services/adminApi"
 
 
 
@@ -32,7 +33,7 @@ const AdminPayment = () => {
             (
                 async function () {
 
-                    const { data } = await axios.get(`/admin/bookings?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
+                    const { data } = await getBookings(page,limit)
                     if (data.success) {
                         setPayment(data.bookings)
                         setLimit(data.limit);
