@@ -127,8 +127,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                     profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
                                         <MapContainer center={[profile?.location[1], profile?.location[0]]} zoom={8} style={{ height: '250px' }}>
                                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                            <Marker position={[profile.location[1], profile.location[0]]}>
-                                            </Marker>
+                                            <Marker position={[profile.location[1], profile.location[0]]} />
                                         </MapContainer>
                                     ) : (
                                         <div>Loading map...</div>
