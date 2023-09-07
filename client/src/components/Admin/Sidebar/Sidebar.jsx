@@ -90,15 +90,13 @@ const Sidebar = () => {
                                 )
                             })}
                         <li>
-                            <button className="top-0" onClick={
+                            <span><FaSignOutAlt /></span>
+                            <button  onClick={
                                 () => {
                                     localStorage.removeItem('AdminJwtkey');
                                     navigate('/admin/login')
-                                }}>
-                                <span><FaSignOutAlt /></span>
-                                <h1
-                                    className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
-                                >Logout</h1></button>
+                                }} className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
+                                >Logout</button>
                         </li>
                     </ul>
 
