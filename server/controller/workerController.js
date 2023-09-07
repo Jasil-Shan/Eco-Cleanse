@@ -191,3 +191,14 @@ export async function getHistory (req,res){
         res.json({success:fals , message:'failed '})
     }
 }
+
+export async function getBooking (req,res){
+    try {
+        const _id = req.query.id
+        const booking = await BookingModel.findById(_id).populate('user').populate('worker').populate('driver')
+        res.json({success:true , message:'Success' , booking})
+    } catch (error) {
+        console.log(error);
+        res.json({success:false , message:'failed '})
+    }
+}

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Step1 from '../Step1/Step1';
 import Step2 from '../Step2/Step2';
 import Step3 from '../Step 3/Step3';
-import { taskComplete } from '../../../services/workerApi';
+import { getBooking, taskComplete } from '../../../services/workerApi';
 import { getCurrentLocation } from '../../../helpers/currentLocation';
 import Swal from 'sweetalert2';
 
@@ -17,6 +17,7 @@ const TaskModal = () => {
     const [step, setStep] = useState(1);
     const [paymentDetails, setPaymentDetails] = useState()
     const [isOpen, setIsOpen] = useState(true);
+    const [booking, setBooking] = useState();
 
     const handleNextStep = () => {
         setStep(step + 1)
@@ -27,7 +28,21 @@ const TaskModal = () => {
     };
 
     const garbageDetails = useSelector((state) => state.worker.garbageDetails)
-    const id = useSelector((state) => state.worker.task)
+    
+    useEffect(() => {
+        const id = useSelector((state) => state.worker.task)
+        try {
+            (
+                async function () {
+                    const { data } = await getBooking(id)
+                    if (data.success) {
+                        setBooking(data.booking)
+                    }
+                })()
+        } catch (error) {
+            console.log(error);
+        }
+    }, [])
 
     const toggleModal = () => {
         setIsOpen(false);
@@ -75,7 +90,7 @@ const TaskModal = () => {
             case 1:
                 return <Step1 onNextStep={handleNextStep} />
             case 2:
-                return <Step2 onNextStep={handleNextStep} onPreviousStep={handlePreviousStep} setPaymentDetails={setPaymentDetails} />
+                return <Step2 onNextStep={handleNextStep} booking ={booking} onPreviousStep={handlePreviousStep} setPaymentDetails={setPaymentDetails} />
             case 3:
                 return <Step3 onSubmit={handleSubmit} onPreviousStep={handlePreviousStep} />
             default:

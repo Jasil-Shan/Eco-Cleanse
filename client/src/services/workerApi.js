@@ -9,3 +9,7 @@ export const authWorker = () =>{
 export const taskComplete = (garbageDetails,taskId,location) =>{
     return axiosInstance("WorkerJwtkey").post('/worker/taskComplete', { garbageDetails, taskId,location })
 }
+
+export const getBooking = (id)=>{
+    return axiosInstance("WorkerJwtkey").get(`/worker/booking?id=${id}`)
+  }
