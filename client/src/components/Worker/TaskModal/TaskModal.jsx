@@ -29,9 +29,9 @@ const TaskModal = () => {
     };
 
     const garbageDetails = useSelector((state) => state.worker.garbageDetails)
+    const id = useSelector((state) => state.worker.task)
     
     useEffect(() => {
-        const id = useSelector((state) => state.worker.task)
         try {
             (
                 async function () {
