@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken'
-import adminModel from '../model/adminModel'
+import adminModel from '../model/adminModel.js'
 
 
 export async function verifyAdmin(req, res, next) {
 
     try {
-
         const authHeader = req.headers.authorization
 
         if (authHeader) {

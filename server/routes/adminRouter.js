@@ -22,7 +22,6 @@ router.post('/assignWork',assignWork)
 
 
 //get requets
-router.use(verifyAdmin)
 router.get('/users',viewUsers)
 router.get('/workers',viewWorkers)
 router.get('/drivers',viewDrivers)
@@ -33,7 +32,6 @@ router.get('/getStats',totalStats)
 
 
 //update requests
-router.use(verifyAdmin)
 router.patch('/block',block)
 router.patch('/unblock',unBlock)
 

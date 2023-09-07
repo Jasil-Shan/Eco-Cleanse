@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar/Sidebar"
 import SearchBar from "./SearchBar/SearchBar"
 import jsPDF from "jspdf"
 import "jspdf-autotable"; // Import the autotable plugin
+import { getBookings } from "../../services/adminApi"
 
 
 
@@ -27,7 +28,7 @@ const AdminGarbageReport = () => {
     try {
       (
         async function () {
-          const { data } = await axios.get(`/admin/bookings?page=${page}&sort=${sort}&search=${search}&limit=${limit}&fromDate=${fromDate}&toDate=${toDate}`);
+          const { data } = await getBookings(page,limit)
           if (data.success) {
             setGarbageReport(data.bookings)
             setLimit(data.limit);
