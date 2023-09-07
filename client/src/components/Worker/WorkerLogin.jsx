@@ -41,7 +41,6 @@ const WorkerLogin = () => {
                     navigate("/worker/dashboard")
                 }
             } catch (error) {
-
                 console.log(error);
             }
         

@@ -40,8 +40,8 @@ const UserLogin = () => {
                 const { data } = await userLogin(values)
                 if (data.login) {
 
-                    localStorage.setItem('UserJwtkey', data.token);
-
+                    localStorage.setItem('UserJwtkey', data.token)
+                    
                     dispatch(
                         setUserDetails({
                             name: data.user.name,
