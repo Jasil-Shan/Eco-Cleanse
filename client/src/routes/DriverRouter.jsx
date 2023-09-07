@@ -11,7 +11,8 @@ import DriverHistoryPage from "../pages/Driver/DriverHistoryPage";
 
 
 
-function DriverRouter() {
+const DriverRouter = ()=> {
+
     return (
         <Routes>
 

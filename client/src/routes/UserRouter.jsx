@@ -16,7 +16,7 @@ import ChatPage from "../pages/Chat/ChatPage";
 
 
 
-function UserRouter(){
+const UserRouter = ()=> {
     return(
         <Routes>
             <Route element = {<PrivateRoutes role={'user'} route={'/login'}/>}>
