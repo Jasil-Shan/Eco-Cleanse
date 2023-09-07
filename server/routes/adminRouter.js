@@ -1,5 +1,6 @@
 import express from "express";
 import {  addEmployee, adminAuth, adminLogin, assignWork, block,  getEmployees,  sendMail,  totalStats,  unBlock, viewBookings, viewDrivers, viewUsers, viewWorkers } from "../controller/adminController.js";
+import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 
 
 
@@ -10,7 +11,8 @@ const router = express.Router()
 router.post('/login',adminLogin)
 router.post('/auth/',adminAuth)
 
-//post requests
+//post request
+router.use(verifyAdmin)
 router.post('/sendMail',sendMail)
 router.post('/addEmployee',addEmployee)
 router.post('/assignWork',assignWork)
@@ -30,7 +32,6 @@ router.get('/getStats',totalStats)
 
 
 //update requests
-
 router.patch('/block',block)
 router.patch('/unblock',unBlock)
 

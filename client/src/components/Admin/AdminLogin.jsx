@@ -28,8 +28,8 @@ const AdminLogin = () => {
         
                     })
                 } else {
-                    localStorage.setItem('AdminJwtToken', data.token);
-
+                    console.log(data,'duhuh');
+                    localStorage.setItem('AdminJwtkey', data.token);
                     navigate("/admin/dashboard")
                 }
             } catch (error) {

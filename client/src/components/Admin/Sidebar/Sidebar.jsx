@@ -51,43 +51,20 @@ const Sidebar = () => {
                         </div>
                         <div className="flex items-center">
                             <div className="flex items-center ml-3">
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
-                                        aria-expanded="false"
-                                        data-dropdown-toggle="dropdown-user"
-                                    >
-                                        <span className="sr-only">Open user menu</span>
-                                        <img
-                                            className="w-8 h-8 rounded-full"
-                                            src=""
-                                            alt="user photo"
-                                        />
-                                    </button>
-                                </div>
-                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y  rounded shadow  divide-gray-600" id="dropdown-user">
-                                    <div className="px-4 py-3" role="none">
-                                        <p className="text-sm text-gray-900 " role="none">
-                                            Neil Sims
-                                        </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate " role="none">
-                                            neil.sims@flowbite.com
-                                        </p>
-                                    </div>
-                                    <ul className="py-1" role="none">
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Earnings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700   hover:bg-gray-600 hover:text-white" role="menuitem">Sign out</a>
-                                        </li>
+                                <div className="dropdown  ">
+                                    <label tabIndex={0} className="p-0  m-0 btn btn-ghost btn-sm btn-circle avatar">
+                                        <div className="w-10 rounded-full">
+                                            <img src="https://source.unsplash.com/100x100/?portrait" />
+                                        </div>
+                                    </label>
+                                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                                        <li onClick={
+                                            () => {
+                                                localStorage.removeItem('UserJwtkey');
+                                                navigate('/')
+                                                setRefresh(!refresh)
+                                                dispatch(setUserSignout())
+                                            }}><a>Logout</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -99,11 +76,11 @@ const Sidebar = () => {
             <aside
                 id="logo-sidebar"
                 className={`fixed top-0 left-0 z-40 w-56 h-screen pt-20 transition-transform ${isSidebarOpen ? "" : "-translate-x-full"
-                    } bg-white border-r border-gray-200 xl:translate-x-0`}  
+                    } bg-white border-r border-gray-200 xl:translate-x-0`}
                 aria-label="Sidebar"
             >
-                <div className="h-full px-3 pb-4 overflow-y-auto shadow-2xl bg-white ">
-                    <ul className="space-y-2 font-medium"> 
+                <div className="h-full flex flex-col px-3 pb-2 overflow-y-auto shadow-2xl bg-white ">
+                    <ul className="space-y-2 font-medium">
                         {
                             adminSidebarData.map((obj, index) => {
 
@@ -120,8 +97,12 @@ const Sidebar = () => {
                                     </Link>
                                 )
                             })}
-
                     </ul>
+                    <button className="top-0" onClick={
+                        () => {
+                            localStorage.removeItem('AdminJwtkey');
+                            navigate('/admin/login')
+                        }}><a>Logout</a></button>
                 </div>
             </aside>
         </div>

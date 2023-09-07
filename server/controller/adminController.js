@@ -60,10 +60,9 @@ export async function adminLogin(req, res) {
                 {
                     id: admin._id
                 },
-                process.env.ADMIN_SECRET_KEY
+                'AdminJwtkey'
             )
-
-            res.status(200).json({ admin, token, login: true });
+            res.status(200).json({ admin, token, error: false });
         }
 
     } catch (error) {

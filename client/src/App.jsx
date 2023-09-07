@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer} from 'react-toastify';
 
 function App() {
-  axios.defaults.baseURL ="http://localhost:3000" ;
+  axios.defaults.baseURL =["http://localhost:3000","https://ecocleanse.comicworld.store"] ;
   axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>

@@ -4,37 +4,39 @@ import axiosInstance from "../axios/axios.js";
 
 
 export const adminLogin = (values) =>{
-    return axiosInstance("AdminJwtToken").post('/admin/login' , {...values})
+    return axiosInstance("AdminJwtkey").post('/admin/login' , {...values})
   }
 
 export const authAdmin = ()=>{
-  return axiosInstance("AdminJwtToken").post("/admin/auth")
+  return axiosInstance("AdminJwtkey").post("/admin/auth")
 }
 
 
-
-export const getUsers = () => {
-  return axiosInstance("AdminJwtToken").get('/admin/users');
+export const getUsers = (page,limit,search,sort) => {
+  return axiosInstance("AdminJwtkey").get(`/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
 };
 
 export const getBookings = (page,limit)=>{
-  return axiosInstance("AdminJwtToken").get(`/admin/bookings?page=${page}&limit=${limit}`)
+  return axiosInstance("AdminJwtkey").get(`/admin/bookings?page=${page}&limit=${limit}`)
 }
 
-export const getWorkers = ()=>{
-  return axiosInstance("AdminJwtToken").get('/admin/workers')
+export const getWorkers = (page,limit,search,sort)=>{
+  return axiosInstance("AdminJwtkey").get(`/admin/workers?page=${page}&sort=${sort}&search=${search}&limit=${limit}`)
 }
 
+export const getDrivers = (page,limit,search,sort)=>{
+  return axiosInstance("AdminJwtkey").get(`/admin/drivers?page=${page}&sort=${sort}&search=${search}&limit=${limit}`)
+}
 
 export const getEmployees = ()=>{
-  return axiosInstance("AdminJwtToken").get('/admin/getEmployees')
+  return axiosInstance("AdminJwtkey").get('/admin/getEmployees')
 }
 
 export const getStats = ()=>{
-  return axiosInstance("AdminJwtToken").get('/admin/getStats')
+  return axiosInstance("AdminJwtkey").get('/admin/getStats')
 }
 
 
 export const assignWork = (driverId,workerId,bookingId)=>{
-  return axiosInstance("AdminJwtToken").post('/admin/assignWork',{driverId,workerId,bookingId})
+  return axiosInstance("AdminJwtkey").post('/admin/assignWork',{driverId,workerId,bookingId})
 }
