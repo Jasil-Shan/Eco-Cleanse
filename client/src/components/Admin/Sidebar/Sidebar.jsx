@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import adminSidebarData from "../../../utils/AdminSidebarData";
-
+import { FaSignOutAlt } from "react-icons/fa";
 
 const Sidebar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate()
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -57,15 +58,6 @@ const Sidebar = () => {
                                             <img src="https://source.unsplash.com/100x100/?portrait" />
                                         </div>
                                     </label>
-                                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                        <li onClick={
-                                            () => {
-                                                localStorage.removeItem('UserJwtkey');
-                                                navigate('/')
-                                                setRefresh(!refresh)
-                                                dispatch(setUserSignout())
-                                            }}><a>Logout</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -97,12 +89,19 @@ const Sidebar = () => {
                                     </Link>
                                 )
                             })}
+                        <li>
+                            <button className="top-0" onClick={
+                                () => {
+                                    localStorage.removeItem('AdminJwtkey');
+                                    navigate('/admin/login')
+                                }}>
+                                <span><FaSignOutAlt /></span>
+                                <h1
+                                    className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
+                                >Logout</h1></button>
+                        </li>
                     </ul>
-                    <button className="top-0" onClick={
-                        () => {
-                            localStorage.removeItem('AdminJwtkey');
-                            navigate('/admin/login')
-                        }}><a>Logout</a></button>
+
                 </div>
             </aside>
         </div>
