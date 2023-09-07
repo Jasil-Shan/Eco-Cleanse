@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import FormModal from "./Modal/FormModal"
 import Swal from "sweetalert2"
 import SearchBar from "./SearchBar/SearchBar"
+import { getDrivers, getUsers, getWorkers } from "../../services/adminApi"
 
 
 
@@ -25,7 +26,7 @@ const AdminDataTable = () => {
     const [search, setSearch] = useState("")
     const [total, setTotal] = useState()
     const [limit, setLimit] = useState(2)
-
+console.log(role);
 
 
     const toggleModal = () => {
@@ -37,7 +38,7 @@ const AdminDataTable = () => {
             (
                 async function () {
                     if (role === 'driver') {
-                        const { data } = await axios.get(`/admin/drivers?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
+                        const { data } = await getDrivers(page,limit,search,sort);
                         if (data.status) {
                             setProfile(data.drivers);
                             setLimit(data.limit);
@@ -45,7 +46,7 @@ const AdminDataTable = () => {
                             setPage(data.page);
                         }
                     } else if (role === 'worker') {
-                        const { data } = await axios.get(`/admin/workers?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
+                        const { data } = await getWorkers(page,limit,search,sort);
                         if (data.status) {
                             setProfile(data.workers);
                             setLimit(data.limit);
@@ -53,8 +54,9 @@ const AdminDataTable = () => {
                             setPage(data.page);
                         }
                     } else {
-                        const { data } = await axios.get(`/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`);
+                        const { data } = await getUsers(page,limit,search,sort);
                         if (data.status) {
+                            console.log(data);
                             setProfile(data.users);
                             setLimit(data.limit);
                             setTotal(data.total);
