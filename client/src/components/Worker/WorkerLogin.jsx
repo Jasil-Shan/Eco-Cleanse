@@ -11,12 +11,13 @@ import { AiFillEye,AiFillEyeInvisible } from "react-icons/ai";
 
 
 const WorkerLogin = () => {
+    
     const [errMessage, setErrMessage] = useState("")
     const navigate = useNavigate()
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
-    };
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -43,9 +44,9 @@ const WorkerLogin = () => {
             } catch (error) {
                 console.log(error);
             }
-        
         },
       })
+
 
     return (
 

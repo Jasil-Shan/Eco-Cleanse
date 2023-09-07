@@ -1,5 +1,5 @@
 import express from "express";
-import { UpdateLocation, acceptTask, getHistory, getWorkerTasks, profileUpdate, taskComplete, updateStatus, workerAuth, workerLogin } from "../controller/workerController.js";
+import { UpdateLocation, acceptTask, getBooking, getHistory, getWorkerTasks, profileUpdate, taskComplete, updateStatus, workerAuth, workerLogin } from "../controller/workerController.js";
 import { verifyWorker } from "../middlewares/verifyWorker.js";
 
 
@@ -7,6 +7,7 @@ import { verifyWorker } from "../middlewares/verifyWorker.js";
 
 const router = express.Router()
 router.get('/history',verifyWorker,getHistory)
+router.get('/booking',verifyWorker,getBooking)
 
 router.post('/login',workerLogin)
 router.post('/auth',workerAuth)
