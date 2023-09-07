@@ -5,7 +5,6 @@ const Step2 = ({ onNextStep, onPreviousStep, booking }) => {
 
     const [payment, setPayment] = useState()
     console.log(booking, 'hjhj');
-
     return (
         <div>
             <form action="">
