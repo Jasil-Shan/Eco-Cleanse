@@ -13,7 +13,8 @@ import AdminGarbageReport from "../components/Admin/AdminGarbageReport";
 
 
 
-function AdminRouter() {
+const AdminRouter = () => {
+  
     return (
         <Routes>
             <Route element={<PrivateRoutes role={'admin'} route={'/admin/login'} />}>

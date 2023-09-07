@@ -10,7 +10,7 @@ import ChatPage from "../pages/Chat/ChatPage";
 
 
 
-function WorkerRouter() {
+const  WorkerRouter = ()=> {
     return (
         <Routes>
 
