@@ -67,9 +67,9 @@ io.on("connection",(socket)=>{
 app.use(
     cors({
       origin: [
+        "https://ecocleanse.netlify.app",
         "http://localhost:5000",
         "http://ecocleanse.surge.sh",
-       "https://ecocleanse.netlify.app"
       ],
       credentials: true,
     })

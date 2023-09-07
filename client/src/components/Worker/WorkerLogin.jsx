@@ -25,22 +25,19 @@ const WorkerLogin = () => {
         },
         onSubmit:async (values) => {
             try {
+                console.log('hbhvhgv');
                 const { data } = await axios.post('/worker/login', {...values})
                 if(data.blocked){
                   return toast.error(data.message, {
                         position: "top-center",
-        
                     })
                 }
                 if (data.error) {
                     toast.error(data.message, {
                         position: "top-center",
-        
                     })
                 } else {
-
                     localStorage.setItem('WorkerJwtkey', data.token)
-
                     navigate("/worker/dashboard")
                 }
             } catch (error) {
