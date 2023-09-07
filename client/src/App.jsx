@@ -4,18 +4,18 @@ import AdminLoginPage from './pages/Admin/AdminLoginPage'
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer} from 'react-toastify';
-import AdminRouter from './routes/adminRouter'
 import UserRouter from './routes/UserRouter';
 import DriverRouter from './routes/DriverRouter';
 import WorkerRouter from './routes/WorkerRouter';
+import AdminRouter from './routes/AdminRouter';
+
 
 function App() {
-  axios.defaults.baseURL =["http://localhost:3000","https://ecocleanse.comicworld.store"] ;
+  axios.defaults.baseURL =["http://localhost:3000","https://ecocleanse.comicworld.store"]
   axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>
     <Routes>
-
       <Route path="/admin/*" element={<AdminRouter />}/>
 
       <Route path='/*' element={<UserRouter />}/>
@@ -25,7 +25,6 @@ function App() {
 
 
       <Route path="/worker/*" element={<WorkerRouter />}/>
-
 
     </Routes>
     <ToastContainer/>
