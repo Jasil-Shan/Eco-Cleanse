@@ -2,7 +2,7 @@ import axios from 'axios' ;
 
 const axiosInstance = (tokenName)=> {
   const instance = axios.create({
-    baseURL: 'https://ecocleanse.comicworld.store' ,
+    baseURL:'https://ecocleanse.comicworld.store' ,
     timeout : 15000 ,
     headers :{
       'Content-Type' : 'application/json'

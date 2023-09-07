@@ -33,7 +33,7 @@ const Chat = () => {
 
   // Connect to Socket.io
   useEffect(() => {
-    socket.current = io("http://localhost:3000");
+    socket.current = io("https://ecocleanse.comicworld.store");
     socket.current.emit("new-user-add", senderId);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
