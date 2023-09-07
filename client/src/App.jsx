@@ -18,7 +18,6 @@ function App() {
 
       <Route path="/admin/*" element={<AdminRouter />}/>
 
-
       <Route path='/*' element={<UserRouter />}/>
 
 
