@@ -26,7 +26,6 @@ const AdminDataTable = () => {
     const [search, setSearch] = useState("")
     const [total, setTotal] = useState()
     const [limit, setLimit] = useState(2)
-console.log(role);
 
 
     const toggleModal = () => {
