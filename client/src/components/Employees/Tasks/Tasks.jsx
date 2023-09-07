@@ -65,7 +65,7 @@ const Tasks = (props) => {
                                     <span className="inline-flex mt-3"><FcBusinessman size={26} /><p className="uppercase font-medium   ml-8">{task?.user?.name}</p></span>
                                     <span className="inline-flex mt-3 "><FcHome size={26} /><p className="uppercase font-medium text ml-8">{task?.user?.address}</p></span>
                                     <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.user?.mobile}</p></span>
-                                 <div className="text-center"><button onClick={handleChat} className="btn btn-sm mt-4">Chat</button></div>
+                                { props.role == 'worker' ? <div className="text-center"><button onClick={handleChat} className="btn btn-sm mt-4">Chat</button></div> : ""}
                                 </div>
                                 {(props.role == 'driver') ?
                                     <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
