@@ -22,7 +22,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5000", "http://ecocleanse.surge.sh","http://ecocleanse.surge.sh/admin/login" ]
+    origin: ["http://localhost:5000", "http://ecocleanse.surge.sh","https://ecocleanse.netlify.app" ]
   },
 });
 
@@ -68,7 +68,8 @@ app.use(
     cors({
       origin: [
         "http://localhost:5000",
-        "http://ecocleanse.surge.sh/"
+        "http://ecocleanse.surge.sh",
+       "https://ecocleanse.netlify.app"
       ],
       credentials: true,
     })
