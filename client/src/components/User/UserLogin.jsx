@@ -16,7 +16,7 @@ const UserLogin = () => {
 
     useEffect(() => {
         authUser().then((response) => {
-            if (response.data.status)
+            if (response?.data?.status)
              navigate('/')
         })
     }, [])
@@ -38,7 +38,7 @@ const UserLogin = () => {
         onSubmit: async (values) => {
             try {
                 const { data } = await userLogin(values)
-                if (data.login) {
+                if (data?.login) {
 
                     localStorage.setItem('UserJwtkey', data.token)
                     

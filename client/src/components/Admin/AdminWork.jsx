@@ -33,18 +33,18 @@ const AdminWork = () => {
     return (
         <>
             <Sidebar />
-            <section className="  h-screen flex justify-center items-center flex-col ml-32 bg-blueGray-50">
-                <div className="w-full  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-                    <div className="relative flex flex-col min-w-0 break-words bg-white w-fit mb-6 shadow-lg rounded">
+            <section className=" h-screen flex justify-center items-center xl:ml-32 flex-col  bg-blueGray-50">
+                <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
+                    <div className="relative flex flex-col  break-words bg-white w-full card mb-6 shadow-lg rounded">
                         <div className="rounded-t mb-0 px-4 py-3 border-0">
                             <div className="flex flex-wrap items-center">
-                                <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+                                <div className="relative w-full px-4 max-w-full  flex-1">
                                     <h3 className="font-semibold text-base text-blueGray-700">Requests</h3>
                                 </div>
                             </div>
                         </div>
-                        <div className="block w-fit">
-                            <table className=" items-center bg-transparent w-full  border-collapse">
+                        <div className="block w-full overflow-x-auto">
+                            <table className=" items-center bg-transparent w-full border-collapse">
                                 <thead>
                                     <tr>
                                         <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -118,7 +118,7 @@ const AdminWork = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-28">
+                <div className="mt-20">
                     <div className="flex justify-center items-baseline">
                         <div className="join">
                             {Array.from({ length: Math.ceil(total / limit) }).map((_, index) => (

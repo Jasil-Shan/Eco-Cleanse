@@ -86,7 +86,7 @@ const AdminGarbageReport = () => {
   return (
     <div>
       <Sidebar />
-      <section className=" mt-12 h-full flex justify-center items-center flex-col ml-40 bg-blueGray-50">
+      <section className=" mt-12 h-full flex justify-center items-center flex-col xl:ml-40 bg-blueGray-50">
         <div className="dropdown mt-10 w-fit self-start ml-40">
           <label tabIndex={0} className="btn btn-sm bg-white shadow-xl m-1 font-semibold mt-10">Sort</label>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -96,21 +96,21 @@ const AdminGarbageReport = () => {
         <SearchBar setSearch={(search) => setSearch(search)} />
 
         <div className="w-full flex flex-col  xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-          <div className="flex mt-2 ">
+          <div className="flex flex-col gap-1 md:flex-row mt-2 ">
             <label className="label">
-              <span className="label-text font-semibold">From : </span>
+              <span className="label-text font-semibold">From:  </span>
             </label>
-            <input type="date" className="mr-4 border-success border-2 rounded-md p-1" onChange={(e) => setFromDate(e.target.value)}
+            <input type="date" className="mr-4 w-1/2 border-neutral border-2 rounded-md p-1" onChange={(e) => setFromDate(e.target.value)}
               required />
             <label className="label">
-              <span className="label-text font-semibold">To : </span>
+              <span className="label-text font-semibold">To:  </span>
             </label>
-            <input type="date" className="mr-4 border-success border-2 rounded-md p-1" onChange={(e) => setToDate(e.target.value)} required />
+            <input type="date" className="mr-4 w-1/2 border-neutral border-2 rounded-md p-1" onChange={(e) => setToDate(e.target.value)} required />
             <button onClick={generatePDF} className="btn ml-56 btn-neutral btn-sm mt-4">
               Download PDF
             </button>
           </div>
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-fit mb-6 shadow-lg rounded">
+          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
             <div className="rounded-t mb-0 px-4 py-3 border-0">
               <div className="flex flex-wrap items-center">
 
@@ -190,16 +190,6 @@ const AdminGarbageReport = () => {
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           {item.status}
                         </td>
-                        {/* <td className="ml-4">
-                                                    {
-                                                        item.blocked ?
-                                                            <button onClick={(e) => unBlock(item)} type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-2 py-1 mt-2 text-center mb-2">
-                                                                Unblock</button>
-                                                            :
-                                                            <button onClick={(e) => block(item)} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-md text-sm px-2 py-1 text-center mr-3 ml-5 mt-2 mb-2">
-                                                                Block</button>
-                                                    }
-                                                </td> */}
                       </tr>
                     })}
                 </tbody>

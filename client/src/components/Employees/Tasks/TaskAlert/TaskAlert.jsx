@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { TaskAccept } from '../../../../services/driverApi';
 import { useNavigate } from 'react-router-dom';
 
-const TaskAlert = ({ task,role,setRefresh,refresh }) => {
+const TaskAlert = ({ task, role, setRefresh, refresh }) => {
 
   const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate()
@@ -13,21 +13,21 @@ const TaskAlert = ({ task,role,setRefresh,refresh }) => {
     setIsOpen(false);
   };
 
-  const handleSubmit = async ()=>{
+  const handleSubmit = async () => {
     try {
-      
-    
-    const {data} = await TaskAccept(taskId ,role)
-    if(data.success){
-        toggleModal()
+
+
+      const { data } = await TaskAccept(taskId, role)
+      if (data.success) {
         setRefresh(!refresh)
+        toggleModal()
         toast.success(data.message, {
-            position: "top-center"
+          position: "top-center"
         })
-    }
-  } catch (error) {
+      }
+    } catch (error) {
       console.log(error);
-  }
+    }
   }
 
   return (

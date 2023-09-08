@@ -150,11 +150,11 @@ export async function taskComplete(req, res) {
 
         const _id = req.workerId
 
-        const { garbageDetails, taskId ,location} = req.body
+        const { garbageDetails, taskId ,location,totalAmount} = req.body
         
         await Promise.all([
         BookingModel.findByIdAndUpdate(taskId, {
-                $set: { garbageCollected: garbageDetails, status: 'Completed' ,location }
+                $set: { garbageCollected: garbageDetails, status: 'Completed' ,location ,totalAmount }
             }),
          WorkerModel.findByIdAndUpdate(_id,{$set:{task:null,assigned:false ,location,status:'Available' }})
         ])
