@@ -47,7 +47,7 @@ const Navbar = ({ ProfileRefresh }) => {
           <Link to={'/booking'}><li><a>Booking</a></li></Link>
           </ul>
         </div>
-        <Link to={`/`}><a className="btn btn-ghost normal-case text-xl">Eco Cleanse</a></Link>
+        <Link to={`/`}><a className=" normal-case font-semibold text-lg cursor-pointer sm:text-xl">Eco Cleanse</a></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-black font-semibold px-1">

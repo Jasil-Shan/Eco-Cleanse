@@ -116,7 +116,7 @@ const AdminDataTable = () => {
     return (
         <div>
             <Sidebar />
-            <section className=" mt-12 h-full flex justify-center items-center flex-col ml-40 bg-blueGray-50">
+            <section className=" mt-12 h-full flex justify-center items-center flex-col xl:ml-40 bg-blueGray-50">
                 <div className="dropdown mt-10 w-fit self-start ml-40">
                     <label tabIndex={0} className="btn btn-sm bg-white shadow-xl m-1 font-semibold mt-10">Sort</label>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">

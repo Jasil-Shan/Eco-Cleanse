@@ -10,6 +10,7 @@ import { getBooking, taskComplete } from '../../../services/workerApi';
 import { getCurrentLocation } from '../../../helpers/currentLocation';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -19,6 +20,8 @@ const TaskModal = () => {
     const [paymentDetails, setPaymentDetails] = useState()
     const [isOpen, setIsOpen] = useState(true);
     const [booking, setBooking] = useState();
+    const [totalAmount, setTotalAmount] = useState(null)
+    const navigate = useNavigate()
 
     const handleNextStep = () => {
         setStep(step + 1)
@@ -30,7 +33,7 @@ const TaskModal = () => {
 
     const garbageDetails = useSelector((state) => state.worker.garbageDetails)
     const id = useSelector((state) => state.worker.task)
-    
+
     useEffect(() => {
         try {
             (
@@ -63,21 +66,28 @@ const TaskModal = () => {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     const locations = await getCurrentLocation()
-                    const { data } = await taskComplete(garbageDetails,id,locations)
-                    if(data.success){
-                    Swal.fire(
-                          'Success!',
-                        'Task completed Successfully',
-                          'success'
+                    const completeData = {
+                        garbageDetails,
+                        id,
+                        locations,
+                        totalAmount: totalAmount || booking?.totalAmount
+                    };
+                    const { data } = await taskComplete(completeData)
+                    if (data.success) {
+                        Swal.fire(
+                            'Success!',
+                            'Task completed Successfully',
+                            'success'
                         )
-                    toggleModal()
-                    navigate('/worker/dashboard')   
-                    }else{
+
+                        navigate('/worker/dashboard')
+                        toggleModal()
+                    } else {
                         Swal.fire(
                             'Failed!',
-                          'Try Again',
+                            'Try Again',
                             'error'
-                          )    
+                        )
                     }
                 }
             })
@@ -91,7 +101,7 @@ const TaskModal = () => {
             case 1:
                 return <Step1 onNextStep={handleNextStep} />
             case 2:
-                return <Step2 onNextStep={handleNextStep} booking ={booking} onPreviousStep={handlePreviousStep} setPaymentDetails={setPaymentDetails} />
+                return <Step2 onNextStep={handleNextStep} setTotalAmount={setTotalAmount} booking={booking} onPreviousStep={handlePreviousStep} setPaymentDetails={setPaymentDetails} />
             case 3:
                 return <Step3 onSubmit={handleSubmit} onPreviousStep={handlePreviousStep} />
             default:
