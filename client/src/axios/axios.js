@@ -2,8 +2,7 @@ import axios from 'axios' ;
 
 const axiosInstance = (tokenName)=> {
   const instance = axios.create({
-    // baseURL:'https://ecocleanse.comicworld.store' ,
-    baseURL:'http://localhost:3000' ,
+    baseURL:'https://ecocleanse.comicworld.store' ,
     timeout : 15000 ,
     headers :{
       'Content-Type' : 'application/json'
@@ -12,7 +11,7 @@ const axiosInstance = (tokenName)=> {
   // instance request interceptor 
   instance.interceptors.request.use((request)=>{
     const token = localStorage.getItem(tokenName)
-    request.headers.Authorization = `Bearer ${token}`
+    request.headers.Authorization = `Bearer ${token}` 
     return request 
   })
 
