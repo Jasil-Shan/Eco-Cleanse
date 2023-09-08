@@ -6,8 +6,14 @@ export const authWorker = () =>{
     return axiosInstance("WorkerJwtkey").post('/worker/auth')
 }
 
-export const taskComplete = (completeData) =>{
-    return axiosInstance("WorkerJwtkey").post('/worker/taskComplete', { ...completeData })
+export const taskComplete = (garbageDetails,
+    id,
+    location,
+    totalAmount) =>{
+    return axiosInstance("WorkerJwtkey").post('/worker/taskComplete', { garbageDetails,
+        id,
+        location,
+        totalAmount })
 }
 
 export const getBooking = (id)=>{

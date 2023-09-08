@@ -41,6 +41,7 @@ const TaskModal = () => {
                     const { data } = await getBooking(id)
                     if (data.success) {
                         setBooking(data.booking)
+                        setTotalAmount(data?.booking?.totalAmount)
                     }
                 })()
         } catch (error) {
@@ -72,7 +73,10 @@ const TaskModal = () => {
                         locations,
                         totalAmount: totalAmount || booking?.totalAmount
                     };
-                    const { data } = await taskComplete(completeData)
+                    const { data } = await taskComplete(garbageDetails,
+                        id,
+                        locations,
+                        totalAmount)
                     if (data.success) {
                         Swal.fire(
                             'Success!',
