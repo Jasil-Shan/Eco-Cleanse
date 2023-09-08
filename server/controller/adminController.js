@@ -443,7 +443,7 @@ export async function totalStats(req, res) {
             {
               $group: {
                 _id: { $month: "$createdAt" }, // Group by month
-                totalRevenue: { $sum: "$amount" }, // Sum the revenue
+                totalRevenue: { $sum: "$totalAmount" }, // Sum the revenue
               }
             }
           ];
