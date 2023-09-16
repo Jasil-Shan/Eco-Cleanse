@@ -64,15 +64,15 @@ const Chat = () => {
     <>
       <div className="relative">
         <div className="container mx-auto mt-px">
-          <div className="py-6 h-screen overflow-hidden flex">
+          <div className=" h-screen overflow-hidden flex">
 
             {/* Left */}
-            <div className="w-1/3 border flex flex-col">
+            <div className={currentChat?"w-screen md:w-1/2 hidden border sm:flex flex-col" : "w-screen md:w-1/2  border sm:flex flex-col"  }> 
 
               {/* Header */}
-              <div className="py-2 px-3 bg-gray-200 flex justify-between items-center">
+              <div className="py-2 px-3  bg-gray-200 flex justify-between items-center">
                 <div>
-                  {/* <img className="w-10 h-10 rounded-full" src="http://andressantibanez.com/res/avatar.png" alt="User" /> */}
+                  <h1 className="font-bold p-2 text-xl">Chats</h1>
                 </div>
 
                 <div className="flex">
@@ -115,21 +115,13 @@ const Chat = () => {
             </div>
 
             {/* Right */}
-            <div className="w-2/3 border flex flex-col">
-
-              {/* Header */}
-
-
-              {/* Messages */}
-              {currentChat ? <ChatBox chat={currentChat} currentUser={senderId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} role={role} /> : <img className='mt-20' src={chatTemp} alt="" />}
-
-
-              {/* Input */}
-
+            <div className={currentChat?"w-screen border sm:flex flex-col" : "w-screen hidden border sm:flex flex-col"  }> 
+              {currentChat ? <ChatBox setCurrentChat = {setCurrentChat} chat={currentChat} currentUser={senderId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} role={role} /> : <img className='mt-20' src={chatTemp} alt="" />}
             </div>
+
           </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Navbar from '../Navbar/Navbar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { availabilityCheck, userBooking, userOnlinePay, verifyPayment } from '../../../services/userApi';
 import { toast } from 'react-toastify';
 import Success from '../Success Card/Success';
+import Swal from 'sweetalert2';
 
 const Chart = () => {
   const [selectedOption, setSelectedOption] = useState('Cash')
   const [orderId, setOrder] = useState()
   const [succesful, setSuccess] = useState(false)
+  const navigate = useNavigate()
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -99,9 +101,18 @@ const Chart = () => {
               position: "top-center",
             });
           } else {
-            toast.error(data.message, {
-              position: "top-center",
-            });
+            Swal.fire({
+              title: 'Service unavailable at your area',
+              text:'Try again later',
+              icon: 'warning',
+              confirmButtonText: 'Ok',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate('/')
+              }})
+            // toast.error(data.message, {
+            //   position: "top-center",
+            // });
           }
 
         } catch (error) {
@@ -142,7 +153,7 @@ const Chart = () => {
         },
       },
     },
-    colors: ['#e63946', '#1d3557', '#38b000', '#99582a'],
+    colors: ['#c70e0e', '#0000b3', '#0fb300', '#e3db86'],
     labels: ['Plastic Waste', 'E waste', 'Food Waste', 'Others'],
     legend: {
       show: true,

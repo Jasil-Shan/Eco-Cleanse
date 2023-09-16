@@ -25,7 +25,7 @@ const UserRouter = ()=> {
             <Route path="booking" element={<UserBookingPage />} />
             <Route path="orderSuccess" element={<UserOrderSuccessPage />} />
             <Route path="history" element={<UserHistoryPage />} />
-            <Route path="ConfirmChart" element={<UserConfirmChart />} />
+            <Route path="confirm" element={<UserConfirmChart />} />
             <Route path="Chat" element={<ChatPage />} />
             </Route>
             <Route path="login" element={<UserLoginPage/>}/>

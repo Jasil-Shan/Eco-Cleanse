@@ -151,6 +151,7 @@ export async function taskComplete(req, res) {
         const _id = req.workerId
 
         const { garbageDetails, taskId ,location,totalAmount} = req.body
+        console.log(req.body);
         
         await Promise.all([
         BookingModel.findByIdAndUpdate(taskId, {

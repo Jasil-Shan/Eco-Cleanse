@@ -7,11 +7,11 @@ export const authWorker = () =>{
 }
 
 export const taskComplete = (garbageDetails,
-    id,
+    taskId,
     location,
     totalAmount) =>{
     return axiosInstance("WorkerJwtkey").post('/worker/taskComplete', { garbageDetails,
-        id,
+        taskId,
         location,
         totalAmount })
 }
