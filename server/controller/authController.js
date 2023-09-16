@@ -21,7 +21,6 @@ const createToken = (id) => {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
                     const user = await UserModel.findById({_id:decoded.id})
-                    console.log(user)
                     if(user){
                         res.json({status:true ,user,  message:"Authorised"})
                     }else{
@@ -44,7 +43,6 @@ export async function login(req, res) {
         console.log("grtlogin");
         const { email, password } = req.body
         const user = await UserModel.findOne({ email })
-        console.log(user);
         if (!user) {
             res.json({ error: true, message: 'User not registered' })
         }
@@ -106,7 +104,6 @@ export async function signUp(req, res) {
         console.log(verified);
         console.log(req.body.otp, 'otpppp');
         if (verified) {
-            console.log(userDetails);
             const { name, email, mobile, address, password, locations } = userDetails
 
             let hashedPassword = bcrypt.hashSync(password, salt)

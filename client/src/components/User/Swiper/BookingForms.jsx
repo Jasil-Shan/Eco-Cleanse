@@ -40,7 +40,7 @@ const BookingForms = () => {
           for (const key in values) {
             values[key] = Number(values[key].replace('%', ''));
           }
-          navigate('/ConfirmChart', {state:{values}})
+          navigate('/confirm', {state:{values}})
         } else {
           toast.error('Please fill in all the fields', { position: 'top-center' });
         }

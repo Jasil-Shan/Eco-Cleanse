@@ -53,8 +53,12 @@ export async function userBooking(req, res) {
     nearbyWorkers.sort((a, b) => a.distance - b.distance)
     nearbyDrivers.sort((a, b) => a.distance - b.distance)
 
-    // const nearWorker = nearbyWorker[0]._id
-    // const nearDriver = nearbyDriver[0]._id
+    if (nearbyDrivers.length === 0 || nearbyWorkers.length === 0) {
+      return res.json({
+        success: false,
+        message: 'Service Unavailable at your area, Try again later',
+      })
+    }
 
     const booking = await BookingModel.create({
       garbage: garbage,
@@ -149,7 +153,6 @@ export async function checkAvailability(req, res) {
 
     const driver = await DriverModel.find({status:'Available'})
     const worker = await WorkerModel.find({status:'Available'})
-
     if (driver.length === 0 || worker.length === 0) {
       return res.json({
         error: true,

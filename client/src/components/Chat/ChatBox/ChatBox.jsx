@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { getUsers } from '../../../services/adminApi';
 import { getMessages, getUser, getWorker, sendMessage } from '../../../services/chatApi';
 import EmojiInput from 'react-input-emoji';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { Link } from "react-router-dom";
 
-const ChatBox = ({ chat, currentUser, setSendMessage, recieveMessage, role }) => {
+
+const ChatBox = ({setCurrentChat, chat, currentUser, setSendMessage, recieveMessage, role }) => {
 
     const [profile, setProfile] = useState();
     const [messages, setMessages] = useState([]);
@@ -85,16 +88,17 @@ const ChatBox = ({ chat, currentUser, setSendMessage, recieveMessage, role }) =>
                 <>
                     < div className="py-2 px-3 bg-gray-200 flex justify-between items-center">
                         <div className="flex items-center">
+                            <div className='cursor-pointer' onClick={()=>setCurrentChat(null)}><AiOutlineArrowLeft size={24} /></div>
                             <div>
-                                <img className="w-10 h-10 rounded-full" src={profile?.image} alt="User" />
+                                <img className="w-10 ml-4 h-10 rounded-full" src={profile?.image} alt="User" />
                             </div>
                             <div className="ml-4">
                                 <p className="text-gray-900">
                                     {profile?.name}
                                 </p>
-                                {/* <p className="text-gray-700 text-xs mt-1">
-                                    Andrés, Tom, Harrison, Arnold, Sylvester
-                                </p> */}
+                                <p className="text-gray-700 text-xs mt-1">
+                                    Online
+                                </p>
                             </div>
                         </div>
                         <div className="flex">
