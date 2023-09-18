@@ -11,6 +11,7 @@ import UserOrderSuccessPage from "../pages/User/UserOrderSuccessPage";
 import UserHistoryPage from "../pages/User/UserHistoryPage";
 import UserConfirmChart from "../pages/User/UserConfirmChart";
 import ChatPage from "../pages/Chat/ChatPage";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 
 
@@ -32,7 +33,8 @@ const UserRouter = ()=> {
             <Route path="signup" element={<UserSignupPage/>}/>
             <Route path="verifyMail" element={<VerifyEmailPage />} />
             
-            <Route path="" element={<UserHomePage />} />
+            <Route path="/" element={<UserHomePage />} />
+            <Route path="/*" element={<NotFoundPage />} />
         </Routes>
     )
 }
