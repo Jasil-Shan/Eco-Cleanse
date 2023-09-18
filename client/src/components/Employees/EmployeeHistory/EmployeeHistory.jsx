@@ -17,7 +17,7 @@ const EmployeeHistory = () => {
   }, [])
   return (
     <>
-      <EmployeeNavbar />
+      <EmployeeNavbar role={role} />
       <section className="container mx-auto p- mt-16 font-mono">
         <h1 className='font-extrabold text-3xl ml-3 mb-8 '>REQUEST HISTORY</h1>
         <div className="w-full mb-8 overflow-hidden rounded-lg shadow-2xl">
