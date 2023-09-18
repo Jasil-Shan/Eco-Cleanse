@@ -7,10 +7,12 @@ import { useFormik } from 'formik';
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux"
 import { setUserDetails } from '../../redux/features/userSlice';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 
 
 const UserLogin = () => {
+
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
 
@@ -70,8 +72,8 @@ const UserLogin = () => {
 
         <section className="bg-gray-50 min-h-screen flex items-center justify-center">
             <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
-
-                <div className="md:w-1/2 px-16">
+           <span className='self-start'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
+                <div className="md:w-1/2 px-14">
                     <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
                     <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
