@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import chatGif from '../assets/speech-bubble.gif'
 
 
+
 const Navbar = ({ ProfileRefresh }) => {
 
   const navigate = useNavigate()
@@ -47,7 +48,7 @@ const Navbar = ({ ProfileRefresh }) => {
           <Link to={'/booking'}><li><a>Booking</a></li></Link>
           </ul>
         </div>
-        <Link to={`/`}><a className=" normal-case font-semibold text-lg cursor-pointer sm:text-xl">Eco Cleanse</a></Link>
+        <Link to={`/`}><a className=" normal-case font-bold text-lg ml-4 cursor-pointer sm:text-xl">Eco Cleanse</a></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-black font-semibold px-1">
@@ -84,8 +85,8 @@ const Navbar = ({ ProfileRefresh }) => {
           </div>
                 </>
           :
-          <button className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-4 py-2 mt-2 text-center mr-5 mb-2">
-            <Link to="/login">Sign in </Link></button>
+          <Link to="/login"><button className="text-white bg-gradient-to-r from-neutral via-nuetral-500 to-nuetral-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-nuetral-300 dark:focus:ring-green-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-4 py-2 mt-2 text-center mr-5 mb-2">
+            Sign in </button></Link>
         }
       </div>
     </div>
