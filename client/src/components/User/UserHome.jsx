@@ -8,6 +8,7 @@ import user from "./assets/user.jpeg";
 import recycle from './assets/recycle.jpeg'
 import Banner from "./Banner/Banner";
 import Footer from "./Footer/Footer";
+import { motion } from "framer-motion"
 
 
 const UserHome = () => {
@@ -15,10 +16,35 @@ const UserHome = () => {
         <>
             <Navbar />
             <Banner />
-            <HeroLeft user={user} />
-            <HeroRight />
-            <HeroLeft recycle={recycle} last = {true} />
-            <Stats />
+            <motion.div
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8,delay:0.25 }}
+                viewport={{ once: true }}>
+                <HeroLeft user={user} />
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay:0.25 }}
+                viewport={{ once: true }}>
+                <HeroRight />
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, x: -80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay:0.25 }}
+                viewport={{ once: true }}>
+                <HeroLeft recycle={recycle} last={true} />
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 , delay:0.25 }}
+                viewport={{ once: true }}>
+                <Stats />
+            </motion.div>
+
             <Footer />
         </>
     );

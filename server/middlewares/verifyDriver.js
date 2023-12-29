@@ -12,15 +12,13 @@ export async function verifyDriver(req, res, next) {
             const token = authHeader.split(' ')[1]
             console.log(process.env.DRIVER_SECRET_KEY);
             console.log(token);
-            jwt.verify(token, process.env.DRIVER_SECRET_KEY, async (err, decoded) => {
-
+            jwt.verify(token, process.env.DRIVER_SECRET_KEY, async (err, decoded) => { 
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
                     const driver = await DriverModel.findById({ _id: decoded.id })
                     console.log(driver);
                     if (driver) {
-
                         req.driverId = decoded.id
                         next()
 

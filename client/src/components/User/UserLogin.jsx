@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux"
 import { setUserDetails } from '../../redux/features/userSlice';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { motion } from "framer-motion"
 
 
 
@@ -19,10 +20,9 @@ const UserLogin = () => {
     useEffect(() => {
         authUser().then((response) => {
             if (response?.data?.status)
-             navigate('/')
+                navigate('/')
         })
     }, [])
-
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
@@ -43,7 +43,7 @@ const UserLogin = () => {
                 if (data?.login) {
 
                     localStorage.setItem('UserJwtkey', data.token)
-                    
+
                     dispatch(
                         setUserDetails({
                             name: data.user.name,
@@ -71,27 +71,36 @@ const UserLogin = () => {
     return (
 
         <section className="bg-gray-50 min-h-screen flex items-center justify-center">
-            <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
-           <span className='self-start'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
-                <div className="md:w-1/2 px-14">
-                    <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
-                    <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.5,
+                    delay: 0.5,
+                    ease: [0, 0.71, 0.2, 1.01]
+                }}
+            >
+                <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+                    <span className='self-start'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
+                    <div className="md:w-1/2 px-14">
+                        <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
+                        <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
-                    <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
-                        <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
-                        <div className="relative">
-                            <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
-                            <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" /> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" />} </button>
+                        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
+                            <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
+                            <div className="relative">
+                                <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
+                                <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" /> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" />} </button>
+                            </div>
+                            <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
+                        </form>
+                        <div className='mt-10 grid-cols-3 items-center text-gray-500'>
+                            <hr className=' text-gray-500' />
+                            <p className='text-center text-sm'>OR</p>
+                            <hr className=' text-gray-500' />
                         </div>
-                        <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
-                    </form>
-                    <div className='mt-10 grid-cols-3 items-center text-gray-500'>
-                        <hr className=' text-gray-500' />
-                        <p className='text-center text-sm'>OR</p>
-                        <hr className=' text-gray-500' />
-                    </div>
 
-                    {/* <button className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
+                        {/* <button className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
                         className="mr-3"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 48 48"
@@ -114,20 +123,22 @@ const UserLogin = () => {
                             d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                         ></path>
                     </svg>Login with Google</button> */}
-                    {/* <p className='mt-5 text-xs border-b py-4'>Forget your password</p> */}
+                        {/* <p className='mt-5 text-xs border-b py-4'>Forget your password</p> */}
 
-                    <div className='mt-3 text-xs flex justify-between items-center'>
-                        <p>Not a member yet !?</p>
-                      <Link to={'/signup'}><p className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</p></Link>
+                        <div className='mt-3 text-xs flex justify-between items-center'>
+                            <p>Not a member yet !?</p>
+                            <Link to={'/signup'}><p className='hover:scale-105 duration-300 py-2 px-5 bg-white border rounded-xl'>Register</p></Link>
+                        </div>
+
                     </div>
 
+                    <div className="w-1/2 md:block hidden">
+                        <img className=' rounded-2xl' src={earth} alt="" />
+                    </div>
                 </div>
+            </motion.div >
+        </section >
 
-                <div className="w-1/2 md:block hidden">
-                    <img className=' rounded-2xl' src={earth} alt="" />
-                </div>
-            </div>
-        </section>
     )
 }
 

@@ -74,7 +74,6 @@ const UserSignup = () => {
 
         onSubmit: async (values) => {
             try {
-                console.log(values);
                 const { data } = await axios.post('/user/verify', { ...values, locations })
                 const email = formik.values.email
 

@@ -7,8 +7,6 @@ export const authDriver = () => {
 }
 
 
-
-
 export const updateLocation = (location, role) => {
   if (role == 'driver') {
     return axiosInstance("DriverJwtkey").patch('/driver/UpdateLocation', { location })
