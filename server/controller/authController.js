@@ -69,11 +69,9 @@ export async function login(req, res) {
 
 export async function generateOTP(req, res) {
     try {
-        
         console.log(req.body, 'body');
         const { email } = req.body
         const user = await UserModel.findOne({ email })
-
         if (user) {
             return res.json({
                 error: true,
@@ -101,13 +99,9 @@ export async function generateOTP(req, res) {
 export async function signUp(req, res) {
     try {
         let verified = verifyOtp(req.body.otp)
-        console.log(verified);
-        console.log(req.body.otp, 'otpppp');
         if (verified) {
             const { name, email, mobile, address, password, locations } = userDetails
-
             let hashedPassword = bcrypt.hashSync(password, salt)
-
             const user = await UserModel.create({
                 name,
                 email,
@@ -122,9 +116,7 @@ export async function signUp(req, res) {
             res.json({ status: false, message: "Otp does not match " });
         }
     } catch (error) {
-
         console.log(error);
-
     }
 }
 

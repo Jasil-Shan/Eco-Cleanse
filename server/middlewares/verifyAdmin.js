@@ -10,7 +10,6 @@ export async function verifyAdmin(req, res, next) {
         if (authHeader) {
             const token = authHeader.split(' ')[1]
             jwt.verify(token, process.env.ADMIN_SECRET_KEY, async (err, decoded) => {
-
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {

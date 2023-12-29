@@ -45,9 +45,7 @@ export async function adminLogin(req, res) {
     try {
 
         const { name, email, password } = req.body
-        console.log(req.body);
         const admin = await adminModel.findOne({ email })
-        console.log(admin);
         if (!admin) {
             return res.json({ error: true, message: "You have no Admin Access" })
         }
@@ -77,10 +75,6 @@ export async function viewUsers(req, res) {
         const limit = parseInt(req.query.limit) || 5
         const search = req.query.search || ""
         let sort = req.query.sort 
-
-
-
-      
 
         const users = await UserModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
 
@@ -156,7 +150,6 @@ export async function viewWorkers(req, res) {
         const search = req.query.search || ""
         let sort = req.query.sort 
 
-
         const workers = await WorkerModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
 
         const total = await WorkerModel.countDocuments({
@@ -183,11 +176,6 @@ export async function viewDrivers(req, res) {
         const limit = parseInt(req.query.limit) || 5
         const search = req.query.search || ""
         let sort = req.query.sort 
-
-
-        console.log(req.query);
-
-      
 
         const drivers = await DriverModel.find({ name: { $regex: search, $options: 'i' } }).sort(sort).skip(page * limit).limit(limit)
 

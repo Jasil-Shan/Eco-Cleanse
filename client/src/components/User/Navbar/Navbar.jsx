@@ -44,16 +44,16 @@ const Navbar = ({ ProfileRefresh }) => {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
           </label>
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <Link to={'/'}><li><a>Home</a></li></Link>
-          <Link to={'/booking'}><li><a>Booking</a></li></Link>
+          <Link to={'/'}><li className="font-bold"><a>Home</a></li></Link>
+          <Link to={'/booking'}><li className="font-bold"><a>Booking</a></li></Link>
           </ul>
         </div>
-        <Link to={`/`}><a className=" normal-case font-bold text-lg ml-4 cursor-pointer sm:text-xl">Eco Cleanse</a></Link>
+        <Link to={`/`}><a className=" normal-case font-bold text-2xl ml-4 cursor-pointer sm:text-xl">Eco Cleanse</a></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal text-black font-semibold px-1">
-          <Link to={'/'}><li><a>Home</a></li></Link>
-          <Link to={'/booking'}><li><a>Booking</a></li></Link>
+        <ul className="menu menu-horizontal text-bold text-black font-semibold px-1">
+          <Link to={'/'}><li className="font-bold" ><a>Home</a></li></Link>
+          <Link to={'/booking'}><li className="font-bold"><a>Booking</a></li></Link>
         </ul>
       </div>
       <div className="navbar-end">

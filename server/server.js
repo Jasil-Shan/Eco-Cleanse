@@ -50,18 +50,12 @@ io.on("connection",(socket)=>{
   // send message to a specific user
   socket.on("send-message", (data) => {
     const { receiverId } = data;
-    console.log(acitveUsers,'hjaghj');
     const user = acitveUsers.find((user) => user.userId === receiverId);
     if (user) {
       io.to(user.socketId).emit("recieve-message", data);
     }
   });
 })
-
-
-
-
-////////////////////////////////////////////////
 
 
 app.use(
@@ -79,8 +73,6 @@ app.use(
 app.use(express.json({ limit: "50mb" }))
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.resolve() + "/public"))
-
 
 app.use('/admin', adminRouter)
 app.use('/', userRouter)
