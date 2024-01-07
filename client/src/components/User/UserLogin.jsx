@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import earth from './assets/earth.jpg'
-import { useNavigate, Link } from "react-router-dom";
-import { toast } from 'react-toastify';
-import { authUser, userLogin } from '../../services/userApi';
-import { useFormik } from 'formik';
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useNavigate, Link } from "react-router-dom"
+import { toast } from 'react-toastify'
+import { authUser, userLogin } from '../../services/userApi'
+import { useFormik } from 'formik'
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
-import { setUserDetails } from '../../redux/features/userSlice';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { setUserDetails } from '../../redux/features/userSlice'
+import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { motion } from "framer-motion"
+import { loginValidationSchema } from '../../utils/validation'
 
 
 
 const UserLogin = () => {
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -25,8 +26,8 @@ const UserLogin = () => {
     }, [])
 
     const handleTogglePassword = () => {
-        setShowPassword(!showPassword);
-    };
+        setShowPassword(!showPassword)
+    }
 
     const dispatch = useDispatch()
 
@@ -36,6 +37,8 @@ const UserLogin = () => {
             email: '',
             password: '',
         },
+
+        validationSchema: loginValidationSchema,
 
         onSubmit: async (values) => {
             try {
@@ -52,7 +55,7 @@ const UserLogin = () => {
                             mobile: data.user.mobile,
                             address: data.user.address,
                         })
-                    );
+                    )
                     navigate("/")
                 } else {
                     toast.error(data.message, {
@@ -60,11 +63,11 @@ const UserLogin = () => {
                     })
                 }
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
 
         },
-    });
+    })
 
 
 
@@ -87,11 +90,15 @@ const UserLogin = () => {
                         <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
 
                         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
-                            <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="" required />
+                            <input className='p-2 mt-8 rounded-xl border' onChange={formik.handleChange} type="email" name="email" placeholder='Email' id="email" required />
+                            {formik.touched.email && formik.errors.email ? (<div className='text-red-500' >{formik.errors.email}</div>
+                            ) : null}
                             <div className="relative">
-                                <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' required />
+                                <input className='p-2  rounded-xl border w-full' onChange={formik.handleChange} type={showPassword ? 'text' : 'password'} name='password' id='password' placeholder='Password' required />
                                 <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" /> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" />} </button>
                             </div>
+                            {formik.touched.password && formik.errors.password ? (<div className='text-red-500' >{formik.errors.password}</div>
+                            ) : null}
                             <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type="submit">Login</button>
                         </form>
                         <div className='mt-10 grid-cols-3 items-center text-gray-500'>
