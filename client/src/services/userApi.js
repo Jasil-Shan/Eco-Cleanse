@@ -9,6 +9,10 @@ export const userLogin = (values) =>{
     return axiosInstance("UserJwtkey").post('/user/auth' )
 
   }
+  export const googleLogin = (data)=>{
+    return axiosInstance("UserJwtkey").post('/user/OAuth',{...data} )
+
+  }
 
   export const userOnlinePay = (totalAmount)=>{
     return axiosInstance("UserJwtkey").post('/payment',{totalAmount} )
