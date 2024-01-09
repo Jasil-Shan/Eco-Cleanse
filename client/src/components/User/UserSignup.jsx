@@ -75,7 +75,7 @@ const UserSignup = () => {
                 }
 
             } catch (error) {
-                toast.error(error.message, {
+                toast.error("Internal Server Error", {
                     position: "top-center",
 
                 })
