@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import earth from './assets/earth.jpg'
 import { useNavigate, Link } from "react-router-dom"
 import { toast } from 'react-toastify'
-import { authUser, userLogin } from '../../services/userApi'
+import { authUser, googleLogin, userLogin } from '../../services/userApi'
 import { useFormik } from 'formik'
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
@@ -10,6 +10,7 @@ import { setUserDetails } from '../../redux/features/userSlice'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { motion } from "framer-motion"
 import { loginValidationSchema } from '../../utils/validation'
+import { useGoogleLogin } from '@react-oauth/google'
 
 
 
@@ -48,7 +49,7 @@ const UserLogin = () => {
                 })
                 if (data?.login) {
 
-                    localStorage.setItem('UserJwtkey', data?.token)
+                    localStorage.setItem('UserJwtkey', data.token)
 
                     dispatch(
                         setUserDetails({
@@ -75,6 +76,42 @@ const UserLogin = () => {
         },
     })
 
+    const login = useGoogleLogin({
+
+        onSuccess: async (codeResponse) => {
+            const { data } = await googleLogin(codeResponse)
+            console.log("res", data);
+
+            if (data.blocked) {
+                toast.error("Sorry you are Banned ..!", {
+                    position: "top-center"
+                })
+            } if(data.login){
+                localStorage.setItem('UserJwtkey', data.token)
+                    dispatch(
+                        setUserDetails({
+                            name: data.user.name,
+                            id: data.user._id,
+                            email: data.user.email,
+                            mobile: data.user.mobile,
+                            address: data.user.address,
+                        })
+                    )
+                    navigate('/')
+            }else{
+                toast.error(data.message, {
+                    position: "top-center"
+                }) 
+            }
+
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error("Login Failed", {
+                position: "top-center",
+            });
+        }
+    })
 
 
     return (
@@ -113,7 +150,7 @@ const UserLogin = () => {
                             <hr className=' text-gray-500' />
                         </div>
 
-                        <button className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
+                        <button onClick={login} className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
                             className="mr-3"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 48 48"
