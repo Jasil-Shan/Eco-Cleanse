@@ -2,6 +2,7 @@ import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
@@ -120,6 +121,32 @@ export async function signUp(req, res) {
     }
 }
 
+
+export async function oAuth(req,res) {
+    try {
+        // const oAuth2Client = new OAuth2Client(
+        //     process.env.GOOGLE_OAUTH_CLIENT_ID,
+        //     process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+        //     process.env.GOOGLE_OAUTH_REDIRECT_URL
+        // )
+        // const authorizeUrl = oAuth2Client.generateAuthUrl({
+        //     access_type:'offline',
+        //     scope:'https://www.googleapis.com/auth/userinfo.profile openid',
+        //     prompt:'consent'
+        // })
+
+        if (req.body.access_token) {
+            // fetching user details  from google
+            const data = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`)
+            console.log(data)
+              }
+
+        res.json({url:authorizeUrl})
+    } catch (error) {
+        console.error(error.message)
+    }
+    
+}
 
 
 
