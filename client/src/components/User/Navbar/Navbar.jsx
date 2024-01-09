@@ -85,7 +85,7 @@ const Navbar = ({ ProfileRefresh }) => {
           </div>
                 </>
           :
-          <Link to="/login"><button className="text-white bg-gradient-to-r from-neutral via-red-600 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-nuetral-300 dark:focus:ring-green-800 shadow-lg dark:shadow-lg font-medium rounded-lg text-sm px-4 py-2 mt-2 text-center mr-5 mb-2">
+          <Link to="/login"><button className="text-white bg-gradient-to-r from-neutral via-red-600 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-nuetral-300 shadow-lg dark:shadow-lg font-medium rounded-lg text-sm px-4 py-2 mt-2 text-center mr-5 mb-2">
             Sign in </button></Link>
         }
       </div>
