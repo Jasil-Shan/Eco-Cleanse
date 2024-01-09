@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify"
 import iland from './assets/iland.jpg'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { signupSchema } from '../../utils/validation'
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleLogin } from '../../services/userApi'
 
 
 
@@ -43,7 +45,7 @@ const UserSignup = () => {
         setShowPassword(!showPassword)
     }
 
-   
+
 
     const formik = useFormik({
         initialValues: {
@@ -92,10 +94,54 @@ const UserSignup = () => {
         })
     }
 
+    const login = useGoogleLogin({
+
+        onSuccess: (codeResponse) => {
+            console.log("login with google");
+            googleLogin(codeResponse)
+                .then((response) => {
+                    // checking user status 
+                    console.log("res", response);
+                    if (response.data.user.blocked) {
+                        toast.error("Sorry you are Banned ..!", {
+                            position: "top-center"
+                        })
+                    } else {
+                        localStorage.setItem('UserJwtkey', data.token)
+
+                        dispatch(
+                            setUserDetails({
+                                name: data.user.name,
+                                id: data.user._id,
+                                email: data.user.email,
+                                mobile: data.user.mobile,
+                                address: data.user.address,
+                            })
+                        )
+                        // succes navigate to home page
+
+                        navigate("/");
+                    }
+
+
+                }).catch((err) => {
+                    toast.error("Something went wrong please reload the page", {
+                        position: "top-center",
+                    })
+                })
+        },
+        onError: (error) => {
+            console.log("error");
+            toast.error("Login Failed", {
+                position: "top-center",
+            });
+        }
+    })
+
     return (
         <Formik>
             <section className="bg-gray-50 min-h-screen flex items-center justify-center">
-                <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-6xl p-5 items-center">
+                <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl  items-center">
 
                     <div className="md:w-1/2  px-16">
                         <h2 className='font-bold text-3xl text-[#002D74]'>Register Here..</h2>
@@ -178,13 +224,13 @@ const UserSignup = () => {
                             </div>
                             <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type='submit'>Sign Up</button>
                         </form>
-                        <div className='mt-10 grid-cols-3 items-center text-gray-500'>
+                        {/* <div className='mt-10 grid-cols-3 items-center text-gray-500'>
                             <hr className=' text-gray-500' />
                             <p className='text-center text-sm'>OR</p>
                             <hr className=' text-gray-500' />
                         </div>
 
-                        <button className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
+                        <button onClick={login} className='hover:scale-105 duration-300 bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm font-semibold'><svg
                             className="mr-3"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 48 48"
@@ -206,7 +252,7 @@ const UserSignup = () => {
                                 fill="#1976D2"
                                 d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                             ></path>
-                        </svg>SignUp with Google</button>
+                        </svg>SignUp with Google</button> */}
 
                         <div className='mt-3 text-xs flex justify-between items-center'>
                             <p>Already a member !?</p>
