@@ -45,7 +45,10 @@ const DriverLogin = () => {
 
                 }
             } catch (error) {
+                toast.error("Internal Server Error", {
+                    position: "top-center",
 
+                })
                 console.log(error);
             }
 

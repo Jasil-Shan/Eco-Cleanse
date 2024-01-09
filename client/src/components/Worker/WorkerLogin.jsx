@@ -8,8 +8,6 @@ import { AiFillEye,AiFillEyeInvisible } from "react-icons/ai";
 
 
 
-
-
 const WorkerLogin = () => {
     
     const [errMessage, setErrMessage] = useState("")
@@ -42,6 +40,10 @@ const WorkerLogin = () => {
                     navigate("/worker/dashboard")
                 }
             } catch (error) {
+                toast.error("Internal Server Error", {
+                    position: "top-center",
+
+                })
                 console.log(error);
             }
         },

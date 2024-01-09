@@ -2,6 +2,7 @@ import { sendVerificationCode, verifyOtp } from "../helper/sendOtp.js"
 import UserModel from "../model/userModel.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 let userDetails
 let salt = bcrypt.genSaltSync(10);
@@ -9,9 +10,9 @@ let salt = bcrypt.genSaltSync(10);
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.USER_SECRET_KEY, { expiresIn: maxAge });
-  };
+};
 
-  export async function userAuth(req, res) {
+export async function userAuth(req, res) {
     try {
         const authHeader = req.headers.authorization
         if (authHeader) {
@@ -20,19 +21,19 @@ const createToken = (id) => {
                 if (err) {
                     res.json({ status: false, message: "Unauthorized" })
                 } else {
-                    const user = await UserModel.findById({_id:decoded.id})
-                    if(user){
-                        res.json({status:true ,user,  message:"Authorised"})
-                    }else{
-                        res.json({status:false, message:"User not found"})
+                    const user = await UserModel.findById({ _id: decoded.id })
+                    if (user) {
+                        res.json({ status: true, user, message: "Authorised" })
+                    } else {
+                        res.json({ status: false, message: "User not found" })
                     }
                 }
             })
-        }else{
-            res.json({status:false , message:"User not exists"})
+        } else {
+            res.json({ status: false, message: "User not exists" })
         }
-        
-    }catch (error) {
+
+    } catch (error) {
 
         console.log(error);
     }
@@ -46,13 +47,13 @@ export async function login(req, res) {
         if (!user) {
             res.json({ error: true, message: 'User not registered' })
         }
-        if(user.blocked) {
-            return res.json({ login : false , message :"Sorry You are banned"})
-          }
+        if (user.blocked) {
+            return res.json({ login: false, message: "Sorry You are banned" })
+        }
         const userValid = bcrypt.compareSync(password, user.password);
 
         if (!userValid) {
-            
+
             return res.json({ err: true, message: "wrong Password" })
 
         } else {
@@ -111,7 +112,7 @@ export async function signUp(req, res) {
                 location: locations,
             });
             res.status(201)
-                .json({ status: true, message: "Otp verified successfully"  });
+                .json({ status: true, message: "Otp verified successfully" });
         } else {
             res.json({ status: false, message: "Otp does not match " });
         }
@@ -120,6 +121,38 @@ export async function signUp(req, res) {
     }
 }
 
+
+export async function oAuth(req, res) {
+    try {
+
+        if (req.body.access_token) {
+            // fetching user details  from google
+            const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`)
+            const user = await UserModel.findOne({ email: response.data.email })
+            if (user) {
+                // check the user is banned or not 
+                if (user.blocked) {
+
+                    res.status(200).json({blocked:true, message: "Sorry you are banned..!" })
+
+                } else {
+                    const token = createToken(user._id);
+                    res.status(200).json({ login: true, user, token, message: "Welcome to Ecocleanse " })
+                }
+            }else{
+                res.status(200).json({ login: false, message: "Register & Try again " })
+            }
+
+        } else {
+            res.json({ login: false, message: "Internal Server Error" })
+        }
+
+    } catch (error) {
+        res.json({ login: false, message: "Internal Server Error" })
+        console.error(error)
+    }
+
+}
 
 
 

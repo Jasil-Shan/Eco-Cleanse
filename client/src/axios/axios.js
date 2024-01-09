@@ -12,7 +12,7 @@ const axiosInstance = (tokenName)=> {
   // instance request interceptor 
   instance.interceptors.request.use((request)=>{
     const token = localStorage.getItem(tokenName)
-    request.headers.Authorization = `Bearer ${token}` 
+    request.headers.Authorization = `Bearer ${token}`  
     return request 
   })
 
