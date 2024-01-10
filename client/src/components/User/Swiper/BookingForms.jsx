@@ -79,11 +79,6 @@ const BookingForms = () => {
             </div>
 
           </SwiperSlide>
-          {/* <SwiperSlide>
-            <div className="flex flex-col items-center">
-              <p>nskndskk</p>
-            </div>
-          </SwiperSlide> */}
 
         </Swiper >
       
