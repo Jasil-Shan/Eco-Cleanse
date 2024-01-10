@@ -19,21 +19,36 @@ const UserHome = () => {
             <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.5,delay:0.35,ease: [0, 0.81, 0.2, 1.01]}}
+                transition={{
+                    duration: 2,
+                    delay: 0.25,
+                    ease: [0.16, 1, 0.3, 1], 
+
+                  }}
                 viewport={{ once: true }}>
                 <HeroLeft user={user} />
             </motion.div>
             <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.5,delay:0.35,ease: [0, 0.81, 0.2, 1.01]}}
+                transition={{
+                    duration: 1,
+                    delay: 0.25,
+                    ease: [0.16, 1, 0.3, 1], 
+
+                  }}
                 viewport={{ once: true }}>
                 <HeroRight />
             </motion.div>
             <motion.div
-                initial={{ opacity: 0, x: -80 }}
+                initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.5,delay:0.35,ease: [0, 0.81, 0.2, 1.01]}}
+                transition={{
+                    duration: 1,
+                    delay: 0.25,
+                    ease: [0.16, 1, 0.3, 1], 
+
+                  }}
                 viewport={{ once: true }}>
                 <HeroLeft recycle={recycle} last={true} />
             </motion.div>

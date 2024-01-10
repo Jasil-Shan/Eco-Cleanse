@@ -41,7 +41,6 @@ export async function userAuth(req, res) {
 
 export async function login(req, res) {
     try {
-        console.log("grtlogin");
         const { email, password } = req.body
         const user = await UserModel.findOne({ email })
         if (!user) {

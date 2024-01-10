@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer'
 let otpValue
 
 export function sendVerificationCode(email,role,pass) {
+  console.log('ver',email);
   const otp = Math.floor(1000 + Math.random() * 9000);
   let password = "zqcmrhbtvebqrbhu"
   return new Promise((resolve, reject) => {

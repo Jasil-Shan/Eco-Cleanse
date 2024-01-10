@@ -8,6 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { signupSchema } from '../../utils/validation'
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleLogin } from '../../services/userApi'
+import { BeatLoader } from 'react-spinners'
 
 
 
@@ -19,6 +20,7 @@ const UserSignup = () => {
     const [suggestions, setSuggest] = useState([])
     const [value, setValue] = useState("")
     const [place, setPlace] = useState("")
+    const [loading, setLoading] = useState(false);
 
 
     const handleRetrieve = (itemLocation, place) => {
@@ -61,6 +63,7 @@ const UserSignup = () => {
 
         onSubmit: async (values) => {
             try {
+                setLoading(true)
                 const { data } = await axios.post('/user/verify', { ...values, locations })
                 const email = formik.values.email
 
@@ -77,11 +80,14 @@ const UserSignup = () => {
                 }
 
             } catch (error) {
+
                 toast.error("Internal Server Error", {
                     position: "top-center",
 
                 })
                 console.log(error)
+            }finally{
+                setLoading(false)
             }
         }
     })
@@ -148,17 +154,14 @@ const UserSignup = () => {
                         <p className='text-sm mt-4 text-[#002D74]'>Lets Start Your Journey!</p>
                         {errorMessage ? <div className="text-red-500 pb-6 text-center ">{errorMessage}</div> : ""}
 
-                        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-4'>
+                        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-2'>
                             <input className='p-2 mt-8 rounded-xl border' type="text" name='name' placeholder='Full Name' id='name' onChange={(e) => { handleChange(e) }}
-                            />
-                            {
-                                formik.touched.name && formik.errors.name ? (
-                                    <div className="text-red-500"> {formik.errors.name} </div>
+                            />{formik.touched.name && formik.errors.name ? (<p className="text-red-500 gap-0 p-0 m-0">{formik.errors.name}</p>
                                 ) : null}
 
                             <input className='p-2 rounded-xl border' type="email" name="email" placeholder='Email' id="email" onChange={(e) => { handleChange(e) }} />
                             {formik.touched.email && formik.errors.email ? (
-                                <div className='text-red-500' >{formik.errors.email}</div>
+                                <div className='text-red-500 p-0' >{formik.errors.email}</div>
                             ) : null}
                             <input className='p-2 rounded-xl border' type="number" name="mobile" placeholder='Mobile Number' id="mobile" onChange={(e) => { handleChange(e) }} />
                             {
@@ -209,11 +212,9 @@ const UserSignup = () => {
                             <div className="relative">
                                 <input className='p-2  rounded-xl border w-full' type={showPassword ? 'text' : 'password'} name='password' id='password' placeholder='Password' onChange={(e) => { handleChange(e) }} />
                                 <button type='button' onClick={handleTogglePassword}> {!showPassword ? <AiFillEye className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" /> : <AiFillEyeInvisible className="w-5 absolute top-1 right-3 translate-y-1/2 h-4" />} </button>
-
                                 {formik.touched.password && formik.errors.password ? (
                                     <div className='text-red-500'>{formik.errors.password}</div>
                                 ) : null}
-
                             </div>
                             <div className='relative'>
                                 <input className='p-2  rounded-xl border w-full' type={showPassword ? 'text' : 'password'} name='confirmpassword' id='confirmpassword' placeholder='Confirm Password' onChange={(e) => { handleChange(e) }} />
@@ -222,8 +223,14 @@ const UserSignup = () => {
                                     <div className='text-red-500'>{formik.errors.confirmpassword}</div>
                                 ) : null}
                             </div>
-                            <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-white hover:scale-105 duration-300' type='submit'>Sign Up</button>
-                        </form>
+                            {loading ? (
+                                <button className='bg-[#002D74] rounded-xl py-2 mt-2 text-center text-white' disabled >
+                                        <BeatLoader color="#36d7b7" />
+                                </button>
+                            ) : (
+                                <button className='bg-[#002D74] font-semibold rounded-xl py-2 mt-2 text-white' type="submit">Sign up</button>
+
+                            )}                        </form>
                         {/* <div className='mt-10 grid-cols-3 items-center text-gray-500'>
                             <hr className=' text-gray-500' />
                             <p className='text-center text-sm'>OR</p>

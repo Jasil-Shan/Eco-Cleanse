@@ -10,7 +10,7 @@ export const signupSchema = Yup.object({
         .email('invalid email address')
         .required('Email is required'),
     mobile: Yup.string()
-        .max(10, 'Mobile number not valid')
+        .max(12, 'Mobile number not valid')
         .min(10, 'Mobile number not valid')
         .required("Mobile is required"),
     address: Yup.string()
