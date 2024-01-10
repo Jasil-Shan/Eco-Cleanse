@@ -74,7 +74,7 @@ const UserLogin = () => {
             } finally {
                 setTimeout(() => {
                     setLoading(false)
-                }, 8000);
+                }, 4000);
             }
 
         },
