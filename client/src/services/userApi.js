@@ -43,6 +43,12 @@ export const userLogin = (values) =>{
 
   }
 
+  export const getHomeStats = ()=>{
+
+    return axiosInstance("UserJwtkey").get('/getStats')
+
+  }
+
   export const UserProfileUpdate = ( values) => {
       return axiosInstance("UserJwtkey").patch('/updateProfile', { ...values })
   }

@@ -44,7 +44,7 @@ export async function login(req, res) {
         const { email, password } = req.body
         const user = await UserModel.findOne({ email })
         if (!user) {
-            res.json({ error: true, message: 'User not registered' })
+            return res.json({ error: true, message: 'User not registered' })
         }
         if (user.blocked) {
             return res.json({ login: false, message: "Sorry You are banned" })

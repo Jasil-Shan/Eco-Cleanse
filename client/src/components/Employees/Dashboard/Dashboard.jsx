@@ -59,7 +59,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
     return (
         <>
             <EmployeeNavbar role={profile.role} />
-            <div className="container mx-auto  p-5">
+            <div className="container mx-auto p-4 ">
                 <div className="md:flex no-wrap md:-mx-2 ">
                     {/* Left Side */}
                     <div className="w-full md:w-3/12 md:mx-2">
@@ -101,8 +101,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                         </div>
                         {/* End of profile card */}
 
-                        {/* Friends card */}
-                        <div className="bg-white card mt-2 overflow-hidden  shadow-md  p-3 hover:shadow">
+                        <div className="bg-white card mt-1 overflow-hidden  shadow-md  p-3 hover:shadow">
                             <div className="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
                                 <span className="text-nuetral-500">
                                     <svg
@@ -122,7 +121,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                 </span>
                                 <span className="tracking-wide">Location Info</span>
                             </div>
-                            <div className="w-45 mt-1 h-55 ">
+                            <div className="w-45 ">
                                 {
                                     profile.location && profile.location[0] !== undefined && profile.location[1] !== undefined ? (
                                         <MapContainer center={[profile?.location[1], profile?.location[0]]} zoom={8} style={{ height: '250px' }}>
@@ -137,7 +136,6 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                             </div>
                             <button className='btn mt-1 btn-neutral btn-sm text-white' onClick={handleSubmit}>Update</button>
                         </div>
-                        {/* End of friends card */}
                     </div>
                     {/* End of Left Side */}
 
@@ -192,7 +190,7 @@ const Dashboard = ({ role, setRefresh, refresh }) => {
                                     <div className="grid grid-cols-2">
                                         <div className="px-4 py-2 font-semibold">Email.</div>
                                         <div className="px-4 py-2">
-                                            <a className="text-blue-800" href="mailto:jane@example.com">
+                                            <a>
                                                 {profile.email}
                                             </a>
                                         </div>

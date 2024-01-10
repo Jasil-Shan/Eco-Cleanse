@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
+import { addEmployees } from "../../../services/adminApi";
 
 const FormModal = ({role,setRefresh,refresh}) => {
 
@@ -114,7 +115,7 @@ const FormModal = ({role,setRefresh,refresh}) => {
         onSubmit: async (values) => {
             try {
 
-                const { data } = await axios.post('/admin/addEmployee', { ...values, image, location, place, role });
+                const { data } = await addEmployees(values,image, location, place, role)
 
                 if (data?.status && role == 'worker') {
                     toast.success(data.message, {
@@ -165,7 +166,7 @@ const FormModal = ({role,setRefresh,refresh}) => {
                     id="authentication-modal"
                     tabIndex="-1"
                     aria-hidden="true"
-                    className="fixed  top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full"
+                    className="fixed  top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full "
                 >
                     <div className="relative h-fit  bg-white rounded-lg shadow">
                         <button
@@ -359,11 +360,11 @@ const FormModal = ({role,setRefresh,refresh}) => {
                                         required
                                     />
                                 </div>
-                                {image && (
+                                {/* {image && (
                                     <div>
                                         <img src={image} alt="Selected" className="mt-3 max-w-full h-auto" />
                                     </div>
-                                )}
+                                )} */}
 
                                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                     <button type="submit" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">

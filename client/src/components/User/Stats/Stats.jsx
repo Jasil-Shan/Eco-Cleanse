@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { getStats } from "../../../services/adminApi";
 import ewasteIcon from '../assets/ewaste-icon.png'
 import foodIcon from '../assets/foodWaste-icon.png'
 import plasticIcon from '../assets/plastic-Icon.png'
 import paperIcon from '../assets/paper-icon.png'
 import pieChart from '../assets/pie-chart.png'
+import { getHomeStats } from "../../../services/userApi";
 
 const Stats = () => {
   const [totalSums, setTotal] = useState()
   const [count, setCount] = useState()
-  const [onlineEmployees, setOnlineEmployee] = useState()
-  const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
   const [totalGarbage, setTotalGarbage] = useState()
 
 
@@ -19,7 +17,7 @@ const Stats = () => {
     try {
       (
         async function () {
-          const { data } = await getStats()
+          const { data } = await getHomeStats()
           if (data.success) {
             setTotal(data.totalSums)
             setTotalGarbage(data.totalSum)

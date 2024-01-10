@@ -28,17 +28,17 @@ const EmployeeHistory = () => {
                   <th className="px-4 py-3">Order Id</th>
                   <th className="px-4 py-3">Date</th>
                   <th className="px-4 py-3">User</th>
-                  {role == 'driver'?
+                  {role == 'driver' ?
                     <th className="px-4 py-3">Worker</th>
                     :
-                  <th className="px-4 py-3">Driver</th>}
+                    <th className="px-4 py-3">Driver</th>}
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Payment</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {jobHistory &&
-                jobHistory.map((item, index) => {
+                  jobHistory.map((item, index) => {
                     return <tr key={index} className="text-gray-700">
                       <td className="px-4 py-3 border">
                         <div className="flex items-center text-sm">
@@ -49,11 +49,11 @@ const EmployeeHistory = () => {
                       </td>
                       <td className="px-4 py-3 border text-ms font-semibold">{new Date(item.createdAt).toDateString()}</td>
                       <td className="px-4 py-3 border text-ms font-semibold">{item.user.name}</td>
-                     { role == 'driver' ?
-                      <td className="px-4 py-3 border text-ms font-semibold">{  item.worker?.name ? item?.worker?.name : 'Not Assigned'}</td>
-                      :
-                      <td className="px-4 py-3 border text-ms font-semibold">{  item.driver?.name ? item?.driver?.name : 'Not Assigned'}</td>
-                }
+                      {role == 'driver' ?
+                        <td className="px-4 py-3 border text-ms font-semibold">{item.worker?.name ? item?.worker?.name : 'Not Assigned'}</td>
+                        :
+                        <td className="px-4 py-3 border text-ms font-semibold">{item.driver?.name ? item?.driver?.name : 'Not Assigned'}</td>
+                      }
                       <td className="px-4 py-3 border text-xs">
                         <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{item?.status}</span>
                       </td>
@@ -62,9 +62,12 @@ const EmployeeHistory = () => {
                   })
                 }
               </tbody>
-            </table>
+            </table>         
           </div>
         </div>
+        {!jobHistory.length > 0 && <div className="flex justify-center items-center mt-44">
+              <h1 className="font-bold text-xl">Nothing to show here, Come later</h1>
+            </div> }
       </section>
     </>
   )
