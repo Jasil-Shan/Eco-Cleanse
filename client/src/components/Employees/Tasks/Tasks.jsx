@@ -14,7 +14,7 @@ const Tasks = (props) => {
     const TaskId = props.id
     const role = props?.role
     const navigate = useNavigate()
-    const [refresh ,setRefresh] = useState(false)
+    const [refresh, setRefresh] = useState(false)
     let profile
     if (role == 'worker') {
         profile = useSelector((state) => state.worker)
@@ -37,55 +37,68 @@ const Tasks = (props) => {
         }
     }, [refresh])
 
-    const handleChat = async()=>{
+    const handleChat = async () => {
         try {
-          const { data } = await createChat(
-            senderId,receiverId
+            const { data } = await createChat(
+                senderId, receiverId
             )
-          if (!data.err) {
-            navigate('/chat', {state:{senderId,role}});
-          } else {
-            console.log(data.err);
-          }
+            if (!data.err) {
+                navigate('/chat', { state: { senderId, role } });
+            } else {
+                console.log(data.err);
+            }
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
     return (
         <>
             {profile.assigned ?
-                <div className="mt-10 ">
+                <div className="mt-12 ">
                     <div className="card w-auto lg:card-side ml-4 bg-base-100 shadow-lg">
                         {/* <figure><img className="w-72 h-full" src="https://source.unsplash.com/rEn-AdBr3Ig" alt="Album" /></figure> */}
-                            <span className="antialiased tracking-wide text-center m-4 font-semibold text-lg">Task</span>
-                        <div className="card-body ">
+                        <span className="antialiased tracking-wide text-center m-4 font-semibold text-lg">Task</span>
+                        <div className="card-body mb-0">
                             <div className="flex justify-evenly">
-                                <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
+                                <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit px-6 py-3">
                                     <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Customer</h1>
                                     <span className="inline-flex mt-3"><FcBusinessman size={26} /><p className="uppercase font-medium   ml-8">{task?.user?.name}</p></span>
                                     <span className="inline-flex mt-3 "><FcHome size={26} /><p className="uppercase font-medium text ml-8">{task?.user?.address}</p></span>
                                     <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.user?.mobile}</p></span>
-                                { props.role == 'worker' ? <div className="text-center"><button onClick={handleChat} className="btn btn-sm mt-4">Chat</button></div> : ""}
+                                    {props.role == 'worker' ? <div className="text-center"><button onClick={handleChat} className="btn btn-sm mt-2 ">Chat</button></div> : ""}
                                 </div>
                                 {(props.role == 'driver') ?
                                     <div className=" flex flex-col  border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
                                         <h1 className="uppercase font-bold text-center tracking-wider mb-2 subpixel-antialiased">Worker</h1>
-                                        <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.worker?.name}</p></span>
-                                        <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.worker?.place}</p></span>
-                                        <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.worker?.mobile}</p></span>
+                                        {task && task?.worker?.name ? (
+                                            <>
+                                                <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.worker?.name}</p></span>
+                                                <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.worker?.place}</p></span>
+                                                <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.worker?.mobile}</p></span>
+                                            </>
+                                        ) : (
+                                            <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Not Assigned</h1>
+                                        )}
                                     </div>
                                     :
                                     <div className=" flex flex-col border-t-4 mt-5 border-neutral card shadow-xl w-fit p-6">
                                         <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Driver</h1>
-                                        <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.driver?.name}</p></span>
-                                        <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.driver?.place}</p></span>
-                                        <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.driver?.mobile}</p></span>
+                                        {task && task?.driver?.name ? (
+                                            <>
+                                                <span className="inline-flex mt-3"><FcReadingEbook size={26} /><p className="uppercase font-medium   ml-8">{task?.driver?.name}</p></span>
+                                                <span className="inline-flex mt-3  "><FcHome size={26} /><p className="uppercase  text-ellipsis overflow-hidden whitespace-nowrap w-28 hover:w-fit font-medium text ml-8">{task?.driver?.place}</p></span>
+                                                <span className="inline-flex mt-3 "><FcPhoneAndroid size={26} /><p className="uppercase font-medium  ml-8">{task?.driver?.mobile}</p></span>
+                                            </>
+                                        ) : (
+                                            <h1 className="uppercase font-bold tracking-wider mb-2 text-center">Not Assigned</h1>
+                                        )}
                                     </div>
+
                                 }
                             </div>
                             <div className="card-actions justify-center mt-2 ">
                                 {(props.role == 'driver') ?
-                                 <Link to={'/driver/map'} state = {task}><button className="btn btn-neutral btn-sm text-white">Start </button></Link>   
+                                    <Link to={'/driver/map'} state={task}><button className="btn btn-neutral btn-sm text-white">Start </button></Link>
                                     :
                                     <TaskModal />
                                 }
@@ -94,7 +107,7 @@ const Tasks = (props) => {
                     </div>
                 </div>
                 :
-               role && <TaskAlert task={task} role={role} setRefresh ={setRefresh} refresh ={refresh}/>
+                role && <TaskAlert task={task} role={role} setRefresh={setRefresh} refresh={refresh} />
             }
         </>
     )

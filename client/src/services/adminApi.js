@@ -32,6 +32,10 @@ export const getEmployees = ()=>{
   return axiosInstance("AdminJwtkey").get('/admin/getEmployees')
 }
 
+export const addEmployees = (values,image, location, place, role)=>{
+  return axiosInstance("AdminJwtkey").post('/admin/addEmployee', { ...values, image, location, place, role })
+}
+
 export const getStats = ()=>{
   return axiosInstance("AdminJwtkey").get('/admin/getStats')
 }

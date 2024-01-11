@@ -8,13 +8,12 @@ import UserModel from "../model/userModel.js";
 
 export async function userBooking(req, res) {
   try {
-    const { garbage, payment,totalAmount } = req.body;
-    console.log(req.body);
+    const { garbage, payment, totalAmount } = req.body;
     const _id = req.userId;
     const order_id = orderId('Eco').generate();
     const user = await UserModel.findById(_id)
-    const driver = await DriverModel.find({status:'Available'})
-    const worker = await WorkerModel.find({status:'Available'})
+    const driver = await DriverModel.find({ status: 'Available' })
+    const worker = await WorkerModel.find({ status: 'Available' })
 
     if (driver.length === 0 || worker.length === 0) {
       return res.json({
@@ -49,10 +48,10 @@ export async function userBooking(req, res) {
     const nearbyDrivers = driverDistance.filter(
       (driver) => driver.distance <= 20
     )
-    
+
     nearbyWorkers.sort((a, b) => a.distance - b.distance)
     nearbyDrivers.sort((a, b) => a.distance - b.distance)
-
+    
     if (nearbyDrivers.length === 0 || nearbyWorkers.length === 0) {
       return res.json({
         success: false,
@@ -127,8 +126,9 @@ export async function userBooking(req, res) {
 export async function getBookings(req, res) {
 
   try {
-
-    const bookings = await BookingModel.find({}).populate('driver').populate('worker')
+    const _id = req.userId
+    const bookings = await BookingModel.find({ user: _id }).populate('driver').populate('worker').populate('user')
+    console.log(bookings)
     res.json({ status: true, bookings, message: "success" })
 
   } catch (error) {
@@ -136,35 +136,68 @@ export async function getBookings(req, res) {
   }
 }
 
-export async function profileUpdate (req,res){
+export async function profileUpdate(req, res) {
   try {
-      const _id = req.userId
-      const {mobile , name} = req.body
-      await UserModel.findByIdAndUpdate(_id,{$set:{mobile,name}})
-      res.json({success : true , message : "profile updated"})
+    const _id = req.userId
+    const { mobile, name } = req.body
+    await UserModel.findByIdAndUpdate(_id, { $set: { mobile, name } })
+    res.json({ success: true, message: "profile updated" })
   } catch (error) {
-      console.log(error);
-      res.json({success : false , message : "Try Again"})
+    console.log(error);
+    res.json({ success: false, message: "Try Again" })
   }
 }
 
 export async function checkAvailability(req, res) {
   try {
 
-    const driver = await DriverModel.find({status:'Available'})
-    const worker = await WorkerModel.find({status:'Available'})
+    const driver = await DriverModel.find({ status: 'Available' })
+    const worker = await WorkerModel.find({ status: 'Available' })
     if (driver.length === 0 || worker.length === 0) {
       return res.json({
         error: true,
         message: 'Service Unavailable at the moment, Try again later',
       })
-    }else{
+    } else {
       return res.json({
         error: false,
         message: 'Employees Available',
       })
     }
-  }catch (err){
+  } catch (err) {
     console.log(err);
+  }
+}
+
+export async function getStats(req, res) {
+  try {
+
+    const pipeline = [
+      {
+        $group: {
+          _id: null,
+          totalFoodWaste: { $sum: { $toInt: "$garbageCollected.foodWaste" } },
+          totalEWaste: { $sum: { $toInt: "$garbageCollected.eWaste" } },
+          totalPlasticWaste: { $sum: { $toInt: "$garbageCollected.plasticWaste" } },
+          totalOthers: { $sum: { $toInt: "$garbageCollected.Others" } }
+        }
+      }
+    ];
+
+    const result = await BookingModel.aggregate(pipeline);
+
+    const totalSums = {
+      foodWaste: result[0].totalFoodWaste,
+      eWaste: result[0].totalEWaste,
+      plasticWaste: result[0].totalPlasticWaste,
+      Others: result[0].totalOthers
+    }
+
+    const totalSum = Object.values(totalSums).reduce((acc, curr) => acc + curr, 0);
+
+    return res.json({success:true , totalSum,totalSums})
+
+  } catch (error) {
+    console.error(error);
   }
 }

@@ -39,7 +39,7 @@ const Table = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {
+                {bookings &&
                   bookings.map((item, index) => {
                     return <tr key={index} className="text-gray-700">
                       <td className="px-4 py-3 ">
@@ -64,6 +64,9 @@ const Table = () => {
             </table>
           </div>
         </div>
+        {!bookings.length > 0 && <div className="flex justify-center items-center mt-44">
+              <h1 className="font-bold text-xl">Nothing to show here, Come later :(</h1>
+            </div> }
       </section>
 
     </>
