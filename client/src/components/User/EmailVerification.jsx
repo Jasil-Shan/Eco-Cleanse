@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
 
 
 
@@ -13,34 +14,9 @@ const EmailVerification = () => {
   const location = useLocation()
   const { email } = location?.state
   const [btnDisabled, setBtnDisabled] = useState(true)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  //   function OTPInput() {
-  //     const inputs = document.querySelectorAll('#otp > *[id]');
-  //     for (let i = 0; i < inputs.length; i++) {
-  //       inputs[i].addEventListener('keydown', function (event) {
-  //         if (event.key === 'Backspace') {
-  //           inputs[i].value = '';
-  //           if (i !== 0) inputs[i - 1].focus();
-  //         } else {
-  //           if (i === inputs.length - 1 && inputs[i].value !== '') {
-  //             return true;
-  //           } else if (event.keyCode > 47 && event.keyCode < 58) {
-  //             inputs[i].value = event.key;
-  //             if (i !== inputs.length - 1) inputs[i + 1].focus();
-  //             event.preventDefault();
-  //           } else if (event.keyCode > 64 && event.keyCode < 91) {
-  //             inputs[i].value = String.fromCharCode(event.keyCode);
-  //             if (i !== inputs.length - 1) inputs[i + 1].focus();
-  //             event.preventDefault();
-  //           }
-  //         }
-  //       });
-  //     }
-  //   }
-
-  //   OTPInput();
-  // }, []);
 
   const [timer, setTimer] = useState(60);
 
@@ -65,6 +41,7 @@ const EmailVerification = () => {
 
     onSubmit: async (values) => {
       try {
+        setLoading(true)
         const { data } = await axios.post('/user/signup', { ...values })
         if (data.status) {
           navigate("/login")
@@ -82,6 +59,9 @@ const EmailVerification = () => {
       } catch (error) {
 
         console.log(error);
+      }
+      finally {
+        setLoading(false)
       }
     }
   })
@@ -128,8 +108,13 @@ const EmailVerification = () => {
                       </span>
                       <button type="button" onClick={handleResend} className={btnDisabled ? "mr-3 mb-3 text-gray-300 underline" : "mr-3 mb-3 underline"} disabled={btnDisabled}>Resend OTP</button>
                     </div>
-
-                    <button type="submit" className="font-bold btn btn-neutral py-4">Submit OTP</button>  
+                    {loading ? (
+                      <button className='font-bold btn btn-neutral py-4 text-center text-white' disabled >
+                        <BeatLoader color="#36d7b7" />
+                      </button>
+                    ) : (
+                      <button type="submit" className="font-bold btn btn-neutral py-4">Submit OTP</button>
+                    )}
                   </a>
                 </div>
               </form>
