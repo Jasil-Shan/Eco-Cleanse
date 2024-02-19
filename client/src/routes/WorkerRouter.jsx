@@ -5,6 +5,7 @@ import PrivateRoutes from "../utils/PrivateRoutes";
 import WorkerProfilePage from "../pages/Worker/WorkerProfilePage";
 import DriverHistoryPage from "../pages/Driver/DriverHistoryPage";
 import ChatPage from "../pages/Chat/ChatPage";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 
 
@@ -20,10 +21,10 @@ const  WorkerRouter = ()=> {
                 <Route path="profile" element={<WorkerProfilePage />} />
                 <Route path="history" element={<DriverHistoryPage />} />
                 <Route path="chat" element={<ChatPage />} />
-                
+\
             </Route>
 
-            <Route path="login" element={<WorkerLoginPage />} />
+            <Route path="/" element={<WorkerLoginPage />} />
 
         </Routes>
     )

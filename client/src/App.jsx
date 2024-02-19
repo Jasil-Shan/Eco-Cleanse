@@ -7,13 +7,14 @@ import DriverRouter from './routes/DriverRouter';
 import WorkerRouter from './routes/WorkerRouter';
 import AdminRouter from './routes/AdminRouter';
 import Loader from './components/Loader/Loader';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 const LazyUserRoutes = lazy(() => import("./routes/UserRouter"));
 
 
 function App() {
-  axios.defaults.baseURL ="https://ecocleanse.comicworld.store"
-  // axios.defaults.baseURL = "http://localhost:3000"
+  // axios.defaults.baseURL ="https://ecocleanse.comicworld.store"
+  axios.defaults.baseURL = "http://localhost:3000"
   axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>
@@ -26,8 +27,6 @@ function App() {
         }
         />
         <Route path="/driver/*" element={<DriverRouter />} />
-
-
         <Route path="/worker/*" element={<WorkerRouter />} />
 
       </Routes>

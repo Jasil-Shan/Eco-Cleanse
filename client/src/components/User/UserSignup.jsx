@@ -4,7 +4,7 @@ import { Formik, useFormik } from "formik"
 import { useNavigate, Link } from "react-router-dom"
 import { ToastContainer, toast } from "react-toastify"
 import iland from './assets/iland.jpg'
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { AiFillEye, AiFillEyeInvisible, AiOutlineArrowLeft } from 'react-icons/ai'
 import { signupSchema } from '../../utils/validation'
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleLogin } from '../../services/userApi'
@@ -148,7 +148,7 @@ const UserSignup = () => {
         <Formik>
             <section className="bg-gray-50 min-h-screen flex items-center justify-center">
                 <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl  items-center">
-
+                <span className='self-center'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
                     <div className="md:w-1/2  px-16">
                         <h2 className='font-bold text-3xl text-[#002D74]'>Register Here..</h2>
                         <p className='text-sm mt-4 text-[#002D74]'>Lets Start Your Journey!</p>
@@ -269,7 +269,7 @@ const UserSignup = () => {
                     </div>
 
                     <div className="w-1/2 h-fit md:block hidden">
-                        <img className=' rounded-2xl' src={iland} alt="" />
+                        <img className='rounded-2xl' loading='lazy' src={iland} alt="" />
                     </div>
                 </div>
                 <ToastContainer />

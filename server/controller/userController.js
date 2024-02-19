@@ -51,7 +51,7 @@ export async function userBooking(req, res) {
 
     nearbyWorkers.sort((a, b) => a.distance - b.distance)
     nearbyDrivers.sort((a, b) => a.distance - b.distance)
-    
+
     if (nearbyDrivers.length === 0 || nearbyWorkers.length === 0) {
       return res.json({
         success: false,
@@ -150,20 +150,59 @@ export async function profileUpdate(req, res) {
 
 export async function checkAvailability(req, res) {
   try {
-
     const driver = await DriverModel.find({ status: 'Available' })
     const worker = await WorkerModel.find({ status: 'Available' })
+    const _id = req.userId;
+    const user = await UserModel.findById(_id)
     if (driver.length === 0 || worker.length === 0) {
       return res.json({
         error: true,
-        message: 'Service Unavailable at the moment, Try again later',
-      })
-    } else {
-      return res.json({
-        error: false,
-        message: 'Employees Available',
+        message: 'Service unavailable at the moment, Try again later',
       })
     }
+
+    const workerDistance = worker.map((worker) => { 
+      const distance = calculateDistance(
+        user.location[1],
+        user.location[0],
+        worker.location[1],
+        worker.location[0]
+      );
+      return { ...worker.toObject(), distance };
+    })
+
+    const driverDistance = driver.map((driver) => {
+      const distance = calculateDistance(
+        user.location[1],
+        user.location[0],
+        driver.location[1],
+        driver.location[0]
+      );
+      return { ...driver.toObject(), distance };
+    })
+
+    const nearbyWorkers = workerDistance.filter(
+      (worker) => worker.distance <= 20
+    )
+    const nearbyDrivers = driverDistance.filter(
+      (driver) => driver.distance <= 20
+    )
+
+    nearbyWorkers.sort((a, b) => a.distance - b.distance)
+    nearbyDrivers.sort((a, b) => a.distance - b.distance)
+
+    if (nearbyDrivers.length === 0 || nearbyWorkers.length === 0) {
+      return res.json({
+        error: true,
+        message: 'Service Unavailable at your area, Try again later',
+      })
+    }
+
+    return res.json({
+      error: false,
+      message: 'Employees Available',
+    })
+
   } catch (err) {
     console.log(err);
   }
@@ -195,7 +234,7 @@ export async function getStats(req, res) {
 
     const totalSum = Object.values(totalSums).reduce((acc, curr) => acc + curr, 0);
 
-    return res.json({success:true , totalSum,totalSums})
+    return res.json({ success: true, totalSum, totalSums })
 
   } catch (error) {
     console.error(error);

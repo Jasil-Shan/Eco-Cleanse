@@ -47,7 +47,6 @@ const DriverDash = () => {
   return (
     <>
       <Dashboard role={role} setRefresh={setRefresh} refresh={refresh} />
-
     </>
   );
 };

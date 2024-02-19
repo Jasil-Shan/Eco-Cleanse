@@ -20,14 +20,15 @@ const UserBooking = () => {
           setLoading(true)
           const { data } = await getBookings()
           if (data.status) {
-            console.log(data);
             setBookings(data.bookings)
           }
         })()
     } catch (error) {
       console.log(error);
-    } finally{
-      setLoading(false)
+    } finally {
+      setTimeout(() => {
+        setLoading(false)
+      }, 3000);
     }
   }, []);
   const pendingBookings = bookings.filter((booking) => booking.status === "Pending");
@@ -35,15 +36,15 @@ const UserBooking = () => {
     <>
       <Navbar />
       <div className="h-screen bg-[url()] bg-cover flex justify-center items-center overflow-hidden">
-      {!loading ? (
-        pendingBookings.length > 0 ? (
-          <Success orderId={pendingBookings[0].order_id} />
+        {!loading ? (
+          pendingBookings.length > 0 ? (
+            <Success orderId={pendingBookings[0].order_id} />
+          ) : (
+            <BookingForms />
+          )
         ) : (
-          <BookingForms />
-        )
-      ) : (
-        <Loader />
-      )}
+          <Loader />
+        )}
       </div>
     </>
 

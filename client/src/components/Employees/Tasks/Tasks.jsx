@@ -11,10 +11,10 @@ import { createChat } from "../../../services/chatApi";
 const Tasks = (props) => {
 
     const [task, setTask] = useState({})
+    const [refresh, setRefresh] = useState(false)
+    const navigate = useNavigate()
     const TaskId = props.id
     const role = props?.role
-    const navigate = useNavigate()
-    const [refresh, setRefresh] = useState(false)
     let profile
     if (role == 'worker') {
         profile = useSelector((state) => state.worker)
@@ -37,7 +37,12 @@ const Tasks = (props) => {
         }
     }, [refresh])
 
-    const handleChat = async () => {
+    const handleRefresh = (value) =>{
+        setRefresh(value)
+    }
+
+
+const handleChat = async () => {
         try {
             const { data } = await createChat(
                 senderId, receiverId
@@ -107,7 +112,7 @@ const Tasks = (props) => {
                     </div>
                 </div>
                 :
-                role && <TaskAlert task={task} role={role} setRefresh={setRefresh} refresh={refresh} />
+                role && <TaskAlert task={task} role={role} setRefresh={handleRefresh} refresh={refresh} />
             }
         </>
     )

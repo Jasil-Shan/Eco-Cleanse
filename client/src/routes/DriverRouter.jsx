@@ -6,6 +6,7 @@ import PrivateRoutes from "../utils/PrivateRoutes";
 import DriverProfilePage from "../pages/Driver/DriverProfilePage";
 import DriverMapPage from "../pages/Driver/DriverMapPage";
 import DriverHistoryPage from "../pages/Driver/DriverHistoryPage";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 
 
@@ -23,7 +24,7 @@ const DriverRouter = ()=> {
                 <Route path="profile" element={<DriverProfilePage />} />
                 <Route path="map" element={<DriverMapPage />} />
                 <Route path="history" element={<DriverHistoryPage />} />
-
+\
             </Route>
 
             <Route path="login" element={<DriverLoginPage />} />
