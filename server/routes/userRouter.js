@@ -13,7 +13,7 @@ router.post('/paymentVerify',verifyUser,paymentVerification)
 
 
 router.get('/getBooking',verifyUser,getBookings)
-router.get('/check',checkAvailability)
+router.get('/check',verifyUser,checkAvailability)
 router.get('/getStats',getStats)
 
 

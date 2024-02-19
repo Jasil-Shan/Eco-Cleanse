@@ -131,7 +131,7 @@ const UserLogin = () => {
                 }}
             >
                 <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
-                    <span className='self-start'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
+                    <span className='self-center'> <Link to={'/'}> <AiOutlineArrowLeft size={22} /></Link></span>
                     <div className="md:w-1/2 px-14">
                         <h2 className='font-bold text-3xl text-[#002D74]'>Login</h2>
                         <p className='text-sm mt-4 text-[#002D74]'>Welcome Back!</p>
@@ -198,7 +198,7 @@ const UserLogin = () => {
                     </div>
 
                     <div className="w-1/2 md:block hidden">
-                        <img className=' rounded-2xl' src={earth} alt="" />
+                        <img className='rounded-2xl' loading='lazy' src={earth} alt="" />
                     </div>
                 </div>
             </motion.div >

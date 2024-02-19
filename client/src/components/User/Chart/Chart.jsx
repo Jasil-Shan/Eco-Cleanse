@@ -31,6 +31,7 @@ const Chart = () => {
     event.preventDefault();
     try {
       const {data} = await availabilityCheck()
+      console.log(data);
       if(data.error){
        return toast.error(data.message, {
           position: "top-center",
@@ -93,13 +94,21 @@ const Chart = () => {
           const { data } = await verifyPayment(response)
 
           if (data.success) {
+            console.log('success');
             const { data } = await userBooking({ payment: selectedOption }, values , totalAmount);
-
-            setOrder(data.order_id)
-            setSuccess(true)
-            toast.success(data.message, {
-              position: "top-center",
-            });
+            console.log(data);
+            if(data.success){
+              setOrder(data.order_id)
+              setSuccess(true)
+              toast.success(data.message, {
+                position: "top-center",
+              });
+            }else{
+              toast.error(data.message, {
+                position: "top-center",
+              });
+            }
+            
           } else {
             Swal.fire({
               title: 'Service unavailable at your area',

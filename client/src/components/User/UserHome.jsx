@@ -12,13 +12,13 @@ import { motion } from "framer-motion"
 
 const UserHome = () => {
     const onRenderCallback = (
-        id, // unique identifier of the Profiler component
-        phase, // either "mount" (if the component just mounted) or "update" (if it re-rendered)
-        actualDuration, // time spent rendering the committed update
-        baseDuration, // estimated time to render the entire subtree without memoization
-        startTime, // when React began rendering this update
-        commitTime, // when React committed this update
-        interactions // the set of interactions belonging to this update
+        id, 
+        phase, 
+        actualDuration, 
+        baseDuration, 
+        startTime, 
+        commitTime,
+        interactions 
     ) => {
         console.log({
             id,

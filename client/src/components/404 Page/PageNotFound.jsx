@@ -8,7 +8,7 @@ const PageNotFound = () => {
         <div className='flex flex-col'>
             <Navbar />
             {/* <button className='btn absolute text-center'>Back to Home</button> */}
-            <img src={notFound} alt="" className='w-screen'/>
+            <img src={notFound} alt="" loading='lazy' className='w-screen'/>
             <Footer />
         </div>
         </>

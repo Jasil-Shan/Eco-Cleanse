@@ -22,10 +22,10 @@ const BookingForms = () => {
 
   const formik = useFormik({
     initialValues: {
-      eWaste: '',
-      plasticWaste: '',
-      foodWaste: '',
-      others: '',
+      eWaste,
+      plasticWaste,
+      foodWaste,
+      others,
     },
 
     onSubmit: async (values) => {
@@ -37,9 +37,6 @@ const BookingForms = () => {
           values.others
         ) {
           setFormValues(values);
-          for (const key in values) {
-            values[key] = Number(values[key].replace('%', ''));
-          }
           navigate('/confirm', {state:{values}})
         } else {
           toast.error('Please fill in all the fields', { position: 'top-center' });
@@ -61,20 +58,20 @@ const BookingForms = () => {
           className="swiper mt-20"
         >
           <SwiperSlide>
-          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs" placeholder='Enter E waste weight' name='eWaste' id='eWaste' required />
+          <input type='number' onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs" placeholder='Enter E waste weight' name='eWaste' id='eWaste' required />
              
           </SwiperSlide>
           <SwiperSlide>
-          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs" placeholder='Enter Plastic waste weight' name='plasticWaste' id='plasticWaste' required />
+          <input type='number' onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs" placeholder='Enter Plastic waste weight' name='plasticWaste' id='plasticWaste' required />
         
           </SwiperSlide>
           <SwiperSlide>
-          <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs"  placeholder='Enter Food waste weight' name='foodWaste' id='foodWaste' required/>
+          <input type='number' onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs"  placeholder='Enter Food waste weight' name='foodWaste' id='foodWaste' required/>
            
           </SwiperSlide>
           <SwiperSlide>
             <div className="flex flex-col h-fit w-full mt-14 items-center">
-              <input onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs"  placeholder='Enter Other waste weight' name='others' id='others' required/>
+              <input type='number' onChange={formik.handleChange} className="input input-ghost placeholder-white font-semibold text-white w-full max-w-xs"  placeholder='Enter Other waste weight' name='others' id='others' required/>
               <button type='submit' className="btn glass number-center mt-8">Submit</button>
             </div>
 

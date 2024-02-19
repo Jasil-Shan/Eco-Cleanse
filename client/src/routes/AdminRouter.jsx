@@ -9,6 +9,7 @@ import AdminDashboardPage from "../pages/Admin/AdminDashboardPage";
 import AdminDataTablePage from "../pages/Admin/AdminDataTablePage";
 import AdminPaymentPage from "../pages/Admin/AdminPaymentPage";
 import AdminGarbageReport from "../components/Admin/AdminGarbageReport";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 
 
