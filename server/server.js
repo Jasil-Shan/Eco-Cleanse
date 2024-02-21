@@ -77,7 +77,6 @@ app.use('/driver', driverRouter)
 app.use('/chat', chatRouter)
 app.use('/message', messageRouter)
 
-app.use(mongoSanitize());
 
 
 
