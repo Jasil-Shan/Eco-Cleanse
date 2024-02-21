@@ -17,7 +17,7 @@ const DriverRouter = ()=> {
     return (
         <Routes>
 
-            <Route element={<PrivateRoutes role={'driver'} route={'/driver/login'} />}>
+            <Route element={<PrivateRoutes role={'driver'} route={'/driver/'} />}>
 
                 <Route path="dashboard" element={<DriverDashPage />} />
                 <Route path="welcome" element={<DriverWelcomePage />} />
@@ -27,7 +27,7 @@ const DriverRouter = ()=> {
 \
             </Route>
 
-            <Route path="login" element={<DriverLoginPage />} />
+            <Route path="/" element={<DriverLoginPage />} />
 
         </Routes>
     )

@@ -18,7 +18,7 @@ const PrivateRoutes = ({ role, route }) => {
                 setAuth(response?.data?.status)
             }).catch((response) => {
                 setAuth(response.data?.status)
-                navigate('/admin/login');
+                navigate('/admin/');
               })
         }
         else if(role == 'user'){
@@ -34,7 +34,7 @@ const PrivateRoutes = ({ role, route }) => {
                 setAuth(response?.data?.status)
             }).catch((response) => {
                 setAuth(response?.data?.status)
-                navigate('/driver/login');
+                navigate('/driver/');
               })
         }
         else if(role == 'worker'){
@@ -42,7 +42,7 @@ const PrivateRoutes = ({ role, route }) => {
                 setAuth(response?.data?.status)
              }).catch((response) => {
                 setAuth(response.data?.status)
-                navigate('/worker/login');
+                navigate('/worker/');
               })
         }
     },[])
