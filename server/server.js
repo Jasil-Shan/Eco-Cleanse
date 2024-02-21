@@ -8,7 +8,6 @@ import workerRouter from './routes/workerRouter.js'
 import driverRouter from './routes/driverRouter.js'
 import chatRouter from './routes/chatRouter.js'
 import messageRouter from './routes/messageRouter.js'
-import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors'
 import 'dotenv/config.js'
 import cookieParser from 'cookie-parser'
@@ -77,7 +76,6 @@ app.use('/driver', driverRouter)
 app.use('/chat', chatRouter)
 app.use('/message', messageRouter)
 
-app.use(mongoSanitize());
 
 
 server.listen(3000,()=>{
