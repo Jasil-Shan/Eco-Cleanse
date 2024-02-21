@@ -22,19 +22,19 @@ const BookingForms = () => {
 
   const formik = useFormik({
     initialValues: {
-      eWaste,
-      plasticWaste,
-      foodWaste,
-      others,
+      eWaste:0,
+      plasticWaste:0,
+      foodWaste:0,
+      others:0,
     },
 
     onSubmit: async (values) => {
       try {
         if (
-          values.eWaste &&
-          values.plasticWaste &&
-          values.foodWaste &&
-          values.others
+          values?.eWaste &&
+          values?.plasticWaste &&
+          values?.foodWaste &&
+          values?.others
         ) {
           setFormValues(values);
           navigate('/confirm', {state:{values}})
