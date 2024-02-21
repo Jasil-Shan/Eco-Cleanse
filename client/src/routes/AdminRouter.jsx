@@ -19,7 +19,7 @@ const AdminRouter = () => {
   
     return (
         <Routes>
-            <Route element={<PrivateRoutes role={'admin'} route={'/admin/login'} />}>
+            <Route element={<PrivateRoutes role={'admin'} route={'/admin/'} />}>
                 <Route path="dashboard" element={<AdminDashboardPage />} />
                 <Route path="work" element={<AdminWorkPage />} />
                 <Route path="users" element={<AdminUsersPage />} />

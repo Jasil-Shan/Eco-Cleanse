@@ -15,7 +15,7 @@ const  WorkerRouter = ()=> {
     return (
         <Routes>
 
-            <Route element={<PrivateRoutes role={'worker'} route={'/worker/login'} />}>
+            <Route element={<PrivateRoutes role={'worker'} route={'/worker/'} />}>
 
                 <Route path="dashboard" element={<WorkerDashPage />} />
                 <Route path="profile" element={<WorkerProfilePage />} />
