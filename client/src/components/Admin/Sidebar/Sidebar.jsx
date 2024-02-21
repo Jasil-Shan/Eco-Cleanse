@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import adminSidebarData from "../../../utils/AdminSidebarData";
 import { FaSignOutAlt } from "react-icons/fa";
 
@@ -45,7 +45,7 @@ const Sidebar = () => {
                                 className="flex ml-2 md:mr-24"
                             >
 
-                                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
+                                <span className="self-center font-display text-xl font-semibold sm:text-2xl whitespace-nowrap ">
                                     Eco Cleanse
                                 </span>
                             </a>
@@ -77,25 +77,27 @@ const Sidebar = () => {
                             adminSidebarData.map((obj, index) => {
 
                                 return (
-                                    <Link to={obj.links} state={obj.role}>
-                                        <li className="mt-2">
+                                    <NavLink to={obj.links} className={({ isActive }) =>
+                                        isActive ? 'text-blue-500 ' : 'text-gray-800'
+                                    } state={obj.role}>
+                                        <li className="mt-2 ">
                                             <h1
-                                                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
+                                                className="flex items-center p-2 rounded-lg hover:bg-slate-200  group"
                                             >
                                                 <span>{obj.icon}</span>
                                                 <span className="ml-2">{obj.title}</span>
                                             </h1>
                                         </li>
-                                    </Link>
+                                    </NavLink>
                                 )
                             })}
                         <li>
                             <div>
-                            
+
                                 <button onClick={
                                     () => {
                                         localStorage.removeItem('AdminJwtkey');
-                                        navigate('/admin/login')
+                                        navigate('/admin/')
                                     }} className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-300  group"
                                 > <span className="mr-3"><FaSignOutAlt size={22} /></span>Logout</button>
                             </div>

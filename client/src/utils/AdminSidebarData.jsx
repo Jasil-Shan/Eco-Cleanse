@@ -17,21 +17,21 @@ const adminSidebarData = [
     },
     {
         title: 'Users',
-        links: "/admin/details",
+        links: "/admin/users",
         role: 'user',
         icon: <FaUsers size={22} />
 
     },
     {
         title: 'Worker',
-        links: "/admin/details",
+        links: "/admin/workers",
         role: 'worker',
         icon: <BsPersonVcardFill size={22} />
 
     },
     {
         title: 'Driver',
-        links: "/admin/details",
+        links: "/admin/drivers",
         role: 'driver',
         icon: <FaTruckMoving size={22} />
 

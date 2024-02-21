@@ -1,10 +1,10 @@
-import AdminUsers from "../../components/Admin/AdminUsers"
+import AdminDataTable from "../../components/Admin/AdminDataTable"
 
 
 const AdminUsersPage = ()=>{
 
     return(
-        <AdminUsers/>
+        <AdminDataTable/>
     )
 }
 

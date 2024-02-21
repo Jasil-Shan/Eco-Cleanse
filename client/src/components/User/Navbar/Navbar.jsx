@@ -37,7 +37,7 @@ const Navbar = ({ ProfileRefresh }) => {
     }
   }, [refresh, ProfileRefresh])
   return (
-    <div className="navbar absolute bg-transparent top-0 shadow-xl  bg-base-100">
+    <div className="navbar fixed z-50 bg-transparent top-0 shadow-xl  bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -48,7 +48,7 @@ const Navbar = ({ ProfileRefresh }) => {
           <Link to={'/booking'}><li className="font-bold"><a>Booking</a></li></Link>
           </ul>
         </div>
-        <Link to={`/`}><p className=" normal-case font-bold text-2xl ml-4 max-w-fit cursor-pointer sm:text-xl">Eco Cleanse</p></Link>
+        <Link to={`/`}><p className=" normal-case font-bold font-display text-success-content text-xl md:text-2xl ml-4 max-w-fit cursor-pointer sm:text-xl">Eco Cleanse</p></Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal text-bold text-black font-semibold px-1">
@@ -85,6 +85,7 @@ const Navbar = ({ ProfileRefresh }) => {
           </div>
                 </>
           :
+          
           <Link to="/login"><button className="text-white bg-gradient-to-r from-neutral via-red-600 to-red-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-nuetral-300 shadow-lg dark:shadow-lg font-medium rounded-lg text-sm px-4 py-2 mt-2 text-center mr-5 mb-2">
             Sign in </button></Link>
         }

@@ -55,9 +55,9 @@ const TaskAlert = ({ task, role, setRefresh }) => {
                 </div>
               </div>
               <div className="mt-4 flex justify-center space-x-4">
-                <button className="btn btn-sm btn-error text-white" onClick={toggleModal}>
+                {/* <button className="btn btn-sm btn-error text-white" onClick={toggleModal}>
                   Deny
-                </button>
+                </button> */}
                 <button className="btn btn-sm btn-primary" onClick={handleSubmit}>
                   Accept
                 </button>

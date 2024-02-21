@@ -2,11 +2,11 @@ import AdminDataTable from "../../components/Admin/AdminDataTable"
 
 
 
-const AdminWorkersPage = ()=>{
+const AdminDriversPage = ()=>{
 
     return(
         <AdminDataTable/>
     )
 }
 
-export default AdminWorkersPage
+export default AdminDriversPage

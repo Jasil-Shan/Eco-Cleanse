@@ -10,6 +10,7 @@ import AdminDataTablePage from "../pages/Admin/AdminDataTablePage";
 import AdminPaymentPage from "../pages/Admin/AdminPaymentPage";
 import AdminGarbageReport from "../components/Admin/AdminGarbageReport";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
+import AdminDriversPage from "../pages/Admin/AdminDriversPage";
 
 
 
@@ -23,11 +24,11 @@ const AdminRouter = () => {
                 <Route path="work" element={<AdminWorkPage />} />
                 <Route path="users" element={<AdminUsersPage />} />
                 <Route path="workers" element={<AdminWorkersPage />} />
-                <Route path="details" element={<AdminDataTablePage />} />
+                <Route path="drivers" element={<AdminDriversPage />} />
                 <Route path="payment" element={<AdminPaymentPage />} />
                 <Route path="garbageReport" element={<AdminGarbageReport />} />
             </Route>
-            <Route path="login" element={<AdminLoginPage />} />
+            <Route path="/" element={<AdminLoginPage />} />
         </Routes>
     )
 }

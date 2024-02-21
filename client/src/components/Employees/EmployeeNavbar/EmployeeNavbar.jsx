@@ -69,7 +69,7 @@ const EmployeeNavbar = ({ role, refresh }) => {
   return (
     <div className="navbar shadow-lg rounded-sm bg-base-100">
       <div className="navbar-start">
-        {role && <Link to={`/${role}/dashboard`}><h1 className="btn btn-ghost normal-case w-fit text-lg">Eco Cleanse</h1></Link>}
+        {role && <Link to={`/${role}/dashboard`}><h1 className="btn btn-ghost normal-case font-display w-fit text-lg">Eco Cleanse</h1></Link>}
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end mr-4">
@@ -93,7 +93,7 @@ const EmployeeNavbar = ({ role, refresh }) => {
                   <li onClick={
                     () => {
                       localStorage.removeItem('DriverJwtkey')
-                      navigate('/driver/login')
+                      navigate('/driver/')
                     }}><a>Logout</a></li>
                 </>
                 :
@@ -109,7 +109,7 @@ const EmployeeNavbar = ({ role, refresh }) => {
                   <li onClick={
                     () => {
                       localStorage.removeItem('WorkerJwtkey');
-                      navigate('/worker/login')
+                      navigate('/worker/')
                     }}><a>Logout</a></li>
                 </>
             }
