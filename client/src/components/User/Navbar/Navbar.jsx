@@ -59,7 +59,7 @@ const Navbar = ({ ProfileRefresh }) => {
       <div className="navbar-end">
         {users.id && users.id ?
         <>
-      <Link to={'/Chat'} state={{senderId,role}}><img className="mr-6" style={{height:'38px',width:'38px'}} src={chatGif} alt="" /></Link>
+      <Link to={'/chat'} state={{senderId,role}}><img className="mr-6" style={{height:'38px',width:'38px'}} src={chatGif} alt="" /></Link>
           <div className="dropdown dropdown-end mr-4">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
