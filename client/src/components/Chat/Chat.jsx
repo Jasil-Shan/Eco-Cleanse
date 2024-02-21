@@ -31,23 +31,25 @@ const Chat = () => {
     }
   }, [senderId])
 
-  // Connect to Socket.io
   useEffect(() => {
-    socket.current = io("https://ecocleanse.comicworld.store");
-    socket.current.emit("new-user-add", senderId);
-    socket.current.on("get-users", (users) => {
-      setOnlineUsers(users);
-    });
+    try {
+      socket.current = io("https://ecocleanse.comicworld.store");
+      socket.current.emit("new-user-add", senderId);
+      socket.current.on("get-users", (users) => {
+        setOnlineUsers(users);
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
   }, [senderId]);
 
-  // Send Message to socket server
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
 
-  // Get the message from socket server
   useEffect(() => {
     socket.current.on("recieve-message", (data) => {
       setRecieveMessage(data);

@@ -8,6 +8,7 @@ import workerRouter from './routes/workerRouter.js'
 import driverRouter from './routes/driverRouter.js'
 import chatRouter from './routes/chatRouter.js'
 import messageRouter from './routes/messageRouter.js'
+import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors'
 import 'dotenv/config.js'
 import cookieParser from 'cookie-parser'
@@ -22,32 +23,26 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5000", "http://ecocleanse.surge.sh","https://ecocleanse.netlify.app" ]
+    origin: ["https://ecocleanse.netlify.app","http://localhost:5000", "http://ecocleanse.surge.sh" ]
   },
 });
 
 let acitveUsers = []
 
 io.on("connection",(socket)=>{
-  
-  //add new user
+  console.log('hello');
   socket.on("new-user-add", (newUserId) => {
-    // if user is not added previously
     if (!acitveUsers.some((user) => user.userId === newUserId)) {
       acitveUsers.push({ userId: newUserId, socketId: socket.id });
     }
-    // send all active users to new user 
     io.emit("get-users", acitveUsers);
   });
 
   socket.on("disconnect", () => {
-    // remove user from active users
     acitveUsers = acitveUsers.filter((user) => user.socketId !== socket.id);
-    // send all active users to all users
     io.emit("get-users", acitveUsers);
   });
 
-  // send message to a specific user
   socket.on("send-message", (data) => {
     const { receiverId } = data;
     const user = acitveUsers.find((user) => user.userId === receiverId);
@@ -81,6 +76,9 @@ app.use('/worker', workerRouter)
 app.use('/driver', driverRouter)
 app.use('/chat', chatRouter)
 app.use('/message', messageRouter)
+
+app.use(mongoSanitize());
+
 
 
 server.listen(3000,()=>{
